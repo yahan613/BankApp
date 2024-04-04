@@ -11,6 +11,6 @@ export const getverifyPic = (imagePath) => {
         case 5:
             return (require("../img/verify5.png"));
         default:
-            return null;
+            return require("../img/verify5.png");
     }
 };

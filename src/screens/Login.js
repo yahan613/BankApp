@@ -25,10 +25,10 @@ const LoginScreen = () => {
         }
         return randomNumber;
     };
-    
+
     const incrementVerifynum = () => {
         const newVerifynum = getRandomNumber();
-        setLastVerifynum(verifynum); 
+        setLastVerifynum(verifynum);
         setVerifynum(newVerifynum);
     };
     return (
@@ -60,7 +60,7 @@ const LoginScreen = () => {
                     value={passwordText}
                     placeholder="密碼"
                 />
-                <View style={{ width: '45%', marginLeft: 0, flexDirection: 'row', alignItems: 'center', marginBottom: 20, }}>
+                <View style={{ width: '55%', marginLeft: 0, flexDirection: 'row', alignItems: 'center', marginBottom: 20, }}>
                     <CheckBox
                         style={{ flex: 1, marginRight: 30, }}
                         onClick={() => setIsChecked(!isChecked)}
@@ -95,7 +95,23 @@ const LoginScreen = () => {
                         {geticon("Refresh")}
                     </TouchableOpacity>
                 </View>
-
+                <TouchableOpacity>
+                    <Text style={{ position: 'absolute', bottom: -70, left: 0, right: 0, textAlign: 'center', color: '#fff', fontSize: 16, justifyContent:'center' }}>
+                        登入
+                    </Text>
+                </TouchableOpacity>
+            </View>
+            <View style={{
+                marginTop: 10,
+                fontSize: 18,
+                color: '#244172',
+                flexDirection: 'row',
+                alignItems: 'center', 
+            }}>
+                <Text>還沒有帳戶嗎？</Text>
+                <TouchableOpacity>
+                    <Text style={{color: '#244172', fontWeight:'bold', marginLeft: 3,}}>我要開戶</Text>
+                </TouchableOpacity>
             </View>
             <View style={{ height: 50, width: '50%', marginTop: 50, alignItems: 'center' }}>
                 {geticon("FingerPrint")}
@@ -125,6 +141,8 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         backgroundColor: '#E3E3E3',
         justifyContent: 'flex-start',
+        borderBottomWidth: 50, 
+        borderBottomColor: '#244172', 
     },
     input: {
         width: '100%',
