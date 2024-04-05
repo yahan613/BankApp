@@ -10,10 +10,10 @@ const screenHeight = Dimensions.get('window').height;
 const itemWidth = screenWidth * 0.8;
 const itemHeight = screenHeight * 0.1;
 
-const LoginScreen = () => {
+const LoginScreen = ({ navigation }) => {
     const [AccountText, onChangeAccount] = React.useState(''); //輸入帳號
     const [passwordText, onChangePassword] = React.useState(''); //輸入密碼
-    const [VerificaitonText, onChangeVerification] = React.useState(''); //輸入密碼
+    const [VerificaitonText, onChangeVerification] = React.useState(''); 
     const [isChecked, setIsChecked] = React.useState(false);
     //驗證碼圖片生成
     const [lastVerifynum, setLastVerifynum] = React.useState(null);
@@ -26,7 +26,8 @@ const LoginScreen = () => {
         return randomNumber;
     };
 
-    const incrementVerifynum = () => {
+    const incrementVerifynum = ({navigation}) => {
+        console.log(navigation)
         const newVerifynum = getRandomNumber();
         setLastVerifynum(verifynum);
         setVerifynum(newVerifynum);
@@ -95,7 +96,7 @@ const LoginScreen = () => {
                         {geticon("Refresh")}
                     </TouchableOpacity>
                 </View>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('HomeDrawer')}>
                     <Text style={{ position: 'absolute', bottom: -70, left: 0, right: 0, textAlign: 'center', color: '#fff', fontSize: 16, justifyContent:'center' }}>
                         登入
                     </Text>
@@ -109,7 +110,7 @@ const LoginScreen = () => {
                 alignItems: 'center', 
             }}>
                 <Text>還沒有帳戶嗎？</Text>
-                <TouchableOpacity>
+                <TouchableOpacity >
                     <Text style={{color: '#244172', fontWeight:'bold', marginLeft: 3,}}>我要開戶</Text>
                 </TouchableOpacity>
             </View>
