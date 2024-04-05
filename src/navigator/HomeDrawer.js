@@ -12,7 +12,7 @@ import AccountSettingsScreen from '../screens/AccountSettings';
 const Drawer = createDrawerNavigator();
 
 function CustomDrawerContent(props) {
-    const [SearchText, onChangeAccount] = React.useState(''); //輸入帳號
+    const [SearchText, onChangeSearch] = React.useState(''); //輸入帳號
     return (
         <DrawerContentScrollView {...props}>
             <View style={styles.welcome}>
