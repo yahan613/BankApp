@@ -5,12 +5,13 @@ import LoginScreen from './src/screens/Login';
 import HomeScreen from './src/navigator/HomeDrawer';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import LoginStackNavigator from './src/navigator/LoginStack';
-
+import ExchangeScreen from './src/screens/Exchange';
+//<LoginStackNavigator/>
 
 export default function App() {
   return (
     <SafeAreaProvider>
-       <LoginStackNavigator/>
+       <ExchangeScreen/>
     </SafeAreaProvider>
   );
 }
