@@ -1,8 +1,26 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image, FlatList } from 'react-native'
 import React from 'react'
 import { geticon } from '../component/img/getIcon';
+import {EXCHANGE_DATA} from '../component/Exchange/ExchangeData';
 
 const HomeScreen = () => {
+    const renderItem = ({ item, index }) => (
+        <View style={styles.cell}>
+            {index % 4 !== 0 ? (
+                <Text style={styles.cellText}>
+                    {item.value}
+                </Text>
+            ) : (
+                <View style={{height: 45}}>
+                <Image
+                    source={geticon(item.value)}
+                    style={{ flex: 1,resizeMode: 'contain',  width: 45,}}
+                />
+                </View>
+            )}
+        </View>
+    );
+
     return (
         <View style={styles.container}>
             <View style={styles.header}>
@@ -45,42 +63,54 @@ const HomeScreen = () => {
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
                 <View style={styles.box}>
                     <View style={styles.labelContainer}>
-                        <Text style={styles.label}>
-                            存款
-                        </Text>
+                        <View style={styles.label}>
+                            <View style={{ height: '100%', width: 5, backgroundColor: '#244172', borderRadius: 5, marginRight: 7 }}></View>
+                            <Text style={styles.labelText}>
+                                存款
+                            </Text>
+                        </View>
                     </View>
-                    <View style={styles.line}/>
+                    <View style={styles.line} />
                     <View>
                         <Text style={styles.text}>臺幣總額：</Text>
                     </View>
-                    <View style={styles.line}/>
-                    <View style={styles.moneybox}>
+                    <View style={styles.line} />
+                    <View>
                         <Text style={styles.text}>外幣總額：</Text>
                     </View>
                 </View>
                 <View style={styles.box}>
                     <View style={styles.labelContainer}>
-                        <Text style={styles.label}>
-                            信用卡
-                        </Text>
+                        <View style={styles.label}>
+                            <View style={{ height: '100%', width: 5, backgroundColor: '#244172', borderRadius: 5, marginRight: 7 }}></View>
+                            <Text style={styles.labelText}>
+                                信用卡
+                            </Text>
+                        </View>
                     </View>
-                    <View style={styles.line}/>
+                    <View style={styles.line} />
                     <View>
                         <Text style={styles.text}>消費明細：</Text>
                     </View>
                 </View>
                 <View style={styles.box}>
                     <View style={styles.labelContainer}>
-                        <Text style={styles.label}>
-                            匯率
-                        </Text>
+                        <View style={styles.label}>
+                            <View style={{ height: '100%', width: 5, backgroundColor: '#244172', borderRadius: 5, marginRight: 7 }}></View>
+                            <Text style={styles.labelText}>
+                                匯率
+                            </Text>
+                        </View>
                     </View>
-                    <View style={styles.line}/>
-                    
+                    <View style={styles.line} />
+                    <FlatList
+                        data={EXCHANGE_DATA}
+                        numColumns={4}
+                        renderItem={renderItem}
+                        keyExtractor={item => item.id}
+                    />
                 </View>
             </ScrollView>
-
-
         </View>
     )
 }
@@ -127,38 +157,51 @@ const styles = StyleSheet.create({
     },
     scrollViewContent: {
         width: '85%',
-        height: 500,
+        height: 900,
         marginTop: 40,
         alignItems: 'center',
         alignSelf: 'center',
     },
     label: {
-        fontSize: 20,
-        color: '#244172',
+        flexDirection: 'row',
+        alignItems: 'center'
     },
     labelContainer: {
         marginBottom: 10,
-        borderLeftColor: '#244172',
-        borderLeftWidth: 3,
-        paddingLeft: 10,
         flexDirection: 'row',
-    }, 
+    },
+    labelText: {
+        fontSize: 20,
+        color: '#244172',
+    },
     text: {
         fontSize: 18,
         paddingTop: 5,
         paddingBottom: 5,
     },
-    line:{
+    line: {
         margin: 5,
         width: 400,
         height: 3,
         marginLeft: -50,
         backgroundColor: '#D9D9D9'
     },
-    moneybox: {
-        flexDirection: 'row',
+    cell: {
+        flex: 1,
+        height: 50,
         alignItems: 'center',
-    }
+        justifyContent: 'center',
+        height: 70,
+        
+    },
+    cellText: {
+        textAlign: 'left', 
+        fontSize: 16,
+        height: '90%',
+        width: '95%',
+        alignContent: 'center',
+        justifyContent: 'center',
+    },
 });
 
 export default HomeScreen

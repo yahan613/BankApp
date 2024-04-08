@@ -11,7 +11,7 @@ import ExchangeScreen from './src/screens/Exchange';
 export default function App() {
   return (
     <SafeAreaProvider>
-       <ExchangeScreen/>
+       <LoginStackNavigator/>
     </SafeAreaProvider>
   );
 }
