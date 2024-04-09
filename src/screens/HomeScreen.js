@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image, FlatList }
 import React from 'react'
 import { geticon } from '../component/img/getIcon';
 import {EXCHANGE_DATA} from '../component/Exchange/ExchangeData';
+import { getBTicon } from '../component/img/getBTIcon';
 
 const HomeScreen = () => {
     const renderItem = ({ item, index }) => (
@@ -110,6 +111,9 @@ const HomeScreen = () => {
                         keyExtractor={item => item.id}
                     />
                 </View>
+                <View style={{flex:1}}>
+                    {getBTicon("Homeunfill")}
+                </View>
             </ScrollView>
         </View>
     )
@@ -189,9 +193,10 @@ const styles = StyleSheet.create({
     cell: {
         flex: 1,
         height: 50,
-        alignItems: 'center',
-        justifyContent: 'center',
         height: 70,
+        alignContent: 'center',
+        justifyContent: 'center',
+        alignItems: 'center',
         
     },
     cellText: {
@@ -201,6 +206,7 @@ const styles = StyleSheet.create({
         width: '95%',
         alignContent: 'center',
         justifyContent: 'center',
+        alignItems: 'center',
     },
 });
 

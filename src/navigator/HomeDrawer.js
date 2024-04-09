@@ -45,7 +45,7 @@ const menuItems = [
     { name: "台幣服務", component: AccountSettingsScreen, icon: 'Twd' },
     { name: "外幣服務", component: AccountSettingsScreen, icon: 'Foreign_currency' },
     { name: "信用卡服務", component: AccountSettingsScreen, icon: 'Credit_card' },
-    { name: "理財服務", component: AccountSettingsScreen, icon: 'Account' },
+    { name: "理財服務", component: AccountSettingsScreen, icon: 'FM' },
     { name: "貸款服務", component: AccountSettingsScreen, icon: 'Loan' },
     { name: "優惠服務", component: AccountSettingsScreen, icon: 'Discount' },
     { name: "語音辨識", component: AccountSettingsScreen, icon: 'Mic' },
@@ -90,7 +90,7 @@ const HomeDrawer = ({ navigation }) => {
                     headerRight: () => (
                         <View style={styles.headercontainer}>
                             <TouchableOpacity style={{marginRight: 10,}}>
-                                {geticon('Scan')}
+                                {geticon('Notification')}
                             </TouchableOpacity>
                             <TouchableOpacity>
                                 {geticon('Scan')}
@@ -109,9 +109,9 @@ const HomeDrawer = ({ navigation }) => {
                             geticon(item.icon)
                         ),
 
-                        headerShown: false, // 显示Header
+                        headerShown: false, 
                         drawerLabelStyle: {
-                            color: 'black', // 将文字颜色设置为黑色
+                            color: 'black',
                         },
                         drawerActiveTintColor: '#fff',
                         drawerItemStyle: { height: 50 },

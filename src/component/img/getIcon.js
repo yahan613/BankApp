@@ -24,6 +24,8 @@ export const geticon = (imagePath) => {
             return (<Credit_card />)
         case "Loan":
             return (<Loan />)
+        case "FM":
+            return(<FM/>)
         case "Discount":
             return (<Discount />)
         case "Mic":
@@ -57,6 +59,17 @@ export const geticon = (imagePath) => {
     }
 };
 
+const FM = (props) => (
+    <Svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={24}
+      height={24}
+      viewBox="0 -960 960 960"
+      {...props}
+    >
+      <Path d="M200-280v-280h80v280h-80Zm240 0v-280h80v280h-80ZM80-120v-80h800v80H80Zm600-160v-280h80v280h-80ZM80-640v-80l400-200 400 200v80H80Zm178-80h444-444Zm0 0h444L480-830 258-720Z" />
+    </Svg>
+  )
 
 const Notification = (props) => (
     <Svg

@@ -6,12 +6,16 @@ import HomeScreen from './src/navigator/HomeDrawer';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import LoginStackNavigator from './src/navigator/LoginStack';
 import ExchangeScreen from './src/screens/Exchange';
+import { NavigationContainer } from '@react-navigation/native';
+import MyTab from './src/navigator/ButtomTab';
+
+
 //<LoginStackNavigator/>
 
 export default function App() {
   return (
     <SafeAreaProvider>
-       <LoginStackNavigator/>
+        <MyTab/>
     </SafeAreaProvider>
   );
 }
