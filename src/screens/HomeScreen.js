@@ -1,10 +1,10 @@
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image, FlatList } from 'react-native'
 import React from 'react'
 import { geticon } from '../component/img/getIcon';
-import {EXCHANGE_DATA} from '../component/Exchange/ExchangeData';
+import { EXCHANGE_DATA } from '../component/Exchange/ExchangeData';
 import { getBTicon } from '../component/img/getBTIcon';
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
     const renderItem = ({ item, index }) => (
         <View style={styles.cell}>
             {index % 4 !== 0 ? (
@@ -12,11 +12,11 @@ const HomeScreen = () => {
                     {item.value}
                 </Text>
             ) : (
-                <View style={{height: 45}}>
-                <Image
-                    source={geticon(item.value)}
-                    style={{ flex: 1,resizeMode: 'contain',  width: 45,}}
-                />
+                <View style={{ height: 45 }}>
+                    <Image
+                        source={geticon(item.value)}
+                        style={{ flex: 1, resizeMode: 'contain', width: 45, }}
+                    />
                 </View>
             )}
         </View>
@@ -26,7 +26,10 @@ const HomeScreen = () => {
         <View style={styles.container}>
             <View style={styles.header}>
                 <View style={styles.headerContainer}>
-                    <TouchableOpacity style={styles.functionbox}>
+                    <TouchableOpacity
+                        style={styles.functionbox}
+                        onPress={() => navigation.navigate('Transfer')}
+                    >
                         <View>
                             {geticon("Transfer")}
                         </View>
@@ -34,7 +37,10 @@ const HomeScreen = () => {
                             轉帳
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.functionbox}>
+                    <TouchableOpacity
+                        style={styles.functionbox}
+                        onPress={() => navigation.navigate('Transfer')}
+                    >
                         <View>
                             {geticon("Withdraw")}
                         </View>
@@ -42,7 +48,10 @@ const HomeScreen = () => {
                             提款
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.functionbox}>
+                    <TouchableOpacity
+                        style={styles.functionbox}
+                        onPress={() => navigation.navigate('Withdraw')}
+                    >
                         <View>
                             {geticon("Bill")}
                         </View>
@@ -50,7 +59,10 @@ const HomeScreen = () => {
                             繳費
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.functionbox}>
+                    <TouchableOpacity
+                        style={styles.functionbox}
+                        onPress={() => navigation.navigate('Exchange')}
+                    >
                         <View>
                             {geticon("Foreign_currency")}
                         </View>
@@ -61,7 +73,10 @@ const HomeScreen = () => {
                 </View>
             </View>
 
-            <ScrollView contentContainerStyle={styles.scrollViewContent}>
+            <ScrollView
+                contentContainerStyle={styles.scrollViewContent}
+                showsVerticalScrollIndicator={false}
+            >
                 <View style={styles.box}>
                     <View style={styles.labelContainer}>
                         <View style={styles.label}>
@@ -110,9 +125,6 @@ const HomeScreen = () => {
                         renderItem={renderItem}
                         keyExtractor={item => item.id}
                     />
-                </View>
-                <View style={{flex:1}}>
-                    {getBTicon("Homeunfill")}
                 </View>
             </ScrollView>
         </View>
@@ -197,10 +209,10 @@ const styles = StyleSheet.create({
         alignContent: 'center',
         justifyContent: 'center',
         alignItems: 'center',
-        
+
     },
     cellText: {
-        textAlign: 'left', 
+        textAlign: 'left',
         fontSize: 16,
         height: '90%',
         width: '95%',

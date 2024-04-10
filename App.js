@@ -15,7 +15,7 @@ import MyTab from './src/navigator/ButtomTab';
 export default function App() {
   return (
     <SafeAreaProvider>
-        <MyTab/>
+        <LoginStackNavigator/>
     </SafeAreaProvider>
   );
 }

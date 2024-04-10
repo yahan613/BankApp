@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View, ScrollView, Dimensions, TextInput, Image, TouchableOpacity } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useFocusEffect } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from "../screens/Login";
 import HomeDrawer from "./HomeDrawer";
@@ -19,7 +19,7 @@ const LoginStackNavigator = () => {
                 <Stack.Screen
                     name="HomeDrawer"
                     component={HomeDrawer}
-                    options={{ 
+                    options={{
                         headerShown: false,
                         gestureEnabled: false,
                     }}

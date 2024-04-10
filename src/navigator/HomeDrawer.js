@@ -1,13 +1,17 @@
 import 'react-native-gesture-handler';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useIsFocused, useFocusEffect } from '@react-navigation/native';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
-import React from 'react';
-import { StyleSheet, Text, View, ScrollView, Dimensions, TextInput, Image, TouchableOpacity, Button } from 'react-native';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { StyleSheet, Text, View, ScrollView, Dimensions, TextInput, Image, TouchableOpacity, Button, BackHandler } from 'react-native';
 import { geticon } from '../component/img/getIcon';
 import HomeScreen from '../screens/HomeScreen';
-
-
+import MyTab from './ButtomTab';
+import Payment from '../screens/PaymentScreen';
+import Transfer from '../screens/TransferScreen';
 import AccountSettingsScreen from '../screens/AccountSettings';
+import ExchangeScreen from '../screens/Exchange';
+import Withdraw from '../screens/WithdrawScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -39,11 +43,11 @@ function CustomDrawerContent(props) {
 
 const menuItems = [
     { name: "帳戶設定", component: AccountSettingsScreen, icon: 'Account' },
-    { name: "轉帳服務", component: AccountSettingsScreen, icon: 'Transfer' },
-    { name: "提款服務", component: AccountSettingsScreen, icon: 'Withdraw' },
-    { name: "繳費服務", component: AccountSettingsScreen, icon: 'Bill' },
+    { name: "轉帳服務", component: Transfer, icon: 'Transfer' },
+    { name: "提款服務", component: Withdraw, icon: 'Withdraw' },
+    { name: "繳費服務", component: Payment, icon: 'Bill' },
     { name: "台幣服務", component: AccountSettingsScreen, icon: 'Twd' },
-    { name: "外幣服務", component: AccountSettingsScreen, icon: 'Foreign_currency' },
+    { name: "外幣服務", component: ExchangeScreen, icon: 'Foreign_currency' },
     { name: "信用卡服務", component: AccountSettingsScreen, icon: 'Credit_card' },
     { name: "理財服務", component: AccountSettingsScreen, icon: 'FM' },
     { name: "貸款服務", component: AccountSettingsScreen, icon: 'Loan' },
@@ -54,9 +58,9 @@ const menuItems = [
 
 
 const HomeDrawer = ({ navigation }) => {
-
     return (
         <Drawer.Navigator
+            backBehavior="帳務總覽"
             drawerContent={props => <CustomDrawerContent {...props} />}
             screenOptions={{
                 drawerStyle: {
@@ -66,7 +70,7 @@ const HomeDrawer = ({ navigation }) => {
         >
             <Drawer.Screen
                 name="帳務總覽"
-                component={HomeScreen}
+                component={MyTab}
                 options={({ navigation }) => ({
                     headerTitleAlign: 'center',
                     headerTitleStyle: {
@@ -89,7 +93,7 @@ const HomeDrawer = ({ navigation }) => {
                     ),
                     headerRight: () => (
                         <View style={styles.headercontainer}>
-                            <TouchableOpacity style={{marginRight: 10,}}>
+                            <TouchableOpacity style={{ marginRight: 10, }}>
                                 {geticon('Notification')}
                             </TouchableOpacity>
                             <TouchableOpacity>
@@ -108,8 +112,6 @@ const HomeDrawer = ({ navigation }) => {
                         drawerIcon: () => (
                             geticon(item.icon)
                         ),
-
-                        headerShown: false, 
                         drawerLabelStyle: {
                             color: 'black',
                         },
