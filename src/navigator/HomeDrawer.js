@@ -117,6 +117,7 @@ const HomeDrawer = ({ navigation }) => {
                         },
                         drawerActiveTintColor: '#fff',
                         drawerItemStyle: { height: 50 },
+                        headerShown: false, // "帳務總攬" header hidden in the drawer
                     }}
 
                 />
