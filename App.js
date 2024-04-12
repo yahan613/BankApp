@@ -11,6 +11,7 @@ import MyTab from './src/navigator/ButtomTab';
 
 
 //<LoginStackNavigator/>
+//<ExchangeScreen />
 
 export default function App() {
   return (
