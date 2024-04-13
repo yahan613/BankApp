@@ -8,6 +8,8 @@ import LoginStackNavigator from './src/navigator/LoginStack';
 import ExchangeScreen from './src/screens/Exchange';
 import { NavigationContainer } from '@react-navigation/native';
 import MyTab from './src/navigator/ButtomTab';
+import { store } from './src/Store/store';
+import { Provider } from 'react-redux';
 
 
 //<LoginStackNavigator/>
@@ -15,9 +17,11 @@ import MyTab from './src/navigator/ButtomTab';
 
 export default function App() {
   return (
-    <SafeAreaProvider>
-        <LoginStackNavigator/>
-    </SafeAreaProvider>
+    <Provider store={store}>
+      <SafeAreaProvider>
+        <LoginStackNavigator />
+      </SafeAreaProvider>
+    </Provider>
   );
 }
 

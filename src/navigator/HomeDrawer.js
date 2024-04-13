@@ -1,10 +1,11 @@
 import 'react-native-gesture-handler';
 import { NavigationContainer, useIsFocused, useFocusEffect } from '@react-navigation/native';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { StyleSheet, Text, View, ScrollView, Dimensions, TextInput, Image, TouchableOpacity, Button, BackHandler } from 'react-native';
 import { geticon } from '../component/img/getIcon';
+import { logoutAction } from '../Store/userAction';
 import HomeScreen from '../screens/HomeScreen';
 import MyTab from './ButtomTab';
 import Payment from '../screens/PaymentScreen';
@@ -14,13 +15,17 @@ import ExchangeScreen from '../screens/Exchange';
 import Withdraw from '../screens/WithdrawScreen';
 
 const Drawer = createDrawerNavigator();
+let flag = 0;
 
 function CustomDrawerContent(props) {
     const [SearchText, onChangeSearch] = React.useState(''); //輸入帳號
+    const isSignedIn = useSelector(state => state.userData.isSignedIn)
+    const userName = useSelector(state => state.userData.userName)
+    const dispatch = useDispatch()
     return (
         <DrawerContentScrollView {...props}>
             <View style={styles.welcome}>
-                <Text style={{ fontSize: 23, marginLeft: 23, marginTop: -20, color: '#fff', }}>您好，XXX</Text>
+                <Text style={{ fontSize: 23, marginLeft: 23, marginTop: -20, color: '#fff', }}>您好，{userName}</Text>
                 <View style={styles.search}>
                     <TextInput
                         style={{ backgroundColor: 'transparent' }}
@@ -33,10 +38,22 @@ function CustomDrawerContent(props) {
                     </TouchableOpacity>
                 </View>
             </View>
-
             <View style={styles.drawerContent}>
                 <DrawerItemList {...props} />
             </View>
+            <TouchableOpacity
+                style={styles.logout}
+                onPress={() => {
+                    dispatch(logoutAction());
+                    props.navigation.goBack();
+                    flag = 1;
+                }}
+            >
+                <View style={{ marginRight: 10, }}>
+                    {geticon("LogOut")}
+                </View>
+                <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#fff' }}>登出</Text>
+            </TouchableOpacity>
         </DrawerContentScrollView>
     )
 }
@@ -53,15 +70,27 @@ const menuItems = [
     { name: "貸款服務", component: AccountSettingsScreen, icon: 'Loan' },
     { name: "優惠服務", component: AccountSettingsScreen, icon: 'Discount' },
     { name: "語音辨識", component: AccountSettingsScreen, icon: 'Mic' },
-    { name: "English Service", component: AccountSettingsScreen, icon: 'English' }
 ];
 
+function resetFlagToZero(){
+    flag=0;
+}
 
-const HomeDrawer = ({ navigation }) => {
+
+const HomeDrawer = ({ navigation, route }) => {
+    useEffect(() => {
+        if (flag === 1) {
+            navigation.goBack();
+            // Reset flag to 0
+            // Assuming you have a function to reset flag, if not, set it directly
+            resetFlagToZero(); 
+        }
+    }, [flag]);
     return (
         <Drawer.Navigator
             backBehavior="帳務總覽"
-            drawerContent={props => <CustomDrawerContent {...props} />}
+            drawerContent={props => 
+            <CustomDrawerContent {...props} />}
             screenOptions={{
                 drawerStyle: {
                     width: 350,
@@ -165,6 +194,17 @@ const styles = StyleSheet.create({
         marginRight: 20,
         flexDirection: 'row',
         justifyContent: 'center',
+    },
+    logout: {
+        backgroundColor: '#5C94F3',
+        width: '80%',
+        height: 40,
+        marginLeft: 23,
+        marginTop: 15,
+        borderRadius: 20,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 });
 

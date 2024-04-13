@@ -1,11 +1,32 @@
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image, FlatList } from 'react-native'
-import React from 'react'
 import { geticon } from '../component/img/getIcon';
 import { EXCHANGE_DATA } from '../component/Exchange/ExchangeData';
-import { getBTicon } from '../component/img/getBTIcon';
 import { getNewsPic } from '../component/img/getnews';
+import React, { useState } from 'react';
+
+
+//三個數字中間要逗號
+const numberWithCommas = (x) => {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+let money = {
+    TWD: 9999999,
+    FOR: 1000000,
+    Credit: 23000,
+    CreditCoda: 300000,
+    CreditofTheMonth: 40000,
+}
 
 const HomeScreen = ({ navigation }) => {
+    const [showdeposit, setShowdeposit] = React.useState(false);
+    const toggleShowdeposit = () => {
+        setShowdeposit(!showdeposit);
+    };
+    const [showcredit, setShowcredit] = React.useState(false);
+    const toggleShowcredit = () => {
+        setShowcredit(!showcredit);
+    };
     const renderItem = ({ item, index }) => (
         <View style={styles.cell}>
             {index % 4 !== 0 ? (
@@ -84,15 +105,20 @@ const HomeScreen = ({ navigation }) => {
                             <Text style={styles.labelText}>
                                 存款
                             </Text>
+                            <TouchableOpacity style={{marginLeft: 10,}} onPress={toggleShowdeposit}>
+                                {geticon(showdeposit ? "Noeye" : "Eye")}
+                            </TouchableOpacity>
                         </View>
                     </View>
                     <View style={styles.line} />
-                    <View>
+                    <View style={styles.moneyBox}>
                         <Text style={styles.text}>臺幣總額：</Text>
+                        <Text style={styles.numtext}>{!showdeposit?numberWithCommas(money.TWD):'*******'}</Text>
                     </View>
                     <View style={styles.line} />
-                    <View>
+                    <View style={styles.moneyBox}>
                         <Text style={styles.text}>外幣總額：</Text>
+                        <Text style={styles.numtext}>{!showdeposit?numberWithCommas(money.FOR):'*******'}</Text>
                     </View>
                 </View>
                 <View style={styles.box}>
@@ -102,12 +128,18 @@ const HomeScreen = ({ navigation }) => {
                             <Text style={styles.labelText}>
                                 信用卡
                             </Text>
+                            <TouchableOpacity style={{marginLeft: 10,}} onPress={toggleShowcredit}>
+                                {geticon(showcredit ? "Noeye" : "Eye")}
+                            </TouchableOpacity>
                         </View>
                     </View>
                     <View style={styles.line} />
-                    <View>
-                        <Text style={styles.text}>消費明細：</Text>
+                    <View style={styles.moneyBox}>
+                        <Text style={styles.text}>刷卡明細：</Text>
+                        <Text style={styles.numtext}>{!showcredit?numberWithCommas(money.Credit):'*****'}</Text>
                     </View>
+                    <Text style={{textAlign: 'right', color: '#5C94F3', marginBottom: 3, marginTop: 3,}}>可用餘額：{numberWithCommas(money.CreditCoda-money.Credit)}</Text>
+                    <Text style={{textAlign: 'right', color: '#5C94F3', marginBottom: 3}}>本期應繳：{numberWithCommas(money.CreditofTheMonth)}</Text>
                 </View>
                 <View style={styles.box}>
                     <View style={styles.labelContainer}>
@@ -207,14 +239,15 @@ const styles = StyleSheet.create({
     },
     scrollViewContent: {
         width: '85%',
-        height: 1400,
+        height: 1500,
         marginTop: 40,
         alignItems: 'center',
         alignSelf: 'center',
     },
     label: {
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
+        
     },
     labelContainer: {
         marginBottom: 10,
@@ -228,6 +261,12 @@ const styles = StyleSheet.create({
         fontSize: 18,
         paddingTop: 5,
         paddingBottom: 5,
+    },
+    numtext: {
+        fontSize: 18,
+        paddingTop: 5,
+        paddingBottom: 5,
+        letterSpacing: 1.0
     },
     line: {
         margin: 5,
@@ -265,6 +304,16 @@ const styles = StyleSheet.create({
     newsText: {
         fontSize: 16,
         width: '55%'
+    },
+    moneyBox: {
+        flexDirection: 'row',
+        width: '100%',
+        height: 'auto',
+        alignItems: 'center',
+        justifyContent: 'space-between'
+    },
+    visible: {
+        height: '80%',
     }
 });
 

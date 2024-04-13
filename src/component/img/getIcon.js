@@ -25,7 +25,7 @@ export const geticon = (imagePath) => {
         case "Loan":
             return (<Loan />)
         case "FM":
-            return(<FM/>)
+            return (<FM />)
         case "Discount":
             return (<Discount />)
         case "Mic":
@@ -56,22 +56,39 @@ export const geticon = (imagePath) => {
             return (require("../img/Taiwan.png"));
         case "HongKong":
             return (require("../img/HongKong.png"));
+        case "LogOut":
+            return (<LogOut />)
         default:
             return null;
     }
 };
 
+const LogOut = (props) => (
+    <Svg
+        xmlns="http://www.w3.org/2000/svg"
+        width={24}
+        height={24}
+        viewBox="0 -960 960 960"
+        {...props}
+    >
+        <Path
+            fill="#fff"
+            d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z" />
+    </Svg>
+)
+
+
 const FM = (props) => (
     <Svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={24}
-      height={24}
-      viewBox="0 -960 960 960"
-      {...props}
+        xmlns="http://www.w3.org/2000/svg"
+        width={24}
+        height={24}
+        viewBox="0 -960 960 960"
+        {...props}
     >
-      <Path d="M200-280v-280h80v280h-80Zm240 0v-280h80v280h-80ZM80-120v-80h800v80H80Zm600-160v-280h80v280h-80ZM80-640v-80l400-200 400 200v80H80Zm178-80h444-444Zm0 0h444L480-830 258-720Z" />
+        <Path d="M200-280v-280h80v280h-80Zm240 0v-280h80v280h-80ZM80-120v-80h800v80H80Zm600-160v-280h80v280h-80ZM80-640v-80l400-200 400 200v80H80Zm178-80h444-444Zm0 0h444L480-830 258-720Z" />
     </Svg>
-  )
+)
 
 const Notification = (props) => (
     <Svg
@@ -350,15 +367,15 @@ const Foreign_currency = (props) => (
 )
 
 const Arrow = (props) => (
-    <Svg 
-    width="24" 
-    height="24" 
-    viewBox="0 0 24 24" 
-    fill="none" 
-    xmlns="http://www.w3.org/2000/svg"  
-    {...props}
+    <Svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        {...props}
     >
-    <Path d="M17.885 3.77L16.115 2L6.11501 12L16.115 22L17.885 20.23L9.65501 12L17.885 3.77Z" fill="white"/>
+        <Path d="M17.885 3.77L16.115 2L6.11501 12L16.115 22L17.885 20.23L9.65501 12L17.885 3.77Z" fill="white" />
     </Svg>
 )
 
