@@ -3,6 +3,7 @@ import React from 'react'
 import { geticon } from '../component/img/getIcon';
 import { EXCHANGE_DATA } from '../component/Exchange/ExchangeData';
 import { getBTicon } from '../component/img/getBTIcon';
+import { getNewsPic } from '../component/img/getnews';
 
 const HomeScreen = ({ navigation }) => {
     const renderItem = ({ item, index }) => (
@@ -21,7 +22,6 @@ const HomeScreen = ({ navigation }) => {
             )}
         </View>
     );
-
     return (
         <View style={styles.container}>
             <View style={styles.header}>
@@ -126,6 +126,40 @@ const HomeScreen = ({ navigation }) => {
                         keyExtractor={item => item.id}
                     />
                 </View>
+                <View style={styles.box}>
+                    <View style={styles.labelContainer}>
+                        <View style={styles.label}>
+                            <View style={{ height: '100%', width: 5, backgroundColor: '#244172', borderRadius: 5, marginRight: 7 }}></View>
+                            <Text style={styles.labelText}>
+                                巴菲特報報
+                            </Text>
+                        </View>
+                    </View>
+                    <View style={styles.line} />
+                    <View style={{ flexDirection: 'column' }}>
+                        <TouchableOpacity style={{ width: '100%', height: 120, flexDirection: 'row', alignItems: 'center' }}>
+                            <Image
+                                source={getNewsPic('news1')}
+                                style={styles.newsImg}
+                            />
+                            <Text style={styles.newsText}>巴菲特銀行和LINE Pay信用卡合作，消費最高贈7%點數</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{ width: '100%', height: 120, flexDirection: 'row', alignItems: 'center' }}>
+                            <Image
+                                source={getNewsPic('news2')}
+                                style={styles.newsImg}
+                            />
+                            <Text style={styles.newsText}>強勢登場！巴菲特集團新推吃到飽品牌 「Buffet Restaurant」</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{ width: '100%', height: 120, flexDirection: 'row', alignItems: 'center' }}>
+                            <Image
+                                source={getNewsPic('news3')}
+                                style={styles.newsImg}
+                            />
+                            <Text style={styles.newsText}>巴菲特銀行3月大賺168億元！第1季每股盈餘2.57元創歷史次高</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
             </ScrollView>
         </View>
     )
@@ -173,7 +207,7 @@ const styles = StyleSheet.create({
     },
     scrollViewContent: {
         width: '85%',
-        height: 900,
+        height: 1400,
         marginTop: 40,
         alignItems: 'center',
         alignSelf: 'center',
@@ -217,9 +251,21 @@ const styles = StyleSheet.create({
         height: '90%',
         width: '95%',
         alignContent: 'center',
+        alignSelf: 'center',
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: 'brown',
     },
+    newsImg: {
+        width: '40%',
+        height: '70%',
+        borderRadius: 4,
+        marginRight: 15,
+    },
+    newsText: {
+        fontSize: 16,
+        width: '55%'
+    }
 });
 
 export default HomeScreen
