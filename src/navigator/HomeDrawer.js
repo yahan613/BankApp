@@ -90,14 +90,12 @@ const HomeDrawer = ({ navigation, route }) => {
         dispatch({ type: 'SET_HEADER_FLAG', payload: flag });
     };
     const headerShowFlag = useSelector(state => state.header.headerShowFlag);
-    console.log(headerShowFlag);
 
     // 使用 useState 钩子将 headerShowFlag 存储在组件的状态中
     const [flag, setFlag] = useState(headerShowFlag);
 
     // 使用 useEffect 钩子来监听 headerShowFlag 的变化
     useEffect(() => {
-        console.log('headerShowFlag has changed:', headerShowFlag);
         // 更新组件状态
         setFlag(headerShowFlag);
     }, [headerShowFlag]); // 仅在 headerShowFlag 发生变化时执行

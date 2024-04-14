@@ -2,13 +2,13 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { geticon } from '../component/img/getIcon';
 import React from 'react'
 
-const AccountSettingsScreen = () => {
+const AccountSettingsScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={{ width: '100%', height: 80, backgroundColor: '#244172', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
         {/*Header of Exchange Screen*/}
         <View style={{ position: 'absolute', left: 20 }}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
             {geticon('Arrow')}
           </TouchableOpacity>
         </View>

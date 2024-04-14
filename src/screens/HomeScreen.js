@@ -33,13 +33,10 @@ const HomeScreen = ({ navigation }) => {
         dispatch({ type: 'SET_HEADER_FLAG', payload: flag });
     };
     const headerShowFlag = useSelector(state => state.header.headerShowFlag);
-    console.log(headerShowFlag);
     useFocusEffect(
         React.useCallback(() => {
             HeaderFlagAction(1);//HomeHeader!!!!
-            console.log('Screen is focused');
             return () => {
-                console.log('Screen is unfocused');
                 HeaderFlagAction(0);//NoHeader!!!!
             };
         }, [])
@@ -176,6 +173,11 @@ const HomeScreen = ({ navigation }) => {
                         </View>
                     </View>
                     <View style={styles.line} />
+                    <View style={{flexDirection: 'row', justifyContent: 'space-between', width: '100%', padding: 10, paddingRight: 30, }}>
+                        <Text style={{color: '#244172', fontSize: 16, marginRight: 70,}}>幣別</Text>
+                        <Text style={{color: '#244172', fontSize: 16,}}>網銀買進</Text>
+                        <Text style={{color: '#244172', fontSize: 16, marginRight: -15}}>網銀賣出</Text>
+                    </View>
                     <FlatList
                         data={EXCHANGE_DATA}
                         numColumns={4}
