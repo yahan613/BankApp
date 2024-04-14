@@ -6,6 +6,7 @@ import React, { useState, useEffect } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 
+
 //三個數字中間要逗號
 const numberWithCommas = (x) => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -27,12 +28,22 @@ const HomeScreen = ({ navigation }) => {
             // 更新 HeaderFlag 动作设置为 1
         }, []) // 请确保在依赖项中包含 dispatch
     );*/
-    useEffect(() => {
-        const unsubscribe = navigation.addListener('beforeRemove', () => {
-          console.log('EXIT');
-        });
-        return unsubscribe;
-      }, []);
+    const dispatch = useDispatch();
+    const HeaderFlagAction = (flag) => {
+        dispatch({ type: 'SET_HEADER_FLAG', payload: flag });
+    };
+    const headerShowFlag = useSelector(state => state.header.headerShowFlag);
+    console.log(headerShowFlag);
+    useFocusEffect(
+        React.useCallback(() => {
+            HeaderFlagAction(1);//HomeHeader!!!!
+            console.log('Screen is focused');
+            return () => {
+                console.log('Screen is unfocused');
+                HeaderFlagAction(0);//NoHeader!!!!
+            };
+        }, [])
+    );
     const [showdeposit, setShowdeposit] = React.useState(false);
     const toggleShowdeposit = () => {
         setShowdeposit(!showdeposit);
@@ -74,7 +85,7 @@ const HomeScreen = ({ navigation }) => {
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.functionbox}
-                        onPress={() => navigation.navigate('Transfer')}
+                        onPress={() => navigation.navigate('Withdraw')}
                     >
                         <View>
                             {geticon("Withdraw")}
@@ -85,7 +96,7 @@ const HomeScreen = ({ navigation }) => {
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.functionbox}
-                        onPress={() => navigation.navigate('Withdraw')}
+                        onPress={() => navigation.navigate('Payment')}
                     >
                         <View>
                             {geticon("Bill")}

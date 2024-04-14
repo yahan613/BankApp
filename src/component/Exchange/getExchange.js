@@ -4,6 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const getSelectedRates = async () => {
+    console.log("getSelectedRates is come")
     try {
         const url = "https://open.er-api.com/v6/latest/TWD";
         const response = await fetch(url);

@@ -7,20 +7,23 @@ import { StyleSheet, Text, View, Button } from 'react-native';
 const initialState = {
     isSignedIn: false,
     userName: '',
-    clear: 0,
+    headerShowFlag: 1,
+};
+
+const  HeaderFlagAction = (flag) => {
+    dispatch({ type: 'SET_HEADER_FLAG', payload: flag });
 };
 
 
-const headerFlag = (state = { count: 0 }, action) => {
+const HeaderFlagReducer = (state = initialState, action) => {
     switch (action.type) {
-        case '0':
-            return 0; // 将状态设置为0
-        case '1':
-            return 1; // 将状态设置为1
-        default:
-            return state;
+      case 'SET_HEADER_FLAG':
+        return { ...state, headerShowFlag: action.payload };
+      default:
+        return state;
     }
-};
+  };
+  
 
 const counterReducer = (state = { count: 0 }, action) => {
     switch (action.type) {
@@ -36,9 +39,9 @@ const counterReducer = (state = { count: 0 }, action) => {
 const authReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'LOGIN':
-            return { ...state, isSignedIn: true, userName: action.payload , clear: 0};
+            return { ...state, isSignedIn: true, userName: action.payload};
         case 'LOGOUT':
-            return { ...state, isSignedIn: false, userName: '', clear: 1};
+            return { ...state, isSignedIn: false, userName: ''};
         default:
             return state;
     }
@@ -47,7 +50,8 @@ const authReducer = (state = initialState, action) => {
 // Combine reducers
 const rootReducer = combineReducers({
     counter: counterReducer,
-    auth: authReducer
+    auth: authReducer,
+    header: HeaderFlagReducer,
 });
 
 // Create Redux store
@@ -65,8 +69,6 @@ const Counter = () => {
     const handleDecrement = () => {
         dispatch({ type: 'DECREMENT' });
     };
-
-    console.log(count);
 
     return (
         <View>

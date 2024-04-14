@@ -9,11 +9,13 @@ import FinMan from '../screens/FinManScreen';
 import Service from '../screens/ServiceScreen';
 import { getBTicon } from '../component/img/getBTIcon';
 import HomeScreenNavigator from './HomeScreenStack';
-
+import { useDispatch } from 'react-redux';
 
 const Tab = createBottomTabNavigator();
 
 const MyTab = () => {
+    const dispatch = useDispatch();
+
     return (
         <Tab.Navigator
             screenOptions={{

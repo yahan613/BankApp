@@ -14,7 +14,7 @@ import ExchangeScreen from '../screens/Exchange';
 import Withdraw from '../screens/WithdrawScreen';
 
 const Drawer = createDrawerNavigator();
-let flag = 0;
+let Bflag = 0;
 
 function CustomDrawerContent(props) {
     const userName = useSelector(state => state.auth.userName);
@@ -44,7 +44,7 @@ function CustomDrawerContent(props) {
                 onPress={() => {
                     dispatch({ type: 'LOGOUT', clear: 1 });
                     props.navigation.goBack();
-                    flag = 1;
+                    Bflag = 1;
                 }}
             >
                 <View style={{ marginRight: 10, }}>
@@ -70,21 +70,38 @@ const menuItems = [
 ];
 
 function resetFlagToZero() {
-    flag = 0;
+    Bflag = 0;
 }
 
 
 const HomeDrawer = ({ navigation, route }) => {
     //Name
-
     useEffect(() => {
-        if (flag === 1) {
+        if (Bflag === 1) {
+            
             navigation.goBack();
             // Reset flag to 0
             // Assuming you have a function to reset flag, if not, set it directly
             resetFlagToZero();
         }
-    }, [flag]);
+    }, [Bflag]);
+    const dispatch = useDispatch();
+    const HeaderFlagAction = (flag) => {
+        dispatch({ type: 'SET_HEADER_FLAG', payload: flag });
+    };
+    const headerShowFlag = useSelector(state => state.header.headerShowFlag);
+    console.log(headerShowFlag);
+
+    // 使用 useState 钩子将 headerShowFlag 存储在组件的状态中
+    const [flag, setFlag] = useState(headerShowFlag);
+
+    // 使用 useEffect 钩子来监听 headerShowFlag 的变化
+    useEffect(() => {
+        console.log('headerShowFlag has changed:', headerShowFlag);
+        // 更新组件状态
+        setFlag(headerShowFlag);
+    }, [headerShowFlag]); // 仅在 headerShowFlag 发生变化时执行
+    
     return (
         <Drawer.Navigator
             backBehavior="帳務總覽"
@@ -94,6 +111,7 @@ const HomeDrawer = ({ navigation, route }) => {
                 drawerStyle: {
                     width: 350,
                 },
+                headerShown: useSelector(state => state.header.headerShowFlag) === 1,
             }}
         >
             <Drawer.Screen
