@@ -1,12 +1,33 @@
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image, FlatList } from 'react-native'
 import { geticon } from '../component/img/getIcon';
-import { EXCHANGE_DATA } from '../component/Exchange/ExchangeData';
 import { getNewsPic } from '../component/img/getnews';
 import React, { useState, useEffect } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
+import GetSelectedRates from '../component/Exchange/getExchange';
 
-
+let EXCHANGE_DATA = [
+    { id: '1', value: 'USA', width: '20%' },
+    { id: '2', value: '美金', width: '7%' },
+    { id: '3', value: 'Buyin', width: '20%' },
+    { id: '4', value: 'sellout', width: '30%' },
+    { id: '5', value: 'Japan', width: '20%' },
+    { id: '6', value: '日幣', width: '7%' },
+    { id: '7', value: 'Buyin', width: '20%' },
+    { id: '8', value: 'sellout', width: '30%' },
+    { id: '9', value: 'China', width: '20%' },
+    { id: '10', value: '人民幣', width: '7%' },
+    { id: '11', value: 'Buyin', width: '20%' },
+    { id: '12', value: 'sellout', width: '30%' },
+    { id: '13', value: 'Europe', width: '20%' },
+    { id: '14', value: '歐元', width: '7%' },
+    { id: '15', value: 'Buyin', width: '20%' },
+    { id: '16', value: 'sellout', width: '30%' },
+    { id: '17', value: 'HongKong', width: '20%' },
+    { id: '18', value: '港幣', width: '7%' },
+    { id: '19', value: 'Buyin', width: '20%' },
+    { id: '20', value: 'sellout', width: '30%' },
+];
 //三個數字中間要逗號
 const numberWithCommas = (x) => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -21,18 +42,26 @@ let money = {
 }
 
 const HomeScreen = ({ navigation }) => {
-    /*useFocusEffect(
-        React.useCallback(() => {
-            // 在这里执行您的监听逻辑
-            console.log('HomeScreen 获得焦点');
-            // 更新 HeaderFlag 动作设置为 1
-        }, []) // 请确保在依赖项中包含 dispatch
-    );*/
     const dispatch = useDispatch();
+    const usdRate =  useSelector(state => state.rate.usdRate);
+    const jpyRate =  useSelector(state => state.rate.jpyRate);
+    const eurRate =  useSelector(state => state.rate.eurRate);
+    const rmbRate =  useSelector(state => state.rate.rmbRate);
+    const hkdRate =  useSelector(state => state.rate.hkdRate);
+    EXCHANGE_DATA[2].value = usdRate;
+    EXCHANGE_DATA[3].value = usdRate;
+    EXCHANGE_DATA[6].value = jpyRate;
+    EXCHANGE_DATA[7].value = jpyRate;
+    EXCHANGE_DATA[10].value = rmbRate;
+    EXCHANGE_DATA[11].value = rmbRate;
+    EXCHANGE_DATA[14].value = eurRate;
+    EXCHANGE_DATA[15].value = eurRate;
+    EXCHANGE_DATA[18].value = hkdRate;
+    EXCHANGE_DATA[19].value = hkdRate;
+    
     const HeaderFlagAction = (flag) => {
         dispatch({ type: 'SET_HEADER_FLAG', payload: flag });
     };
-    const headerShowFlag = useSelector(state => state.header.headerShowFlag);
     useFocusEffect(
         React.useCallback(() => {
             HeaderFlagAction(1);//HomeHeader!!!!
@@ -173,10 +202,10 @@ const HomeScreen = ({ navigation }) => {
                         </View>
                     </View>
                     <View style={styles.line} />
-                    <View style={{flexDirection: 'row', justifyContent: 'space-between', width: '100%', padding: 10, paddingRight: 30, }}>
-                        <Text style={{color: '#244172', fontSize: 16, marginRight: 70,}}>幣別</Text>
-                        <Text style={{color: '#244172', fontSize: 16,}}>網銀買進</Text>
-                        <Text style={{color: '#244172', fontSize: 16, marginRight: -15}}>網銀賣出</Text>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', padding: 10, paddingRight: 30, }}>
+                        <Text style={{ color: '#244172', fontSize: 16, marginRight: 70, }}>幣別</Text>
+                        <Text style={{ color: '#244172', fontSize: 16, }}>網銀買進</Text>
+                        <Text style={{ color: '#244172', fontSize: 16, marginRight: -15 }}>網銀賣出</Text>
                     </View>
                     <FlatList
                         data={EXCHANGE_DATA}

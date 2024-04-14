@@ -4,6 +4,7 @@ import { geticon } from '../component/img/getIcon';
 import CheckBox from 'react-native-check-box';
 import { getverifyPic } from '../component/img/getVerifyPic';
 import { useSelector, useDispatch } from 'react-redux';
+import GetSelectedRates from '../component/Exchange/getExchange';
 
 
 const screenWidth = Dimensions.get('window').width;
@@ -47,6 +48,7 @@ const LoginScreen = ({ navigation }) => {
         setLastVerifynum(verifynum);
         setVerifynum(newVerifynum);
     };
+    GetSelectedRates()
     return (
         <View style={styles.container}>
             <View style={{ width: '100%', height: 200, backgroundColor: '#244172', justifyContent: 'center', alignItems: 'center' }}>
