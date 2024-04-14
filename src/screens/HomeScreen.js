@@ -2,8 +2,9 @@ import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image, FlatList }
 import { geticon } from '../component/img/getIcon';
 import { EXCHANGE_DATA } from '../component/Exchange/ExchangeData';
 import { getNewsPic } from '../component/img/getnews';
-import React, { useState } from 'react';
-
+import React, { useState, useEffect } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+import { useDispatch, useSelector } from 'react-redux';
 
 //三個數字中間要逗號
 const numberWithCommas = (x) => {
@@ -19,6 +20,19 @@ let money = {
 }
 
 const HomeScreen = ({ navigation }) => {
+    /*useFocusEffect(
+        React.useCallback(() => {
+            // 在这里执行您的监听逻辑
+            console.log('HomeScreen 获得焦点');
+            // 更新 HeaderFlag 动作设置为 1
+        }, []) // 请确保在依赖项中包含 dispatch
+    );*/
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('beforeRemove', () => {
+          console.log('EXIT');
+        });
+        return unsubscribe;
+      }, []);
     const [showdeposit, setShowdeposit] = React.useState(false);
     const toggleShowdeposit = () => {
         setShowdeposit(!showdeposit);
@@ -105,7 +119,7 @@ const HomeScreen = ({ navigation }) => {
                             <Text style={styles.labelText}>
                                 存款
                             </Text>
-                            <TouchableOpacity style={{marginLeft: 10,}} onPress={toggleShowdeposit}>
+                            <TouchableOpacity style={{ marginLeft: 10, }} onPress={toggleShowdeposit}>
                                 {geticon(showdeposit ? "Noeye" : "Eye")}
                             </TouchableOpacity>
                         </View>
@@ -113,12 +127,12 @@ const HomeScreen = ({ navigation }) => {
                     <View style={styles.line} />
                     <View style={styles.moneyBox}>
                         <Text style={styles.text}>臺幣總額：</Text>
-                        <Text style={styles.numtext}>{!showdeposit?numberWithCommas(money.TWD):'*******'}</Text>
+                        <Text style={styles.numtext}>{!showdeposit ? numberWithCommas(money.TWD) : '*******'}</Text>
                     </View>
                     <View style={styles.line} />
                     <View style={styles.moneyBox}>
                         <Text style={styles.text}>外幣總額：</Text>
-                        <Text style={styles.numtext}>{!showdeposit?numberWithCommas(money.FOR):'*******'}</Text>
+                        <Text style={styles.numtext}>{!showdeposit ? numberWithCommas(money.FOR) : '*******'}</Text>
                     </View>
                 </View>
                 <View style={styles.box}>
@@ -128,7 +142,7 @@ const HomeScreen = ({ navigation }) => {
                             <Text style={styles.labelText}>
                                 信用卡
                             </Text>
-                            <TouchableOpacity style={{marginLeft: 10,}} onPress={toggleShowcredit}>
+                            <TouchableOpacity style={{ marginLeft: 10, }} onPress={toggleShowcredit}>
                                 {geticon(showcredit ? "Noeye" : "Eye")}
                             </TouchableOpacity>
                         </View>
@@ -136,10 +150,10 @@ const HomeScreen = ({ navigation }) => {
                     <View style={styles.line} />
                     <View style={styles.moneyBox}>
                         <Text style={styles.text}>刷卡明細：</Text>
-                        <Text style={styles.numtext}>{!showcredit?numberWithCommas(money.Credit):'*****'}</Text>
+                        <Text style={styles.numtext}>{!showcredit ? numberWithCommas(money.Credit) : '*****'}</Text>
                     </View>
-                    <Text style={{textAlign: 'right', color: '#5C94F3', marginBottom: 3, marginTop: 3,}}>可用餘額：{numberWithCommas(money.CreditCoda-money.Credit)}</Text>
-                    <Text style={{textAlign: 'right', color: '#5C94F3', marginBottom: 3}}>本期應繳：{numberWithCommas(money.CreditofTheMonth)}</Text>
+                    <Text style={{ textAlign: 'right', color: '#5C94F3', marginBottom: 3, marginTop: 3, }}>可用餘額：{numberWithCommas(money.CreditCoda - money.Credit)}</Text>
+                    <Text style={{ textAlign: 'right', color: '#5C94F3', marginBottom: 3 }}>本期應繳：{numberWithCommas(money.CreditofTheMonth)}</Text>
                 </View>
                 <View style={styles.box}>
                     <View style={styles.labelContainer}>
@@ -247,7 +261,7 @@ const styles = StyleSheet.create({
     label: {
         flexDirection: 'row',
         alignItems: 'center',
-        
+
     },
     labelContainer: {
         marginBottom: 10,

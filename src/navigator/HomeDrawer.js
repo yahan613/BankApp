@@ -5,7 +5,6 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { StyleSheet, Text, View, ScrollView, Dimensions, TextInput, Image, TouchableOpacity, Button, BackHandler } from 'react-native';
 import { geticon } from '../component/img/getIcon';
-import { logoutAction } from '../Store/userAction';
 import HomeScreen from '../screens/HomeScreen';
 import MyTab from './ButtomTab';
 import Payment from '../screens/PaymentScreen';
@@ -18,10 +17,9 @@ const Drawer = createDrawerNavigator();
 let flag = 0;
 
 function CustomDrawerContent(props) {
+    const userName = useSelector(state => state.auth.userName);
     const [SearchText, onChangeSearch] = React.useState(''); //輸入帳號
-    const isSignedIn = useSelector(state => state.userData.isSignedIn)
-    const userName = useSelector(state => state.userData.userName)
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
     return (
         <DrawerContentScrollView {...props}>
             <View style={styles.welcome}>
@@ -44,7 +42,7 @@ function CustomDrawerContent(props) {
             <TouchableOpacity
                 style={styles.logout}
                 onPress={() => {
-                    dispatch(logoutAction());
+                    dispatch({ type: 'LOGOUT', clear: 1 });
                     props.navigation.goBack();
                     flag = 1;
                 }}
@@ -69,28 +67,29 @@ const menuItems = [
     { name: "理財服務", component: AccountSettingsScreen, icon: 'FM' },
     { name: "貸款服務", component: AccountSettingsScreen, icon: 'Loan' },
     { name: "優惠服務", component: AccountSettingsScreen, icon: 'Discount' },
-    { name: "語音辨識", component: AccountSettingsScreen, icon: 'Mic' },
 ];
 
-function resetFlagToZero(){
-    flag=0;
+function resetFlagToZero() {
+    flag = 0;
 }
 
 
 const HomeDrawer = ({ navigation, route }) => {
+    //Name
+
     useEffect(() => {
         if (flag === 1) {
             navigation.goBack();
             // Reset flag to 0
             // Assuming you have a function to reset flag, if not, set it directly
-            resetFlagToZero(); 
+            resetFlagToZero();
         }
     }, [flag]);
     return (
         <Drawer.Navigator
             backBehavior="帳務總覽"
-            drawerContent={props => 
-            <CustomDrawerContent {...props} />}
+            drawerContent={props =>
+                <CustomDrawerContent {...props} />}
             screenOptions={{
                 drawerStyle: {
                     width: 350,

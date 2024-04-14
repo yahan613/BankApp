@@ -1,20 +1,25 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Dimensions, TextInput, Image, TouchableOpacity } from 'react-native';
 import { geticon } from '../component/img/getIcon';
 import CheckBox from 'react-native-check-box';
 import { getverifyPic } from '../component/img/getVerifyPic';
 import { useSelector, useDispatch } from 'react-redux';
-import { loginAction, logoutAction } from '../Store/userAction';
+
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 const itemWidth = screenWidth * 0.8;
 const itemHeight = screenHeight * 0.1;
 
+
 const LoginScreen = ({ navigation }) => {
     //Login Action
-    const isSignedIn = useSelector(state => state.userData.isSignedIn)
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+
+    const handleLogin = () => {
+        dispatch({ type: 'LOGIN', payload: AccountText });
+    };
+
 
     const [AccountText, onChangeAccount] = React.useState(''); //輸入帳號
     const [passwordText, onChangePassword] = React.useState(''); //輸入密碼
@@ -58,7 +63,7 @@ const LoginScreen = ({ navigation }) => {
             <View style={styles.userSection}>
                 <View style={{ fontSize: 20, fontWeight: 'bold', color: '#244172', marginBottom: 20, flexDirection: 'row', justifyContent: 'flex-start' }}>
                     <View style={{ height: '100%', width: 5, backgroundColor: '#244172', borderRadius: 5, marginRight: 7 }}></View>
-                    <Text style ={{ fontSize: 20, fontWeight: 'bold', color: '#244172', }}>
+                    <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#244172', }}>
                         歡迎，請登入
                     </Text>
                 </View>
@@ -135,7 +140,11 @@ const LoginScreen = ({ navigation }) => {
                 <TouchableOpacity
                     onPress={() => {
                         navigation.navigate('HomeDrawer');
-                        dispatch(loginAction());
+                        handleLogin();
+                        onChangeAccount('');
+                        onChangePassword('');
+                        onChangeID('');
+                        onChangeVerification('');
                     }}>
                     <Text style={{ position: 'absolute', bottom: -70, left: 0, right: 0, textAlign: 'center', color: '#fff', fontSize: 16, justifyContent: 'center' }}>
                         登入
@@ -157,10 +166,10 @@ const LoginScreen = ({ navigation }) => {
             <View style={{ height: 50, width: '50%', marginTop: 50, alignItems: 'center' }}>
                 {geticon("FingerPrint")}
             </View>
-            <Text>Sign in status: {isSignedIn ? 'yes': 'no'}</Text>
         </View>
     );
 }
+
 
 const styles = StyleSheet.create({
     container: {
