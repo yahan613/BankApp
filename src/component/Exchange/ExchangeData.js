@@ -1,3 +1,16 @@
+import GetSelectedRates from "./getExchange";
+
+/*const USAsaBuyin = GetSelectedRates('USA');
+const USASellout = GetSelectedRates('USA');
+const JAPANBuyin = GetSelectedRates('JAPAN');
+const JAPANSellout = GetSelectedRates('JAPAN');
+const CHINABuyin = GetSelectedRates('CHINA');
+const CHINASellout = GetSelectedRates('CHINA');
+const EUROPEBuyin = GetSelectedRates('EUR');
+const EUROPESellout = GetSelectedRates('EUR');
+const HKBuyin = GetSelectedRates('HK');
+const HKSellout = GetSelectedRates('HK');*/
+
 export let EXCHANGE_DATA = [
     { id: '1', value: 'USA', width: '20%' },
     { id: '2', value: '美金', width: '7%' },

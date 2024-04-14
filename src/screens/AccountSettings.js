@@ -1,8 +1,10 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { geticon } from '../component/img/getIcon';
-import React from 'react'
+import React, { useEffect, useState } from 'react';
+import GetSelectedRates from '../component/Exchange/getExchange';
 
 const AccountSettingsScreen = ({ navigation }) => {
+
   return (
     <View style={styles.container}>
       <View style={{ width: '100%', height: 80, backgroundColor: '#244172', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
