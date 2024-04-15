@@ -1,19 +1,36 @@
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, SafeAreaView, TextInput } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, SafeAreaView, TextInput, Alert } from 'react-native';
 import React from 'react'
 import { geticon } from '../component/img/getIcon';
 import { useDispatch } from 'react-redux';
-import SegmentedControl from '@react-native-segmented-control/segmented-control';
 import RNPickerSelect from "react-native-picker-select";
 import { useState, useEffect } from 'react';
 
+
 const Transfer = ({ navigation }) => {
+  
   const dispatch = useDispatch();
   const [selectedValue, setSelectedValue] = useState(null);
   const [AccountText, onChangeAccount] = React.useState(''); //輸入帳號
   const [MoneyText, onChangeMoney] = React.useState(''); //輸入金額
   const [NoteText, onChangeNote] = React.useState(''); //輸入備註
+
+  const showAlert = () => {
+    Alert.alert(
+      "轉帳成功",
+      `成功轉帳 ${MoneyText} 元`,
+      [
+        { text: "完成", onPress: () =>  {
+          // Navigate back to HomeScreen upon confirmation
+          navigation.navigate('HomeScreen');
+        }, }
+      ],
+      { cancelable: false }
+    );
+  }
+
   return (
     <SafeAreaView style={styles.container}>
+      <View style={styles.topBackground} />
       <View style={{ width: '100%', height: 80, backgroundColor: '#244172', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
         {/*Header of Exchange Screen*/}
         <View style={{ position: 'absolute', left: 20 }}>
@@ -111,7 +128,7 @@ const Transfer = ({ navigation }) => {
             </View>
           </View>
         </View>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={() => showAlert()}>
           <Text style={styles.buttonText}>確認</Text>
         </TouchableOpacity>
       </ScrollView>
@@ -126,14 +143,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
+    backgroundColor: '#D9D9D9'
   },
   scrollViewContent: {
     width: 320,
-    height: 830,
+    height: 900,
     marginTop: 20,
   },
   box: {
-    width: 300,
+    width: 400,
     height: 100,
     backgroundColor: '#fff',
     padding: 20,
@@ -246,6 +264,14 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#fff'
-  }
+  },
+  topBackground: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: 50,
+    backgroundColor: '#244172',
+  },
 });
 export default Transfer

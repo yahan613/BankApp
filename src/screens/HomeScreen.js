@@ -265,7 +265,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#244172',
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: -10,
+        marginTop: -8,
     },
     headerContainer: {
         flexDirection: 'row',
