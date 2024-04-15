@@ -53,18 +53,19 @@ const LoginScreen = ({ navigation }) => {
         <View style={styles.container}>
             <View style={{ width: '100%', height: 200, backgroundColor: '#244172', justifyContent: 'center', alignItems: 'center' }}>
                 {/*Header of Login Screens*/}
-                <View style={{ flexDirection: 'row', alignItems: 'center', height: 70, justifyContent: 'center' }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', height: 70, marginTop: '10%' }}>
                     <View style={styles.logo} />
-                    <View style={{ flexDirection: 'column', justifyContent: 'center', marginLeft: 10, }}>
+                    <Image source={require('../component/img/Logo.png')} style={{ width: 65, height: 65, marginRight: 5 }}/>
+                    <View style={{ flexDirection: 'column', justifyContent: 'center' }}>
                         {/*Container of Bank Logo*/}
-                        <Text style={{ fontSize: 40, color: '#fff', fontWeight: 'bold' }}>BBank</Text>
-                        <Text style={{ fontSize: 15, color: '#fff', fontWeight: 'bold' }}>XXX銀行</Text>
+                        <Text style={{ fontSize: 30, color: '#fff', fontWeight: 'bold' }}>巴菲特銀行</Text>
+                        <Text style={{ fontSize: 15, color: '#fff', fontWeight: 'bold' }}>Buffet Bank</Text>
                     </View>
                 </View>
             </View>
             <View style={styles.userSection}>
                 <View style={{ fontSize: 20, fontWeight: 'bold', color: '#244172', marginBottom: 20, flexDirection: 'row', justifyContent: 'flex-start' }}>
-                    <View style={{ height: '100%', width: 5, backgroundColor: '#244172', borderRadius: 5, marginRight: 7 }}></View>
+                    <View style={{ height: '100%', width: 3, backgroundColor: '#244172', borderRadius: 5, marginRight: 7 }}></View>
                     <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#244172', }}>
                         歡迎，請登入
                     </Text>
@@ -90,7 +91,7 @@ const LoginScreen = ({ navigation }) => {
                         checkedCheckBoxColor='#244172'
                         uncheckedCheckBoxColor='#244172'
                     />
-                    <Text style={styles.text}>記住身分證字號</Text>
+                    <Text style={{color: '#244172'}}>記住身分證字號</Text>
                 </View>
                 <View style={styles.input}>
                     <TextInput
@@ -182,9 +183,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#D9D9D9',
     },
     logo: {
-        height: '100%',
         aspectRatio: 1,
-        backgroundColor: '#fff',
     },
     userSection: {
         marginTop: 70,

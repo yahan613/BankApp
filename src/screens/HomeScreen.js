@@ -4,7 +4,7 @@ import { getNewsPic } from '../component/img/getnews';
 import React, { useState, useEffect } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
-import GetSelectedRates from '../component/Exchange/getExchange';
+
 
 let EXCHANGE_DATA = [
     { id: '1', value: 'USA', width: '20%' },
@@ -49,15 +49,16 @@ const HomeScreen = ({ navigation }) => {
     const rmbRate =  useSelector(state => state.rate.rmbRate);
     const hkdRate =  useSelector(state => state.rate.hkdRate);
     EXCHANGE_DATA[2].value = usdRate;
-    EXCHANGE_DATA[3].value = usdRate;
+    EXCHANGE_DATA[3].value = (usdRate*1.02).toFixed(2);
     EXCHANGE_DATA[6].value = jpyRate;
-    EXCHANGE_DATA[7].value = jpyRate;
+    EXCHANGE_DATA[7].value = (jpyRate*1.03).toFixed(2);
     EXCHANGE_DATA[10].value = rmbRate;
-    EXCHANGE_DATA[11].value = rmbRate;
+    EXCHANGE_DATA[11].value = (rmbRate*1.01).toFixed(2);
     EXCHANGE_DATA[14].value = eurRate;
-    EXCHANGE_DATA[15].value = eurRate;
+    EXCHANGE_DATA[15].value = (eurRate*1.01).toFixed(2);
     EXCHANGE_DATA[18].value = hkdRate;
-    EXCHANGE_DATA[19].value = hkdRate;
+    EXCHANGE_DATA[19].value = (hkdRate*1.02).toFixed(2);
+
     
     const HeaderFlagAction = (flag) => {
         dispatch({ type: 'SET_HEADER_FLAG', payload: flag });
@@ -152,7 +153,7 @@ const HomeScreen = ({ navigation }) => {
                 <View style={styles.box}>
                     <View style={styles.labelContainer}>
                         <View style={styles.label}>
-                            <View style={{ height: '100%', width: 5, backgroundColor: '#244172', borderRadius: 5, marginRight: 7 }}></View>
+                            <View style={{ height: '100%', width: 3, backgroundColor: '#244172', marginRight: 7 }}></View>
                             <Text style={styles.labelText}>
                                 存款
                             </Text>
@@ -175,7 +176,7 @@ const HomeScreen = ({ navigation }) => {
                 <View style={styles.box}>
                     <View style={styles.labelContainer}>
                         <View style={styles.label}>
-                            <View style={{ height: '100%', width: 5, backgroundColor: '#244172', borderRadius: 5, marginRight: 7 }}></View>
+                            <View style={{ height: '100%', width: 3, backgroundColor: '#244172', marginRight: 7 }}></View>
                             <Text style={styles.labelText}>
                                 信用卡
                             </Text>
@@ -195,7 +196,7 @@ const HomeScreen = ({ navigation }) => {
                 <View style={styles.box}>
                     <View style={styles.labelContainer}>
                         <View style={styles.label}>
-                            <View style={{ height: '100%', width: 5, backgroundColor: '#244172', borderRadius: 5, marginRight: 7 }}></View>
+                            <View style={{ height: '100%', width: 3, backgroundColor: '#244172', marginRight: 7 }}></View>
                             <Text style={styles.labelText}>
                                 匯率
                             </Text>
@@ -204,8 +205,8 @@ const HomeScreen = ({ navigation }) => {
                     <View style={styles.line} />
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', padding: 10, paddingRight: 30, }}>
                         <Text style={{ color: '#244172', fontSize: 16, marginRight: 70, }}>幣別</Text>
-                        <Text style={{ color: '#244172', fontSize: 16, }}>網銀買進</Text>
-                        <Text style={{ color: '#244172', fontSize: 16, marginRight: -15 }}>網銀賣出</Text>
+                        <Text style={{ color: '#244172', fontSize: 16, }}>本行買進</Text>
+                        <Text style={{ color: '#244172', fontSize: 16, marginRight: -15 }}>本行賣出</Text>
                     </View>
                     <FlatList
                         data={EXCHANGE_DATA}
@@ -217,7 +218,7 @@ const HomeScreen = ({ navigation }) => {
                 <View style={styles.box}>
                     <View style={styles.labelContainer}>
                         <View style={styles.label}>
-                            <View style={{ height: '100%', width: 5, backgroundColor: '#244172', borderRadius: 5, marginRight: 7 }}></View>
+                            <View style={{ height: '100%', width: 3, backgroundColor: '#244172', marginRight: 7 }}></View>
                             <Text style={styles.labelText}>
                                 巴菲特報報
                             </Text>
@@ -302,8 +303,7 @@ const styles = StyleSheet.create({
     },
     label: {
         flexDirection: 'row',
-        alignItems: 'center',
-
+        alignItems: 'center'
     },
     labelContainer: {
         marginBottom: 10,
@@ -327,7 +327,7 @@ const styles = StyleSheet.create({
     line: {
         margin: 5,
         width: 400,
-        height: 3,
+        height: 1,
         marginLeft: -50,
         backgroundColor: '#D9D9D9'
     },

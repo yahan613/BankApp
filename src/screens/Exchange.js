@@ -6,13 +6,17 @@ import { geticon } from '../component/img/getIcon';
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
+import { Platform } from 'react-native';
 
 
 //即時換匯
-const currencyItems = [
+const currencyItems  = [
   { label: "新台幣", value: "新台幣" },
   { label: "美元", value: "美元" },
   { label: "日幣", value: "日幣" },
+  { label: "人民幣", value: "人民幣" },
+  { label: "歐元", value: "歐元" },
+  { label: "港幣", value: "港幣" },
 ];
 const discountItems = [
   { label: "一般優惠", value: "一般優惠" },
@@ -25,19 +29,52 @@ const accountItems = [
 
 const currencyConversionRates = {
   "新台幣": {
-    "美元": 0.035, // Approximate conversion rate from TWD to USD
-    "日幣": 3.38, // Approximate conversion rate from TWD to JPY
+    "美元": 0.03099,
+    "日幣": 4.7619,
+    "人民幣": 0.2247,
+    "歐元": 0.02909,
+    "港幣": 0.2427,
     "新台幣": 1
   },
   "美元": {
-    "新台幣": 28.57, // Approximate conversion rate from USD to TWD
-    "日幣": 109.20, // Approximate conversion rate from USD to JPY
+    "新台幣": 32.28,
+    "日幣": 109.20,
+    "人民幣": 6.47,
+    "歐元": 1.17,
+    "港幣": 7.77,
     "美元": 1
   },
   "日幣": {
-    "新台幣": 0.295, // Approximate conversion rate from JPY to TWD
-    "美元": 0.00915, // Approximate conversion rate from JPY to USD
+    "新台幣": 0.21,
+    "美元": 0.00915,
+    "人民幣": 15.15,
+    "歐元": 0.0078,
+    "港幣": 0.59,
     "日幣": 1
+  },
+  "人民幣": {
+    "新台幣": 4.45,
+    "美元": 0.1545,
+    "日幣": 0.0659,
+    "歐元": 0.1217,
+    "港幣": 0.13,
+    "人民幣": 1
+  },
+  "歐元": {
+    "新台幣": 34.37,
+    "美元": 0.8547,
+    "日幣": 128.21,
+    "人民幣": 8.2137,
+    "港幣": 9.57,
+    "歐元": 1
+  },
+  "港幣": {
+    "新台幣": 4.12,
+    "美元": 0.1286,
+    "日幣": 1.69,
+    "人民幣": 7.78,
+    "歐元": 0.1045,
+    "港幣": 1
   }
 };
 
@@ -125,7 +162,7 @@ const ExchangeScreen = ({ navigation }) => {
   const handleConfirm = () => {
     let transactionDetails;
     if (selectedSegment === 0) {
-      transactionDetails = `轉出幣別: ${fromCurrency}\n轉入幣別: ${toCurrency}\n轉出金額: ${fromAmount}\n轉入金額: ${toAmount}`;
+      transactionDetails =  transactionDetails = `轉出 : ${fromCurrency} ${fromAmount}元\n轉入 : ${toCurrency} ${toAmount}元`;
     } else if (selectedSegment === 1) {
       transactionDetails = `您預約的日期為：${moment(startDate).format('YYYY-MM-DD')}\n我們將在該日期再次與您確認交易詳情，巴菲特銀行感謝您。`;
     }
@@ -154,7 +191,9 @@ const ExchangeScreen = ({ navigation }) => {
   };
 
   return (
+    
     <SafeAreaView style={styles.container}>
+      <View style={styles.topBackground} />
       <View style={{ width: '100%', height: 80, backgroundColor: '#244172', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
         {/*Header of Exchange Screen*/}
         <View style={{ position: 'absolute', left: 20 }}>
@@ -243,35 +282,41 @@ const ExchangeScreen = ({ navigation }) => {
                   匯率優惠
                 </Text>
               </View>
+              <View style={styles.PlatformAdj}>
               <RNPickerSelect
                 placeholder={{ label: "", value: "", color: "#000" }}
                 items={discountItems}
                 value="一般優惠"
                 onValueChange={(value) => console.log(value)}
               />
+              </View>
               <View style={styles.line} />
               <View style={styles.labelContainer}>
                 <Text style={styles.label}>
                   轉出帳號
                 </Text>
               </View>
+              <View style={styles.PlatformAdj2}>
               <RNPickerSelect
                 placeholder={{ label: "", value: "", color: "#000" }}
                 items={accountItems}
                 value="活期儲蓄存款  0081234567890"
                 onValueChange={(value) => console.log(value)}
               />
+              </View>
               <View style={styles.labelContainer}>
                 <Text style={styles.label}>
                   轉入帳號
                 </Text>
               </View>
+              <View style={styles.PlatformAdj2}>
               <RNPickerSelect
                 placeholder={{ label: "", value: "", color: "#000" }}
                 items={accountItems}
                 value="外匯存款  0081234567891"
                 onValueChange={(value) => console.log(value)}
               />
+              </View>
             </View>
             <TouchableOpacity onPress={handleConfirm} style={styles.button}>
               <Text style={styles.buttonText}>確認</Text>
@@ -348,35 +393,41 @@ const ExchangeScreen = ({ navigation }) => {
                   匯率優惠
                 </Text>
               </View>
+              <View style={styles.PlatformAdj}>
               <RNPickerSelect
                 placeholder={{ label: "", value: "", color: "#000" }}
                 items={discountItems}
                 value="一般優惠"
                 onValueChange={(value) => console.log(value)}
               />
+              </View>
               <View style={styles.line} />
               <View style={styles.labelContainer}>
                 <Text style={styles.label}>
                   轉出帳號
                 </Text>
               </View>
+              <View style={styles.PlatformAdj2}>
               <RNPickerSelect
                 placeholder={{ label: "", value: "", color: "#000" }}
                 items={accountItems}
                 value="活期儲蓄存款  0081234567890"
                 onValueChange={(value) => console.log(value)}
               />
+              </View>
               <View style={styles.labelContainer}>
                 <Text style={styles.label}>
                   轉入帳號
                 </Text>
               </View>
+              <View style={styles.PlatformAdj2}>
               <RNPickerSelect
                 placeholder={{ label: "", value: "", color: "#000" }}
                 items={accountItems}
                 value="外匯存款  0081234567891"
                 onValueChange={(value) => console.log(value)}
               />
+              </View>
               <View style={styles.line} />
               <View style={styles.labelContainer}>
                 <Text style={styles.label}>
@@ -402,43 +453,7 @@ const ExchangeScreen = ({ navigation }) => {
                   )}
                 </View>
               </View>
-
-              {/* 
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-          <View style={{height: 1, backgroundColor: '#D9D9D9', width: 125 }}></View>
-          <Text style={{color: '#929191'}}>或</Text>
-          <View style={{height: 1, backgroundColor: '#D9D9D9', width: 125}}></View>
-        </View>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 10, marginBottom: 10 }}>
-            <Text style={{ fontSize: 16 }}>    設定通知匯率</Text>
-            <TextInput
-              style={{
-                    width: 160,
-                    borderWidth: 1,
-                    paddingLeft: 10,
-                    paddingTop: 2,
-                    paddingBottom: 2,
-                    backgroundColor: '#fff',
-                    borderColor: '#244172',
-              }}
-              placeholder="輸入通知匯率"
-              onChangeText={handleNotificationExchangeRateChange}
-          />
-        </View>
-        
-        
-          <View style={styles.labelContainer}>
-              <Text style={styles.label}>
-                  每月扣款日期
-              </Text>
-          </View>
-          <RNPickerSelect
-              placeholder={{ label: "", value: "", color: "#000" }}
-              items={dateItems} 
-              value="5號"
-              onValueChange={(value) => console.log(value)}
-            />
-        */}
+              {/* or? */}
             </View>
             <TouchableOpacity onPress={handleConfirm} style={styles.button}>
               <Text style={styles.buttonText}>確認</Text>
@@ -462,8 +477,8 @@ const styles = StyleSheet.create({
   },
   scrollViewContent: {
     width: '85%',
-    height: 830,
-    marginTop: 20,
+    height: 820,
+    marginTop: 10,
   },
   box: {
     width: '100%',
@@ -506,6 +521,12 @@ const styles = StyleSheet.create({
   },
   Sec: {
     width: 275,
+    ...Platform.select({
+      ios: {
+          marginTop: 10, // Apply margin top for iOS
+          marginBottom: 10, // Apply margin bottom for iOS
+      }
+    })
   },
   pickerSection: {
     width: 310,
@@ -538,7 +559,31 @@ const styles = StyleSheet.create({
   calendarContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-  }
+  },
+  PlatformAdj:{
+    ...Platform.select({
+      ios: {
+          marginTop: 10, // Apply margin top for iOS
+          marginBottom: 10, // Apply margin bottom for iOS
+      }
+    })
+  },
+  PlatformAdj2:{
+    ...Platform.select({
+      ios: {
+          marginTop: 20, // Apply margin top for iOS
+          marginBottom: 20, // Apply margin bottom for iOS
+      }
+    })
+  },
+  topBackground: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: 50,
+    backgroundColor: '#244172',
+  },
 });
 
 export default ExchangeScreen; 

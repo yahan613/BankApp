@@ -30,8 +30,8 @@ export const getBTicon = (imagePath) => {
 const Homeunfill = (props) => (
     <Svg
         xmlns="http://www.w3.org/2000/svg"
-        width={40}
-        height={40}
+        width={30}
+        height={30}
         viewBox="0 -960 960 960"
         {...props}
     >
@@ -44,8 +44,8 @@ const Homeunfill = (props) => (
 const Homefill = (props) => (
     <Svg
         xmlns="http://www.w3.org/2000/svg"
-        width={45}
-        height={45}
+        width={35}
+        height={35}
         viewBox="0 -960 960 960"
         {...props}
     >
@@ -58,8 +58,8 @@ const Homefill = (props) => (
 const Discountunfill = (props) => (
     <Svg
         xmlns="http://www.w3.org/2000/svg"
-        width={40}
-        height={40}
+        width={30}
+        height={30}
         viewBox="0 -960 960 960"
         {...props}
     >
@@ -72,8 +72,8 @@ const Discountunfill = (props) => (
 const Discountfill = (props) => (
     <Svg
         xmlns="http://www.w3.org/2000/svg"
-        width={45}
-        height={45}
+        width={35}
+        height={35}
         viewBox="0 -960 960 960"
         {...props}
     >
@@ -86,8 +86,8 @@ const Discountfill = (props) => (
 const Investunfill = (props) => (
     <Svg
         xmlns="http://www.w3.org/2000/svg"
-        width={40}
-        height={40}
+        width={30}
+        height={30}
         viewBox="0 -960 960 960"
         {...props}
     >
@@ -100,8 +100,8 @@ const Investunfill = (props) => (
 const Investfill = (props) => (
     <Svg
         xmlns="http://www.w3.org/2000/svg"
-        width={45}
-        height={45}
+        width={35}
+        height={35}
         viewBox="0 -960 960 960"
         {...props}
     >
@@ -114,8 +114,8 @@ const Investfill = (props) => (
 const Loanunfill = (props) => (
     <Svg
         xmlns="http://www.w3.org/2000/svg"
-        width={40}
-        height={40}
+        width={30}
+        height={30}
         viewBox="0 -960 960 960"
         {...props}
     >
@@ -128,8 +128,8 @@ const Loanunfill = (props) => (
 const Loanfill = (props) => (
     <Svg
         xmlns="http://www.w3.org/2000/svg"
-        width={45}
-        height={45}
+        width={35}
+        height={35}
         viewBox="0 -960 960 960"
         {...props}
     >
@@ -142,8 +142,8 @@ const Loanfill = (props) => (
 const Serviceunfill = (props) => (
     <Svg
         xmlns="http://www.w3.org/2000/svg"
-        width={40}
-        height={40}
+        width={30}
+        height={30}
         viewBox="0 -960 960 960"
         {...props}
     >
@@ -156,8 +156,8 @@ const Serviceunfill = (props) => (
 const Servicefill = (props) => (
     <Svg
         xmlns="http://www.w3.org/2000/svg"
-        width={45}
-        height={45}
+        width={35}
+        height={35}
         viewBox="0 -960 960 960"
         {...props}
     >

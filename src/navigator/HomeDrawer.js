@@ -216,6 +216,7 @@ const styles = StyleSheet.create({
         height: 40,
         marginLeft: 23,
         marginTop: 15,
+        marginBottom: 10,
         borderRadius: 20,
         flexDirection: 'row',
         justifyContent: 'center',
