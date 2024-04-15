@@ -4,6 +4,7 @@ import { getNewsPic } from '../component/img/getnews';
 import React, { useState, useEffect } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
+import { store } from '../Store/Redux_Function';
 
 
 let EXCHANGE_DATA = [
@@ -43,26 +44,39 @@ let money = {
 
 const HomeScreen = ({ navigation }) => {
     const dispatch = useDispatch();
-    const usdRate =  useSelector(state => state.rate.usdRate);
-    const jpyRate =  useSelector(state => state.rate.jpyRate);
-    const eurRate =  useSelector(state => state.rate.eurRate);
-    const rmbRate =  useSelector(state => state.rate.rmbRate);
-    const hkdRate =  useSelector(state => state.rate.hkdRate);
-    EXCHANGE_DATA[2].value = usdRate;
-    EXCHANGE_DATA[3].value = (usdRate*1.02).toFixed(2);
-    EXCHANGE_DATA[6].value = jpyRate;
-    EXCHANGE_DATA[7].value = (jpyRate*1.03).toFixed(2);
-    EXCHANGE_DATA[10].value = rmbRate;
-    EXCHANGE_DATA[11].value = (rmbRate*1.01).toFixed(2);
-    EXCHANGE_DATA[14].value = eurRate;
-    EXCHANGE_DATA[15].value = (eurRate*1.01).toFixed(2);
-    EXCHANGE_DATA[18].value = hkdRate;
-    EXCHANGE_DATA[19].value = (hkdRate*1.02).toFixed(2);
+    const usdRate = useSelector(state => state.rate.usdRate);
+    const jpyRate = useSelector(state => state.rate.jpyRate);
+    const eurRate = useSelector(state => state.rate.eurRate);
+    const rmbRate = useSelector(state => state.rate.rmbRate);
+    const hkdRate = useSelector(state => state.rate.hkdRate);
 
-    
+    EXCHANGE_DATA[2].value = usdRate;
+    EXCHANGE_DATA[3].value = (usdRate * 1.02).toFixed(2);
+    EXCHANGE_DATA[6].value = jpyRate;
+    EXCHANGE_DATA[7].value = (jpyRate * 1.03).toFixed(2);
+    EXCHANGE_DATA[10].value = rmbRate;
+    EXCHANGE_DATA[11].value = (rmbRate * 1.01).toFixed(2);
+    EXCHANGE_DATA[14].value = eurRate;
+    EXCHANGE_DATA[15].value = (eurRate * 1.01).toFixed(2);
+    EXCHANGE_DATA[18].value = hkdRate;
+    EXCHANGE_DATA[19].value = (hkdRate * 1.02).toFixed(2);
+    const year = useSelector(state => state.date.year);//date指的是rootReducers那邊的
+    const month = useSelector(state => state.date.month);
+    const day = useSelector(state => state.date.day);
     const HeaderFlagAction = (flag) => {
         dispatch({ type: 'SET_HEADER_FLAG', payload: flag });
     };
+    /*const FORtransactionAction = () => {
+        dispatch({ type: 'SET_FOR_TR', payload: { money: 0 } });
+    };
+    const TWDtransactionAction = () => {
+        dispatch({ type: 'SET_TWD_TR', payload: { money: 0 } });
+    };
+    FORtransactionAction();
+    TWDtransactionAction();*/
+    const balance = useSelector(state => state.trade.balance);
+    
+
     useFocusEffect(
         React.useCallback(() => {
             HeaderFlagAction(1);//HomeHeader!!!!
@@ -71,6 +85,7 @@ const HomeScreen = ({ navigation }) => {
             };
         }, [])
     );
+
     const [showdeposit, setShowdeposit] = React.useState(false);
     const toggleShowdeposit = () => {
         setShowdeposit(!showdeposit);
@@ -165,12 +180,12 @@ const HomeScreen = ({ navigation }) => {
                     <View style={styles.line} />
                     <View style={styles.moneyBox}>
                         <Text style={styles.text}>臺幣總額：</Text>
-                        <Text style={styles.numtext}>{!showdeposit ? numberWithCommas(money.TWD) : '*******'}</Text>
+                        <Text style={styles.numtext}>{!showdeposit ? numberWithCommas(balance.twd) : '*******'}</Text>
                     </View>
                     <View style={styles.line} />
                     <View style={styles.moneyBox}>
                         <Text style={styles.text}>外幣總額：</Text>
-                        <Text style={styles.numtext}>{!showdeposit ? numberWithCommas(money.FOR) : '*******'}</Text>
+                        <Text style={styles.numtext}>{!showdeposit ? numberWithCommas(balance.for) : '*******'}</Text>
                     </View>
                 </View>
                 <View style={styles.box}>
@@ -214,6 +229,7 @@ const HomeScreen = ({ navigation }) => {
                         renderItem={renderItem}
                         keyExtractor={item => item.id}
                     />
+                    <Text style={{ color: '#5C94F3', fontSize: 14, alignSelf: 'flex-end', marginRight: 20, marginTop: 10, }}>最後更新日期：{year}-{month < 10 ? '0' + month : month}-{day < 10 ? '0' + day : day}</Text>
                 </View>
                 <View style={styles.box}>
                     <View style={styles.labelContainer}>

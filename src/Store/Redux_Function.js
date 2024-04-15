@@ -8,14 +8,30 @@ const initialState = {
     isSignedIn: false,
     userName: '',
     headerShowFlag: 1,
-    rate:{
+    rate: {
         usdRate: 1,
         jpyRate: 1,
         eurRate: 1,
         rmbRate: 1,
-        hkdRate: 1
+        hkdRate: 1,
+    },
+    catchDate: {
+        year: 0,
+        month: 0,
+        day: 0,
+    },
+    balance: {
+        twd: 300000,
+        for: 10000,//折合台幣
     }
-    
+};
+
+//交易金額Action(台幣、外幣)
+const FORtransactionAction = (money) => {
+    dispatch({ type: 'SET_FOR_TR', payload: { for: money } });
+};
+const TWDtransactionAction = (money) => {
+    dispatch({ type: 'SET_TWD_TR', payload: { twd: money } });
 };
 
 const HeaderFlagAction = (flag) => {
@@ -27,6 +43,30 @@ const HeaderFlagReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'SET_HEADER_FLAG':
             return { ...state, headerShowFlag: action.payload };
+        default:
+            return state;
+    }
+};
+
+const transactionReducer = (state = initialState, action) => {
+    console.log(state.balance.for)
+    switch (action.type) {
+        case 'SET_FOR_TR':
+            return {
+                ...state,
+                balance: {
+                    ...state.balance,
+                    for: state.balance.for - action.payload.money
+                }
+            };
+        case 'SET_TWD_TR':
+            return {
+                ...state,
+                balance: {
+                    ...state.balance,
+                    twd: state.balance.twd - action.payload.money
+                }
+            };
         default:
             return state;
     }
@@ -58,8 +98,6 @@ const authReducer = (state = initialState, action) => {
 const exchangeRateReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'SET_RATE':
-            console.log("Hi")
-            console.log(action.payload.usdRate)
             return {
                 ...state,
                 usdRate: action.payload.usdRate,
@@ -73,12 +111,28 @@ const exchangeRateReducer = (state = initialState, action) => {
     }
 };
 
+const catchDateReducer = (state = initialState, action) => {
+    switch (action.type) {
+        case 'SET_DATE':
+            return {
+                ...state,
+                year: action.payload.year,
+                month: action.payload.month,
+                day: action.payload.day,
+            };
+        default:
+            return state;
+    }
+};
+
 // Combine reducers
 const rootReducer = combineReducers({
     counter: counterReducer,
     auth: authReducer,
     header: HeaderFlagReducer,
     rate: exchangeRateReducer,
+    date: catchDateReducer,
+    trade: transactionReducer,
 });
 
 // Create Redux store

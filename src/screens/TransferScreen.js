@@ -1,33 +1,54 @@
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, SafeAreaView, TextInput, Alert } from 'react-native';
 import React from 'react'
 import { geticon } from '../component/img/getIcon';
-import { useDispatch } from 'react-redux';
 import RNPickerSelect from "react-native-picker-select";
 import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
 
 
 const Transfer = ({ navigation }) => {
-  
   const dispatch = useDispatch();
+
   const [selectedValue, setSelectedValue] = useState(null);
   const [AccountText, onChangeAccount] = React.useState(''); //輸入帳號
   const [MoneyText, onChangeMoney] = React.useState(''); //輸入金額
   const [NoteText, onChangeNote] = React.useState(''); //輸入備註
+  const FORtransactionAction = (money) => {
+    dispatch({ type: 'SET_FOR_TR', payload: { money: money } });
+  };
+  const TWDtransactionAction = (money) => {
+    console.log("ACTION")
+    dispatch({ type: 'SET_TWD_TR', payload: { money: money } });
+  };
 
   const showAlert = () => {
     Alert.alert(
       "轉帳成功",
       `成功轉帳 ${MoneyText} 元`,
       [
-        { text: "完成", onPress: () =>  {
-          // Navigate back to HomeScreen upon confirmation
-          navigation.navigate('HomeScreen');
-        }, }
+        {
+          text: "完成", onPress: () => {
+            // Navigate back to HomeScreen upon confirmation
+            navigation.navigate('HomeScreen');
+          },
+        }
       ],
       { cancelable: false }
     );
   }
-
+  const callTrade = (v, m) => {
+    switch (v) {
+      case 'SFOR':
+        FORtransactionAction(m);
+        break;
+      case 'STWD':
+        TWDtransactionAction(m);
+        break;
+      default:
+        break;
+    }
+  }
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.topBackground} />
@@ -62,8 +83,8 @@ const Transfer = ({ navigation }) => {
                 }}
                 onValueChange={(value) => setSelectedValue(value)}
                 items={[
-                  { label: '活期儲蓄存款  0081234567890', value: 'A' },
-                  { label: "外匯存款  0081234567891", value: 'B' },
+                  { label: '活期儲蓄存款  0081234567890', value: 'STWD' },
+                  { label: "外匯存款  0081234567891", value: 'SFOR' },
                 ]}
               />
               <View style={{ width: 100, right: 200 }}>{geticon('scan')}</View>
@@ -128,7 +149,12 @@ const Transfer = ({ navigation }) => {
             </View>
           </View>
         </View>
-        <TouchableOpacity style={styles.button} onPress={() => showAlert()}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            callTrade(selectedValue, MoneyText)
+            showAlert();
+          }}>
           <Text style={styles.buttonText}>確認</Text>
         </TouchableOpacity>
       </ScrollView>
