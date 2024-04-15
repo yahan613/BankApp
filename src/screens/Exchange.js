@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { View, Text, Image, StyleSheet, ScrollView, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, Image, StyleSheet, ScrollView, TextInput, TouchableOpacity, Alert, SafeAreaView } from 'react-native';
 import RNPickerSelect from "react-native-picker-select";
 import { geticon } from '../component/img/getIcon';
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
@@ -9,16 +9,16 @@ import moment from 'moment';
 
 
 //即時換匯
-const currencyItems  = [
+const currencyItems = [
   { label: "新台幣", value: "新台幣" },
   { label: "美元", value: "美元" },
   { label: "日幣", value: "日幣" },
 ];
-const discountItems  = [
+const discountItems = [
   { label: "一般優惠", value: "一般優惠" },
   { label: "VIP優惠?", value: "VIP優惠?" },
 ];
-const accountItems  = [
+const accountItems = [
   { label: "活期儲蓄存款  0081234567890", value: "活期儲蓄存款  0081234567890" },
   { label: "外匯存款  0081234567891", value: "外匯存款  0081234567891" },
 ];
@@ -87,41 +87,41 @@ const ExchangeScreen = ({ navigation }) => {
 
   // Function to handle the swap of currencies and amounts
   const handleSwapCurrencies = () => {
-  // Swap currencies
-  const temp = fromCurrency;
-  setFromCurrency(toCurrency);
-  setToCurrency(temp);
-  // Swap amounts
-  const tempAmount = fromAmount;
-  setFromAmount(toAmount);
-  setToAmount(tempAmount);
+    // Swap currencies
+    const temp = fromCurrency;
+    setFromCurrency(toCurrency);
+    setToCurrency(temp);
+    // Swap amounts
+    const tempAmount = fromAmount;
+    setFromAmount(toAmount);
+    setToAmount(tempAmount);
   };
 
-   //選擇日期
-   const [startDate, setStartDate] = useState(new Date());
-   const [endDate, setEndDate] = useState(new Date());
-   const [showStartDatePicker, setShowStartDatePicker] = useState(false);
-   const [showEndDatePicker, setShowEndDatePicker] = useState(false);
- 
-   const handleStartDateChange = (event, selectedDate) => {
-     const currentDate = selectedDate || startDate;
-     setShowStartDatePicker(false);
-     setStartDate(currentDate);
-   };
-   const handleEndDateChange = (event, selectedDate) => {
-     const currentDate = selectedDate || endDate;
-     setShowEndDatePicker(false);
-     setEndDate(currentDate);
-   };
- 
-   const showStartDatepicker = () => {
-     setShowStartDatePicker(true);
-   };
-   const showEndDatepicker = () => {
-     setShowEndDatePicker(true);
-   };
+  //選擇日期
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+  const [showStartDatePicker, setShowStartDatePicker] = useState(false);
+  const [showEndDatePicker, setShowEndDatePicker] = useState(false);
 
-   
+  const handleStartDateChange = (event, selectedDate) => {
+    const currentDate = selectedDate || startDate;
+    setShowStartDatePicker(false);
+    setStartDate(currentDate);
+  };
+  const handleEndDateChange = (event, selectedDate) => {
+    const currentDate = selectedDate || endDate;
+    setShowEndDatePicker(false);
+    setEndDate(currentDate);
+  };
+
+  const showStartDatepicker = () => {
+    setShowStartDatePicker(true);
+  };
+  const showEndDatepicker = () => {
+    setShowEndDatePicker(true);
+  };
+
+
   const handleConfirm = () => {
     let transactionDetails;
     if (selectedSegment === 0) {
@@ -129,43 +129,43 @@ const ExchangeScreen = ({ navigation }) => {
     } else if (selectedSegment === 1) {
       transactionDetails = `您預約的日期為：${moment(startDate).format('YYYY-MM-DD')}\n我們將在該日期再次與您確認交易詳情，巴菲特銀行感謝您。`;
     }
-  
+
     // Show alert with transaction details
     showAlert(transactionDetails);
   };
-  
 
-// Function to show the alert
-const showAlert = (transactionDetails) => {
-  Alert.alert(
-    '交易成功\n',
-    `-------交易詳情-------\n${transactionDetails}`,
-    [
-      {
-        text: '確認',
-        onPress: () => {
-          // Navigate back to HomeScreen upon confirmation
-          navigation.navigate('HomeScreen');
+
+  // Function to show the alert
+  const showAlert = (transactionDetails) => {
+    Alert.alert(
+      '交易成功\n',
+      `-------交易詳情-------\n${transactionDetails}`,
+      [
+        {
+          text: '確認',
+          onPress: () => {
+            // Navigate back to HomeScreen upon confirmation
+            navigation.navigate('HomeScreen');
+          },
         },
-      },
-    ],
-    { cancelable: false }
-  );
-};
+      ],
+      { cancelable: false }
+    );
+  };
 
   return (
-    <View style={styles.container}>
-     <View style={{ width: '100%', height: 80, backgroundColor: '#244172', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-    {/*Header of Exchange Screen*/}
-      <View style={{ position: 'absolute', left: 20 }}>
-        <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
-          {geticon('Arrow')}
-        </TouchableOpacity>
+    <SafeAreaView style={styles.container}>
+      <View style={{ width: '100%', height: 80, backgroundColor: '#244172', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+        {/*Header of Exchange Screen*/}
+        <View style={{ position: 'absolute', left: 20 }}>
+          <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
+            {geticon('Arrow')}
+          </TouchableOpacity>
+        </View>
+        <Text style={{ color: '#fff', fontSize: 20 }}>外幣</Text>
       </View>
-      <Text style={{ color: '#fff', fontSize: 20 }}>外幣</Text>
-     </View>
 
-     <SegmentedControl
+      <SegmentedControl
         values={['即時換匯', '預約換匯']}
         selectedIndex={selectedSegment}
         onChange={(event) => setSelectedSegment(event.nativeEvent.selectedSegmentIndex)}
@@ -173,237 +173,237 @@ const showAlert = (transactionDetails) => {
       />
 
       <ScrollView contentContainerStyle={styles.scrollViewContent} showsVerticalScrollIndicator={false}>
-        
-      {selectedSegment === 0 && (
-        <View>
-        <View style={styles.box}>
+
+        {selectedSegment === 0 && (
+          <View>
+            <View style={styles.box}>
               <View style={styles.labelContainer}>
-                  <Text style={styles.label}>
-                      請選擇幣別與金額
-                  </Text>
+                <Text style={styles.label}>
+                  請選擇幣別與金額
+                </Text>
               </View>
-              <View style={styles.line}/>
+              <View style={styles.line} />
 
               <View style={styles.pickerSection}>
-              <View style={styles.Sec}>
-                <RNPickerSelect
-                  placeholder={{ label: "請選擇轉出幣別", value: "", color: "#000" }}
-                  items={currencyItems} 
-                  value={fromCurrency}
-                  onValueChange={(value) => setFromCurrency(value)}
-                  style={styles.picker}
-                />
+                <View style={styles.Sec}>
+                  <RNPickerSelect
+                    placeholder={{ label: "請選擇轉出幣別", value: "", color: "#000" }}
+                    items={currencyItems}
+                    value={fromCurrency}
+                    onValueChange={(value) => setFromCurrency(value)}
+                    style={styles.picker}
+                  />
                 </View>
                 <View style={styles.Sec}>
-                <RNPickerSelect
-                  placeholder={{ label: "請選擇轉入幣別", value: "", color: "#000" }}
-                  items={currencyItems} 
-                  value={toCurrency}
-                  onValueChange={(value) => setToCurrency(value)} // Corrected to update toCurrency
-                  style={styles.picker}
-                />
+                  <RNPickerSelect
+                    placeholder={{ label: "請選擇轉入幣別", value: "", color: "#000" }}
+                    items={currencyItems}
+                    value={toCurrency}
+                    onValueChange={(value) => setToCurrency(value)} // Corrected to update toCurrency
+                    style={styles.picker}
+                  />
                 </View>
-                </View>
-                
+              </View>
+
               <View style={styles.inputSec}>
                 <TextInput
-                    style={{
-                          width: '40%',
-                          height: 40,
-                          borderWidth: 1,
-                          padding: 10,
-                          backgroundColor: '#fff',
-                          borderColor: '#244172',
-                    }}
-                    placeholder="轉出金額"
-                    value={fromAmount}
-              onChangeText={handleFromAmountChange}
+                  style={{
+                    width: '40%',
+                    height: 40,
+                    borderWidth: 1,
+                    padding: 10,
+                    backgroundColor: '#fff',
+                    borderColor: '#244172',
+                  }}
+                  placeholder="轉出金額"
+                  value={fromAmount}
+                  onChangeText={handleFromAmountChange}
                 />
-                 <TouchableOpacity onPress={handleSwapCurrencies}>
-                    <Image source={require('../component/img/sync_alt.png')} style={{ marginTop: 5 }} />
-                 </TouchableOpacity>
+                <TouchableOpacity onPress={handleSwapCurrencies}>
+                  <Image source={require('../component/img/sync_alt.png')} style={{ marginTop: 5 }} />
+                </TouchableOpacity>
                 <TextInput
-                    style={{
-                          width: '40%',
-                          height: 40,
-                          borderWidth: 1,
-                          padding: 10,
-                          backgroundColor: '#fff',
-                          borderColor: '#244172',
-                    }}
-                    placeholder="轉入金額"
-                    value={toAmount}
-                    onChangeText={handleToAmountChange}
-                />
-              </View>
-              <Text style={{color: '#929191', textAlign: 'center', margin: 10}}>實際匯率以交易完成時間為準</Text>
-              <View style={styles.line}/>
-              <View style={styles.labelContainer}>
-                  <Text style={styles.label}>
-                      匯率優惠
-                  </Text>
-              </View>
-              <RNPickerSelect
-                  placeholder={{ label: "", value: "", color: "#000" }}
-                  items={discountItems} 
-                  value="一般優惠"
-                  onValueChange={(value) => console.log(value)}
-                />
-              <View style={styles.line}/>
-              <View style={styles.labelContainer}>
-                  <Text style={styles.label}>
-                      轉出帳號
-                  </Text>
-              </View>
-              <RNPickerSelect
-                  placeholder={{ label: "", value: "", color: "#000" }}
-                  items={accountItems} 
-                  value="活期儲蓄存款  0081234567890"
-                  onValueChange={(value) => console.log(value)}
-                />
-              <View style={styles.labelContainer}>
-                  <Text style={styles.label}>
-                      轉入帳號
-                  </Text>
-              </View>
-              <RNPickerSelect
-                  placeholder={{ label: "", value: "", color: "#000" }}
-                  items={accountItems} 
-                  value="外匯存款  0081234567891"
-                  onValueChange={(value) => console.log(value)}
-                />
-          </View>
-          <TouchableOpacity onPress={handleConfirm} style={styles.button}>
-            <Text style={styles.buttonText}>確認</Text>
-          </TouchableOpacity>
-          </View>
-       )}
-
-       {selectedSegment === 1 && (
-        <View>
-        <View style={styles.box}>
-        <View style={styles.labelContainer}>
-            <Text style={styles.label}>
-                請選擇幣別與金額
-            </Text>
-        </View>
-        <View style={styles.line}/>
-
-        <View style={styles.pickerSection}>
-        <View style={styles.Sec}>
-          <RNPickerSelect
-            placeholder={{ label: "請選擇轉出幣別", value: "", color: "#000" }}
-            items={currencyItems} 
-            value={fromCurrency}
-            onValueChange={(value) => setFromCurrency(value)}
-            style={styles.picker}
-          />
-          </View>
-          <View style={styles.Sec}>
-          <RNPickerSelect
-            placeholder={{ label: "請選擇轉入幣別", value: "", color: "#000" }}
-            items={currencyItems} 
-            value={toCurrency}
-            onValueChange={(value) => setToCurrency(value)} // Corrected to update toCurrency
-            style={styles.picker}
-          />
-          </View>
-          </View>
-          
-        <View style={styles.inputSec}>
-          <TextInput
-              style={{
+                  style={{
                     width: '40%',
                     height: 40,
                     borderWidth: 1,
                     padding: 10,
                     backgroundColor: '#fff',
                     borderColor: '#244172',
-              }}
-              placeholder="轉出金額"
-              value={fromAmount}
-        onChangeText={handleFromAmountChange}
-          />
-          <TouchableOpacity onPress={handleSwapCurrencies}>
-              <Image source={require('../component/img/sync_alt.png')} style={{ marginTop: 5 }} />
-          </TouchableOpacity>
-          <TextInput
-              style={{
-                    width: '40%',
-                    height: 40,
-                    borderWidth: 1,
-                    padding: 10,
-                    backgroundColor: '#fff',
-                    borderColor: '#244172',
-              }}
-              placeholder="轉入金額"
-              value={toAmount}
-              onChangeText={handleToAmountChange}
-          />
-        </View>
-        <Text style={{color: '#929191', textAlign: 'center', margin: 10}}>實際匯率以交易完成時間為準</Text>
-        <View style={styles.line}/>
-        <View style={styles.labelContainer}>
-            <Text style={styles.label}>
-                匯率優惠
-            </Text>
-        </View>
-        <RNPickerSelect
-            placeholder={{ label: "", value: "", color: "#000" }}
-            items={discountItems} 
-            value="一般優惠"
-            onValueChange={(value) => console.log(value)}
-          />
-        <View style={styles.line}/>
-        <View style={styles.labelContainer}>
-            <Text style={styles.label}>
-                轉出帳號
-            </Text>
-        </View>
-        <RNPickerSelect
-            placeholder={{ label: "", value: "", color: "#000" }}
-            items={accountItems} 
-            value="活期儲蓄存款  0081234567890"
-            onValueChange={(value) => console.log(value)}
-          />
-        <View style={styles.labelContainer}>
-            <Text style={styles.label}>
-                轉入帳號
-            </Text>
-        </View>
-        <RNPickerSelect
-            placeholder={{ label: "", value: "", color: "#000" }}
-            items={accountItems} 
-            value="外匯存款  0081234567891"
-            onValueChange={(value) => console.log(value)}
-          />
-        <View style={styles.line}/>
-        <View style={styles.labelContainer}>
-            <Text style={styles.label}>
-                預約設定
-            </Text>
-        </View>
-        
-        <View style={{ width: '95%', alignContent: 'center'}}>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 10, marginBottom: 10 }}>
-            <Text style={{ fontSize: 16 }}>    預約入帳日</Text>
-            <TouchableOpacity onPress={showStartDatepicker} style={{ borderWidth: 1, padding: 5, width: 160,  borderColor: '#244172',  marginTop: 10, marginBottom: 5}}>
-              <Text>{moment(startDate).format('YYYY-MM-DD')}</Text>
-            </TouchableOpacity>
-            {showStartDatePicker && (
-              <DateTimePicker
-                testID="startDatePicker"
-                value={startDate}
-                mode="date"
-                is24Hour={true}
-                display="default"
-                onChange={handleStartDateChange}
+                  }}
+                  placeholder="轉入金額"
+                  value={toAmount}
+                  onChangeText={handleToAmountChange}
+                />
+              </View>
+              <Text style={{ color: '#929191', textAlign: 'center', margin: 10 }}>實際匯率以交易完成時間為準</Text>
+              <View style={styles.line} />
+              <View style={styles.labelContainer}>
+                <Text style={styles.label}>
+                  匯率優惠
+                </Text>
+              </View>
+              <RNPickerSelect
+                placeholder={{ label: "", value: "", color: "#000" }}
+                items={discountItems}
+                value="一般優惠"
+                onValueChange={(value) => console.log(value)}
               />
-            )}
-        </View>
-        </View>
+              <View style={styles.line} />
+              <View style={styles.labelContainer}>
+                <Text style={styles.label}>
+                  轉出帳號
+                </Text>
+              </View>
+              <RNPickerSelect
+                placeholder={{ label: "", value: "", color: "#000" }}
+                items={accountItems}
+                value="活期儲蓄存款  0081234567890"
+                onValueChange={(value) => console.log(value)}
+              />
+              <View style={styles.labelContainer}>
+                <Text style={styles.label}>
+                  轉入帳號
+                </Text>
+              </View>
+              <RNPickerSelect
+                placeholder={{ label: "", value: "", color: "#000" }}
+                items={accountItems}
+                value="外匯存款  0081234567891"
+                onValueChange={(value) => console.log(value)}
+              />
+            </View>
+            <TouchableOpacity onPress={handleConfirm} style={styles.button}>
+              <Text style={styles.buttonText}>確認</Text>
+            </TouchableOpacity>
+          </View>
+        )}
 
-        {/* 
+        {selectedSegment === 1 && (
+          <View>
+            <View style={styles.box}>
+              <View style={styles.labelContainer}>
+                <Text style={styles.label}>
+                  請選擇幣別與金額
+                </Text>
+              </View>
+              <View style={styles.line} />
+
+              <View style={styles.pickerSection}>
+                <View style={styles.Sec}>
+                  <RNPickerSelect
+                    placeholder={{ label: "請選擇轉出幣別", value: "", color: "#000" }}
+                    items={currencyItems}
+                    value={fromCurrency}
+                    onValueChange={(value) => setFromCurrency(value)}
+                    style={styles.picker}
+                  />
+                </View>
+                <View style={styles.Sec}>
+                  <RNPickerSelect
+                    placeholder={{ label: "請選擇轉入幣別", value: "", color: "#000" }}
+                    items={currencyItems}
+                    value={toCurrency}
+                    onValueChange={(value) => setToCurrency(value)} // Corrected to update toCurrency
+                    style={styles.picker}
+                  />
+                </View>
+              </View>
+
+              <View style={styles.inputSec}>
+                <TextInput
+                  style={{
+                    width: '40%',
+                    height: 40,
+                    borderWidth: 1,
+                    padding: 10,
+                    backgroundColor: '#fff',
+                    borderColor: '#244172',
+                  }}
+                  placeholder="轉出金額"
+                  value={fromAmount}
+                  onChangeText={handleFromAmountChange}
+                />
+                <TouchableOpacity onPress={handleSwapCurrencies}>
+                  <Image source={require('../component/img/sync_alt.png')} style={{ marginTop: 5 }} />
+                </TouchableOpacity>
+                <TextInput
+                  style={{
+                    width: '40%',
+                    height: 40,
+                    borderWidth: 1,
+                    padding: 10,
+                    backgroundColor: '#fff',
+                    borderColor: '#244172',
+                  }}
+                  placeholder="轉入金額"
+                  value={toAmount}
+                  onChangeText={handleToAmountChange}
+                />
+              </View>
+              <Text style={{ color: '#929191', textAlign: 'center', margin: 10 }}>實際匯率以交易完成時間為準</Text>
+              <View style={styles.line} />
+              <View style={styles.labelContainer}>
+                <Text style={styles.label}>
+                  匯率優惠
+                </Text>
+              </View>
+              <RNPickerSelect
+                placeholder={{ label: "", value: "", color: "#000" }}
+                items={discountItems}
+                value="一般優惠"
+                onValueChange={(value) => console.log(value)}
+              />
+              <View style={styles.line} />
+              <View style={styles.labelContainer}>
+                <Text style={styles.label}>
+                  轉出帳號
+                </Text>
+              </View>
+              <RNPickerSelect
+                placeholder={{ label: "", value: "", color: "#000" }}
+                items={accountItems}
+                value="活期儲蓄存款  0081234567890"
+                onValueChange={(value) => console.log(value)}
+              />
+              <View style={styles.labelContainer}>
+                <Text style={styles.label}>
+                  轉入帳號
+                </Text>
+              </View>
+              <RNPickerSelect
+                placeholder={{ label: "", value: "", color: "#000" }}
+                items={accountItems}
+                value="外匯存款  0081234567891"
+                onValueChange={(value) => console.log(value)}
+              />
+              <View style={styles.line} />
+              <View style={styles.labelContainer}>
+                <Text style={styles.label}>
+                  預約設定
+                </Text>
+              </View>
+
+              <View style={{ width: '95%', alignContent: 'center' }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 10, marginBottom: 10 }}>
+                  <Text style={{ fontSize: 16 }}>    預約入帳日</Text>
+                  <TouchableOpacity onPress={showStartDatepicker} style={{ borderWidth: 1, padding: 5, width: 160, borderColor: '#244172', marginTop: 10, marginBottom: 5 }}>
+                    <Text>{moment(startDate).format('YYYY-MM-DD')}</Text>
+                  </TouchableOpacity>
+                  {showStartDatePicker && (
+                    <DateTimePicker
+                      testID="startDatePicker"
+                      value={startDate}
+                      mode="date"
+                      is24Hour={true}
+                      display="default"
+                      onChange={handleStartDateChange}
+                    />
+                  )}
+                </View>
+              </View>
+
+              {/* 
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
           <View style={{height: 1, backgroundColor: '#D9D9D9', width: 125 }}></View>
           <Text style={{color: '#929191'}}>或</Text>
@@ -439,51 +439,51 @@ const showAlert = (transactionDetails) => {
               onValueChange={(value) => console.log(value)}
             />
         */}
-        </View>
-        <TouchableOpacity onPress={handleConfirm} style={styles.button}>
-          <Text style={styles.buttonText}>確認</Text>
-        </TouchableOpacity>
-      </View>
+            </View>
+            <TouchableOpacity onPress={handleConfirm} style={styles.button}>
+              <Text style={styles.buttonText}>確認</Text>
+            </TouchableOpacity>
+          </View>
         )}
 
-      </ScrollView> 
+      </ScrollView>
 
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-      width: '100%',
-      height: '100%',
-      justifyContent: 'flex-start',
-      alignItems: 'center',
-      backgroundColor: '#D9D9D9',
+    width: '100%',
+    height: '100%',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    backgroundColor: '#D9D9D9',
   },
   scrollViewContent: {
     width: '85%',
     height: 830,
     marginTop: 20,
-},
-box: {
+  },
+  box: {
     width: '100%',
     backgroundColor: '#fff',
     padding: 20,
     borderRadius: 10,
     marginBottom: 20,
     flexDirection: 'column',
-},
-label: {
-  fontSize: 20,
-  color: '#244172',
-},
-labelContainer: {
-  borderLeftColor: '#244172',
-  borderLeftWidth: 3,
-  paddingLeft: 10,
-  flexDirection: 'row',
-},
- input: {
+  },
+  label: {
+    fontSize: 20,
+    color: '#244172',
+  },
+  labelContainer: {
+    borderLeftColor: '#244172',
+    borderLeftWidth: 3,
+    paddingLeft: 10,
+    flexDirection: 'row',
+  },
+  input: {
     width: '100%',
     height: 40,
     borderWidth: 1,
@@ -491,54 +491,54 @@ labelContainer: {
     backgroundColor: '#fff',
     borderColor: '#244172',
     marginBottom: 20,
-},
-text: {
+  },
+  text: {
     fontSize: 18,
     color: '#244172',
-},
-line:{
-  margin: 10,
-  width: 400,
-  marginLeft: -50,
-  marginRight: -50,
-  height: 1,
-  backgroundColor: '#D9D9D9',
-},
-Sec:{
-  width: 275,
-},
-pickerSection:{
-  width: 310,
-  paddingLeft: 120,
-  flexDirection: 'row',
-  justifyContent: 'space-evenly'
-},
-picker:{
-  inputIOS: {width: '50%'},
-  inputAndroid: {width: '50%'},
-},
-inputSec:{
-  flexDirection: 'row',
-  justifyContent: 'space-evenly'
-},
-button: {
-  width: 350,
-  padding: 10,
-  borderRadius: 10,
-  marginBottom: 10,
-  flexDirection: 'column',
-  backgroundColor: '#244172', 
-  justifyContent: 'center',
-  alignItems: 'center',
-},
-buttonText: {
-  color: '#fff',
-  fontSize: 18,
-},
-calendarContainer: {
-  alignItems: 'center',
-  justifyContent: 'center',
-}
+  },
+  line: {
+    margin: 10,
+    width: 400,
+    marginLeft: -50,
+    marginRight: -50,
+    height: 1,
+    backgroundColor: '#D9D9D9',
+  },
+  Sec: {
+    width: 275,
+  },
+  pickerSection: {
+    width: 310,
+    paddingLeft: 120,
+    flexDirection: 'row',
+    justifyContent: 'space-evenly'
+  },
+  picker: {
+    inputIOS: { width: '50%' },
+    inputAndroid: { width: '50%' },
+  },
+  inputSec: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly'
+  },
+  button: {
+    width: 350,
+    padding: 10,
+    borderRadius: 10,
+    marginBottom: 10,
+    flexDirection: 'column',
+    backgroundColor: '#244172',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 18,
+  },
+  calendarContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
 });
 
 export default ExchangeScreen; 
