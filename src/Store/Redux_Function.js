@@ -49,7 +49,6 @@ const HeaderFlagReducer = (state = initialState, action) => {
 };
 
 const transactionReducer = (state = initialState, action) => {
-    console.log(state.balance.for)
     switch (action.type) {
         case 'SET_FOR_TR':
             return {

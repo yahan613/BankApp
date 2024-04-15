@@ -18,7 +18,6 @@ const Transfer = ({ navigation }) => {
     dispatch({ type: 'SET_FOR_TR', payload: { money: money } });
   };
   const TWDtransactionAction = (money) => {
-    console.log("ACTION")
     dispatch({ type: 'SET_TWD_TR', payload: { money: money } });
   };
 
@@ -55,7 +54,7 @@ const Transfer = ({ navigation }) => {
       <View style={{ width: '100%', height: 80, backgroundColor: '#244172', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
         {/*Header of Exchange Screen*/}
         <View style={{ position: 'absolute', left: 20 }}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
+          <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
             {geticon('Arrow')}
           </TouchableOpacity>
         </View>

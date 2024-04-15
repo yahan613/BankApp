@@ -1,10 +1,10 @@
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView } from 'react-native';
 import { geticon } from '../component/img/getIcon';
 import React, { useEffect, useState } from 'react';
 
 const AccountSettingsScreen = ({ navigation }) => {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={{ width: '100%', height: 80, backgroundColor: '#244172', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
         {/*Header of Exchange Screen*/}
         <View style={{ position: 'absolute', left: 20 }}>
@@ -17,7 +17,7 @@ const AccountSettingsScreen = ({ navigation }) => {
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Text>AccountSettingsScreen</Text>
       </View>
-    </View>
+    </SafeAreaView>
 
   )
 }

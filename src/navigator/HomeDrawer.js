@@ -23,7 +23,7 @@ function CustomDrawerContent(props) {
     return (
         <DrawerContentScrollView {...props}>
             <View style={styles.welcome}>
-                <Text style={{ fontSize: 23, marginLeft: 23, marginTop: -20, color: '#fff', }}>您好，{userName}</Text>
+                <Text style={{ fontSize: 23, marginLeft: 23, marginTop: -20, color: '#fff', }}>您好，Amy</Text>
                 <View style={styles.search}>
                     <TextInput
                         style={{ backgroundColor: 'transparent' }}
