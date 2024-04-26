@@ -11,6 +11,7 @@ const Transfer = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const [selectedValue, setSelectedValue] = useState(null);
+  const [selectedValue2, setSelectedValue2] = useState(null);
   const [AccountText, onChangeAccount] = React.useState(''); //輸入帳號
   const [MoneyText, onChangeMoney] = React.useState(''); //輸入金額
   const [NoteText, onChangeNote] = React.useState(''); //輸入備註
@@ -88,7 +89,7 @@ const Transfer = ({ navigation }) => {
               />
               <View style={{ width: 100, right: 200 }}>{geticon('scan')}</View>
             </View>
-            <Text style={styles.selectlabel}>可用餘額：</Text>
+            
           </View>
           <View style={styles.selectBox}>
             <Text style={styles.selectlabel}>轉入銀行</Text>
@@ -99,7 +100,7 @@ const Transfer = ({ navigation }) => {
                   label: '請選擇',
                   value: null,
                 }}
-                onValueChange={(value) => setSelectedValue(value)}
+                onValueChange={(value) => setSelectedValue2(value)}
                 items={[
                   { label: '(100) 巴菲特銀行', value: 'A' },
                   { label: "(001) 中國信託", value: 'B' },

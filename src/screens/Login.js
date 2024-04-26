@@ -5,12 +5,15 @@ import CheckBox from 'react-native-check-box';
 import { getverifyPic } from '../component/img/getVerifyPic';
 import { useSelector, useDispatch } from 'react-redux';
 import GetSelectedRates from '../component/Exchange/getExchange';
-
+import ActionSheetVernum from '../component/data/ActionSheetVernum.json'
+import AwesomeAlert from 'react-native-awesome-alerts';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 const itemWidth = screenWidth * 0.8;
 const itemHeight = screenHeight * 0.1;
+
+
 
 
 const LoginScreen = ({ navigation }) => {
@@ -28,8 +31,7 @@ const LoginScreen = ({ navigation }) => {
     const [VerificaitonText, onChangeVerification] = React.useState('');
     const [isChecked, setIsChecked] = React.useState(false);
     //驗證碼圖片生成
-    const [lastVerifynum, setLastVerifynum] = React.useState(null);
-    const [verifynum, setVerifynum] = React.useState(null);
+    let [verifynum, setVerifynum] = React.useState(1);
     //Visible
     const [showPassword, setShowPassword] = React.useState(false);
     const toggleShowPassword = () => {
@@ -44,24 +46,41 @@ const LoginScreen = ({ navigation }) => {
         setShowPassword3(!showPassword3);
     };
     const incrementVerifynum = () => {
-        const newVerifynum = (verifynum + 1) % 5 === 0 ? 1 : verifynum + 1;
-        setLastVerifynum(verifynum);
-        setVerifynum(newVerifynum);
+        verifynum = (verifynum) % 6 + 1;
+        setVerifynum(verifynum);
     };
     GetSelectedRates()
+    const [showAlert, setShowAlert] = React.useState(false);
+
+    //Awesome
+    const handleCloseAlert = () => {
+        setShowAlert(false);
+    };
+    
     return (
         <View style={styles.container}>
             <View style={{ width: '100%', height: 200, backgroundColor: '#244172', justifyContent: 'center', alignItems: 'center' }}>
                 {/*Header of Login Screens*/}
                 <View style={{ flexDirection: 'row', alignItems: 'center', height: 70, marginTop: '10%' }}>
                     <View style={styles.logo} />
-                    <Image source={require('../component/img/Logo.png')} style={{ width: 65, height: 65, marginRight: 5 }}/>
+                    <Image source={require('../component/img/Logo.png')} style={{ width: 65, height: 65, marginRight: 5 }} />
                     <View style={{ flexDirection: 'column', justifyContent: 'center' }}>
                         {/*Container of Bank Logo*/}
                         <Text style={{ fontSize: 30, color: '#fff', fontWeight: 'bold' }}>巴菲特銀行</Text>
                         <Text style={{ fontSize: 15, color: '#fff', fontWeight: 'bold' }}>Buffet Bank</Text>
                     </View>
                 </View>
+            </View>
+            <View style={{width: 200, height: 10}}>
+                <AwesomeAlert
+                    show={showAlert}
+                    title="驗證碼輸入錯誤"
+                    message="請重新輸入"
+                    showConfirmButton={true}
+                    confirmText="重試"
+                    confirmButtonColor="#DD6B55"
+                    onConfirmPressed={handleCloseAlert}
+                />
             </View>
             <View style={styles.userSection}>
                 <View style={{ fontSize: 20, fontWeight: 'bold', color: '#244172', marginBottom: 20, flexDirection: 'row', justifyContent: 'flex-start' }}>
@@ -91,7 +110,7 @@ const LoginScreen = ({ navigation }) => {
                         checkedCheckBoxColor='#244172'
                         uncheckedCheckBoxColor='#244172'
                     />
-                    <Text style={{color: '#244172'}}>記住身分證字號</Text>
+                    <Text style={{ color: '#244172' }}>記住身分證字號</Text>
                 </View>
                 <View style={styles.input}>
                     <TextInput
@@ -136,18 +155,25 @@ const LoginScreen = ({ navigation }) => {
                         source={getverifyPic(verifynum)} // 使用 imageSource 變數
                         resizeMode="contain"
                     />
-                    <TouchableOpacity style={{ width: '3%', height: '40%' }} onPress={incrementVerifynum}>
+                    <TouchableOpacity style={{ width: '3%', height: '40%' }} onPress={() => { incrementVerifynum() }}>
                         {geticon("Refresh")}
                     </TouchableOpacity>
                 </View>
                 <TouchableOpacity
                     onPress={() => {
+                        console.log("SetShowAlert is", showAlert)
+                        if (String(VerificaitonText) !== String(ActionSheetVernum[verifynum - 1].num)) {
+                            console.log("GGGGg"),
+                            setShowAlert(true);
+                            return; // 終止函數的執行
+                        }
                         navigation.navigate('HomeDrawer');
                         handleLogin();
                         onChangeAccount('');
                         onChangePassword('');
                         onChangeID('');
                         onChangeVerification('');
+                        console.log("VerificationText equals ActionSheetVernum[verifynum-1]:", String(VerificaitonText) === String(ActionSheetVernum[verifynum - 1].num));
                     }}>
                     <Text style={{ position: 'absolute', bottom: -70, left: 0, right: 0, textAlign: 'center', color: '#fff', fontSize: 16, justifyContent: 'center' }}>
                         登入
