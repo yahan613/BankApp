@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, SafeAreaView, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import React, { useState, useEffect } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
@@ -15,22 +15,34 @@ const FinMan = () => {
       HeaderFlagAction(0);//HomeHeader!!!!
     }, [])
   );
-  
+
   return (
     <SafeAreaView style={{ flex: 1, }}>
       <View style={styles.header}>
         <Text style={{ color: '#fff', fontSize: 20 }}>理財</Text>
       </View>
-      <View style={{ alignItems: 'center', justifyContent: 'center', height: 500, }}>
-        <Text style={{ color: '#000', fontSize: 18, marginTop: 40, }}>開始你的第一筆理財規劃吧！</Text>
-
-        <View style={{ alignItems: 'center', justifyContent: 'center', padding: 50 , backgroundColor: '#fff', borderRadius: 10, marginTop: 30 }}>
-          {geticon('Add')}
+      <ScrollView contentContainerStyle={{ marginTop: 50, width: '85%', justifyContent: 'center', alignSelf: 'center' }} showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
+        <View style={{ flexDirection: 'row', marginBottom: 20 }}>
+          <View style={{ backgroundColor: '#244172', width: 5, borderRadius: 5, marginRight: 7 }}></View>
+          <Text style={{ fontSize: 20 }}>我的理財規劃</Text>
+        </View>
+        <TouchableOpacity style={styles.addbox}>
+            <Text style={{ color: '#000', fontSize: 18, marginTop: 40,color: '#D9D9D9' }}>開始你的第一筆理財規劃吧！</Text>
+            <View style={{ alignItems: 'center', justifyContent: 'center', padding: 50, borderRadius: 10, marginTop: 50 }}>
+              {geticon('Add')}
+            </View>
+        </TouchableOpacity>
+        <View style={{ flexDirection: 'row', marginBottom: 20 }}>
+          <View style={{ backgroundColor: '#244172', width: 5, borderRadius: 5, marginRight: 7 }}></View>
+          <Text style={{ fontSize: 20 }}>熱門投資主題</Text>
         </View>
 
-      </View>
+      </ScrollView>
 
-    </SafeAreaView>
+
+
+
+    </SafeAreaView >
   )
 }
 const styles = StyleSheet.create({
@@ -53,13 +65,17 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   addbox: {
-    width: '70%',
-    height: 300,
-    backgroundColor: '#fff',
+    width: 350,
     alignSelf: 'center',
+    height: 140,
+    backgroundColor: '#fff',
+    justifyContent: 'space-around',
+    alignItems: 'center',
     borderRadius: 5,
+    marginBottom: 30,
     flexDirection: 'column',
     alignItems: 'center',
+    padding: 18,
   }
 });
 export default FinMan
