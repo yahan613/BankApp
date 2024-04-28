@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import GetSelectedRates from '../component/Exchange/getExchange';
 import ActionSheetVernum from '../component/data/ActionSheetVernum.json'
 import AwesomeAlert from 'react-native-awesome-alerts';
+import { Platform } from 'react-native';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
@@ -59,7 +60,7 @@ const LoginScreen = ({ navigation }) => {
     
     return (
         <View style={styles.container}>
-            <View style={{ width: '100%', height: 200, backgroundColor: '#244172', justifyContent: 'center', alignItems: 'center' }}>
+            <View style={{ width: '100%', ...Platform.select({ios: {height: 200,},android: {height: 145,}}), backgroundColor: '#244172', justifyContent: 'center', alignItems: 'center' }}>
                 {/*Header of Login Screens*/}
                 <View style={{ flexDirection: 'row', alignItems: 'center', height: 70, marginTop: '10%' }}>
                     <View style={styles.logo} />
@@ -78,7 +79,7 @@ const LoginScreen = ({ navigation }) => {
                     message="請重新輸入"
                     showConfirmButton={true}
                     confirmText="重試"
-                    confirmButtonColor="#DD6B55"
+                    confirmButtonColor="#5C94F3"
                     onConfirmPressed={handleCloseAlert}
                 />
             </View>
@@ -101,17 +102,7 @@ const LoginScreen = ({ navigation }) => {
                         {geticon(showPassword3 ? "Eye" : "Noeye")}
                     </TouchableOpacity>
                 </View>
-                <View style={{ width: '55%', marginLeft: 0, flexDirection: 'row', alignItems: 'center', marginBottom: 20, }}>
-                    <CheckBox
-                        style={{ flex: 1, marginRight: 30, }}
-                        onClick={() => setIsChecked(!isChecked)}
-                        isChecked={isChecked}
-                        text={"CheckBox"}
-                        checkedCheckBoxColor='#244172'
-                        uncheckedCheckBoxColor='#244172'
-                    />
-                    <Text style={{ color: '#244172' }}>記住身分證字號</Text>
-                </View>
+                
                 <View style={styles.input}>
                     <TextInput
                         style={styles.inputContent}
@@ -136,6 +127,17 @@ const LoginScreen = ({ navigation }) => {
                         {geticon(showPassword ? "Eye" : "Noeye")}
                     </TouchableOpacity>
                 </View>
+                <View style={{ width: '55%', marginLeft: 0, flexDirection: 'row', alignItems: 'center', marginBottom: 10, }}>
+                    <CheckBox
+                        style={{ flex: 1, marginRight: 30, }}
+                        onClick={() => setIsChecked(!isChecked)}
+                        isChecked={isChecked}
+                        text={"CheckBox"}
+                        checkedCheckBoxColor='#244172'
+                        uncheckedCheckBoxColor='#244172'
+                    />
+                    <Text style={{ color: '#244172' }}>記住身分證字號</Text>
+                </View>
                 <View style={{ width: '100%', flexDirection: 'row', alignItems: 'center', }}>
                     <TextInput
                         style={{
@@ -144,7 +146,7 @@ const LoginScreen = ({ navigation }) => {
                             padding: 10,
                             backgroundColor: '#fff',
                             marginRight: 15,
-                            borderRadius: 9,
+                            borderRadius: 8,
                         }}
                         onChangeText={text => onChangeVerification(text)}
                         value={VerificaitonText}
@@ -175,7 +177,7 @@ const LoginScreen = ({ navigation }) => {
                         onChangeVerification('');
                         console.log("VerificationText equals ActionSheetVernum[verifynum-1]:", String(VerificaitonText) === String(ActionSheetVernum[verifynum - 1].num));
                     }}>
-                    <Text style={{ position: 'absolute', bottom: -70, left: 0, right: 0, textAlign: 'center', color: '#fff', fontSize: 16, justifyContent: 'center' }}>
+                    <Text style={{ position: 'absolute', bottom: -90, left: 0, right: 0, textAlign: 'center', color: '#fff', fontSize: 16, justifyContent: 'center' }}>
                         登入
                     </Text>
                 </TouchableOpacity>
@@ -212,10 +214,10 @@ const styles = StyleSheet.create({
         aspectRatio: 1,
     },
     userSection: {
-        marginTop: 70,
+        marginTop: 40,
         padding: 30,
         width: itemWidth,
-        height: 430,
+        height: 425,
         borderRadius: 15,
         backgroundColor: '#E3E3E3',
         justifyContent: 'flex-start',
@@ -229,8 +231,8 @@ const styles = StyleSheet.create({
         paddingTop: 5,
         paddingBottom: 5,
         backgroundColor: '#fff',
-        marginBottom: 20,
-        borderRadius: 9,
+        marginBottom: 15,
+        borderRadius: 8,
         flexDirection: 'row',
         alignItems: 'center',
     },

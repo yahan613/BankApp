@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { store } from '../Store/Redux_Function';
+import { Platform } from 'react-native';
 
 
 let EXCHANGE_DATA = [
@@ -121,7 +122,7 @@ const HomeScreen = ({ navigation }) => {
                         <View>
                             {geticon("Transfer")}
                         </View>
-                        <Text>
+                        <Text style={{fontSize:12}}>
                             轉帳
                         </Text>
                     </TouchableOpacity>
@@ -132,7 +133,7 @@ const HomeScreen = ({ navigation }) => {
                         <View>
                             {geticon("Withdraw")}
                         </View>
-                        <Text>
+                        <Text style={{fontSize:12}}>
                             提款
                         </Text>
                     </TouchableOpacity>
@@ -143,7 +144,7 @@ const HomeScreen = ({ navigation }) => {
                         <View>
                             {geticon("Bill")}
                         </View>
-                        <Text>
+                        <Text style={{fontSize:12}}>
                             繳費
                         </Text>
                     </TouchableOpacity>
@@ -154,7 +155,7 @@ const HomeScreen = ({ navigation }) => {
                         <View>
                             {geticon("Foreign_currency")}
                         </View>
-                        <Text>
+                        <Text style={{fontSize:12}}>
                             外幣
                         </Text>
                     </TouchableOpacity>
@@ -273,7 +274,7 @@ const HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#D9D9D9'
+        backgroundColor: '#D9D9D9',
     },
     header: {
         width: '100%',
@@ -312,7 +313,14 @@ const styles = StyleSheet.create({
     },
     scrollViewContent: {
         width: '85%',
-        height: 1500,
+        ...Platform.select({
+            ios: {
+                height: 1580,
+            },
+            android: {
+                height: 1500,
+            }
+          }),
         marginTop: 40,
         alignItems: 'center',
         alignSelf: 'center',
@@ -330,9 +338,16 @@ const styles = StyleSheet.create({
         color: '#244172',
     },
     text: {
-        fontSize: 18,
         paddingTop: 5,
         paddingBottom: 5,
+        ...Platform.select({
+      ios: {
+        fontSize: 16,
+      },
+      android: {
+        fontSize: 18,
+      }
+    }),
     },
     numtext: {
         fontSize: 18,
@@ -372,7 +387,14 @@ const styles = StyleSheet.create({
         marginRight: 15,
     },
     newsText: {
-        fontSize: 16,
+        ...Platform.select({
+            ios: {
+              fontSize: 14,
+            },
+            android: {
+              fontSize: 16,
+            }
+          }),
         width: '55%'
     },
     moneyBox: {

@@ -13,9 +13,6 @@ import { GetSelectedRates } from './src/component/Exchange/getExchange';
 
 
 
-//<LoginStackNavigator/>
-//<ExchangeScreen />
-
 export default function App() {
 
   return (

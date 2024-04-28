@@ -1,10 +1,11 @@
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView } from 'react-native';
 import React from 'react'
 import { geticon } from '../component/img/getIcon';
 
 const Payment = ({navigation}) => {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.topBackground} />
       <View style={{ width: '100%', height: 80, backgroundColor: '#244172', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
         {/*Header of Exchange Screen*/}
         <View style={{ position: 'absolute', left: 20 }}>
@@ -17,7 +18,7 @@ const Payment = ({navigation}) => {
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Text>Payment</Text>
       </View>
-    </View>
+    </SafeAreaView>
 
   )
 }
@@ -26,6 +27,14 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  topBackground: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: 50,
+    backgroundColor: '#244172',
   },
 });
 export default Payment

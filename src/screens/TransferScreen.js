@@ -65,7 +65,7 @@ const Transfer = ({ navigation }) => {
         <View style={styles.box}>
           <View style={styles.labelContainer}>
             <View style={styles.label}>
-              <View style={{ height: '100%', width: 5, backgroundColor: '#244172', borderRadius: 5, marginRight: 7 }}></View>
+              <View style={{ height: '100%', width: 3, backgroundColor: '#244172', marginRight: 7 }}></View>
               <Text style={styles.labelText}>
                 填寫資料
               </Text>
@@ -74,7 +74,7 @@ const Transfer = ({ navigation }) => {
           <View style={styles.line} />
           <View style={styles.selectBox}>
             <Text style={styles.selectlabel}>轉出帳號</Text>
-            <View style={{ flexDirection: 'row', width: '100%', }}>
+            <View style={{ width: '100%', }}>
               <RNPickerSelect
                 style={styles.select}
                 placeholder={{
@@ -93,7 +93,7 @@ const Transfer = ({ navigation }) => {
           </View>
           <View style={styles.selectBox}>
             <Text style={styles.selectlabel}>轉入銀行</Text>
-            <View style={{ flexDirection: 'row', width: '100%', }}>
+            <View style={{ width: '100%', }}>
               <RNPickerSelect
                 style={styles.select}
                 placeholder={{
