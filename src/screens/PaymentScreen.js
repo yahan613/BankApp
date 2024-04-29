@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
 import React from 'react'
 import { geticon } from '../component/img/getIcon';
 
@@ -16,7 +16,20 @@ const Payment = ({navigation}) => {
         <Text style={{ color: '#fff', fontSize: 20 }}>繳費</Text>
       </View>
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Payment</Text>
+      <ScrollView contentContainerStyle={styles.scrollViewContent} showsVerticalScrollIndicator={false}>
+        <View style={styles.box}>
+          <View style={styles.labelContainer}>
+            <View style={styles.label}>
+              <View style={{ height: '100%', width: 3, backgroundColor: '#244172', marginRight: 7, marginTop: 7 }}></View>
+              <Text style={styles.labelText}>
+                繳費/稅項目
+              </Text>
+            </View>
+          </View>
+          <View style={styles.line} />
+          
+      </View>
+      </ScrollView>
       </View>
     </SafeAreaView>
 
@@ -35,6 +48,45 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 50,
     backgroundColor: '#244172',
+  },
+  scrollViewContent: {
+    width: 320,
+    height: 750,
+    marginTop: 20,
+  },
+  box: {
+    width: '100%',
+    backgroundColor: '#fff',
+    padding: 20,
+    borderRadius: 10,
+    marginBottom: 20,
+    flexDirection: 'column',
+  },
+  label: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  labelContainer: {
+    marginBottom: 10,
+    flexDirection: 'row',
+  },
+  labelText: {
+    fontSize: 20,
+    color: '#244172',
+    marginTop: 3,
+  },
+  numtext: {
+    fontSize: 18,
+    paddingTop: 5,
+    paddingBottom: 5,
+    letterSpacing: 1.0
+  },
+  line: {
+    margin: 5,
+    width: 400,
+    height: 1,
+    marginLeft: -50,
+    backgroundColor: '#D9D9D9'
   },
 });
 export default Payment

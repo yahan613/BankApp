@@ -4,15 +4,21 @@ import { geticon } from '../component/img/getIcon';
 import RNPickerSelect from "react-native-picker-select";
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { Alert } from 'react-native';
 
 const Withdraw = ({navigation}) => {
   const dispatch = useDispatch();
 
-  const [selectedValue, setSelectedValue] = useState(null);
-  const [selectedValue2, setSelectedValue2] = useState(null);
-  const [AccountText, onChangeAccount] = React.useState(''); //輸入帳號
-  const [MoneyText, onChangeMoney] = React.useState(''); //輸入金額
-  const [NoteText, onChangeNote] = React.useState(''); //輸入備註
+  const [selectedValue, setSelectedValue] = useState('STWD');
+  const [moneyText, setMoneyText] = useState('');
+
+  const onChangeMoney = (text) => {
+    setMoneyText(text);
+  };
+  const setAmount = (amount) => {
+    setMoneyText(amount.toString());
+  };
+  
   const FORtransactionAction = (money) => {
     dispatch({ type: 'SET_FOR_TR', payload: { money: money } });
   };
@@ -22,8 +28,8 @@ const Withdraw = ({navigation}) => {
 
   const showAlert = () => {
     Alert.alert(
-      "轉帳成功",
-      `成功轉帳 ${MoneyText} 元`,
+      "預約成功",
+      `預約提款金額為 ${moneyText} 元，\n請於15分鐘內至ATM取款，超過時間需重新預約`,
       [
         {
           text: "完成", onPress: () => {
@@ -64,13 +70,12 @@ const Withdraw = ({navigation}) => {
         <View style={styles.box}>
           <View style={styles.labelContainer}>
             <View style={styles.label}>
-              <View style={{ height: '100%', width: 3, backgroundColor: '#244172', marginRight: 7 }}></View>
+              <View style={{ height: '100%', width: 3, backgroundColor: '#244172', marginRight: 7, marginTop: 7 }}></View>
               <Text style={styles.labelText}>
                 提款帳號
               </Text>
             </View>
           </View>
-          <View style={styles.line} />
           <View style={styles.selectBox}>
               <RNPickerSelect
                 style={styles.select}
@@ -83,12 +88,14 @@ const Withdraw = ({navigation}) => {
                   { label: '活期儲蓄存款  0081234567890', value: 'STWD' },
                   { label: "外匯存款  0081234567891", value: 'SFOR' },
                 ]}
+                value={selectedValue}
               />
               <View style={{ width: 100, right: 200 }}>{geticon('scan')}</View>
           </View>
+          <View style={styles.line} />
           <View style={styles.labelContainer}>
             <View style={styles.label}>
-              <View style={{ height: '100%', width: 3, backgroundColor: '#244172', marginRight: 7 }}></View>
+              <View style={{ height: '100%', width: 3, backgroundColor: '#244172', marginRight: 7, marginTop: 7 }}></View>
               <Text style={styles.labelText}>
                 提款金額
               </Text>
@@ -97,22 +104,29 @@ const Withdraw = ({navigation}) => {
           <View style={styles.selectBox}>
             <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-between', alignItems: 'center' }}>
               <TextInput
+                placeholder='輸入請以千為單位'
                 style={styles.select2}
-                onChangeText={text => onChangeMoney(text)}
-                value={MoneyText}
+                onChangeText={onChangeMoney}
+                value={moneyText}
                 keyboardType="numeric"
               />
             </View>
+            <View style={{flexDirection:'row', padding: 8}}>
+              <TouchableOpacity style={styles.btn} onPress={() => setAmount(2000)}>
+                <Text style={{ fontSize: 18 }}>2000</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.btn} onPress={() => setAmount(3000)}>
+                <Text style={{ fontSize: 18 }}>3000</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.btn} onPress={() => setAmount(5000)}>
+                <Text style={{ fontSize: 18 }}>5000</Text>
+              </TouchableOpacity>
+            </View>   
           </View>
-          {/* 2000 3000 5000 */}
-          <View>
-              
-          </View>
-
           <View style={styles.line} />
           <View style={styles.labelContainer}>
             <View style={styles.label}>
-              <View style={{ height: '100%', width: 3, backgroundColor: '#244172', marginRight: 7 }}></View>
+              <View style={{ height: '100%', width: 3, backgroundColor: '#244172', marginRight: 7, marginTop: 7 }}></View>
               <Text style={styles.labelText}>
                 無卡提款密碼
               </Text>
@@ -121,16 +135,17 @@ const Withdraw = ({navigation}) => {
           <View style={styles.selectBox}>
             <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-between', alignItems: 'center' }}>
               <TextInput
+                placeholder='請輸入6位數字密碼'
+                maxLength={6}
                 style={styles.select2}
-                onChangeText={text => onChangeMoney(text)}
-                value={MoneyText}
                 keyboardType="numeric"
-              />
+                secureTextEntry={true}
+                />
             </View>
           </View>
           <View style={styles.labelContainer}>
             <View style={styles.label}>
-              <View style={{ height: '100%', width: 3, backgroundColor: '#244172', marginRight: 7 }}></View>
+              <View style={{ height: '100%', width: 3, backgroundColor: '#244172', marginRight: 7, marginTop: 7 }}></View>
               <Text style={styles.labelText}>
                 再次確認密碼
               </Text>
@@ -139,9 +154,9 @@ const Withdraw = ({navigation}) => {
           <View style={styles.selectBox}>
             <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-between', alignItems: 'center' }}>
               <TextInput
+                placeholder='請輸入6位數字密碼'
+                maxLength={6}
                 style={styles.select2}
-                onChangeText={text => onChangeMoney(text)}
-                value={MoneyText}
                 keyboardType="numeric"
               />
             </View>
@@ -150,7 +165,7 @@ const Withdraw = ({navigation}) => {
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-            callTrade(selectedValue, MoneyText)
+            callTrade(selectedValue, moneyText)
             showAlert();
           }}>
           <Text style={styles.buttonText}>確認</Text>
@@ -178,7 +193,7 @@ const styles = StyleSheet.create({
   },
   scrollViewContent: {
     width: 320,
-    height: 900,
+    height: 750,
     marginTop: 20,
   },
   box: {
@@ -200,6 +215,7 @@ const styles = StyleSheet.create({
   labelText: {
     fontSize: 20,
     color: '#244172',
+    marginTop: 3,
   },
   numtext: {
     fontSize: 18,
@@ -236,6 +252,7 @@ const styles = StyleSheet.create({
       color: 'black',
       paddingRight: 30,
       width: 270,
+      marginBottom: 10
     },
     inputAndroid: {
       fontSize: 16,
@@ -257,8 +274,8 @@ const styles = StyleSheet.create({
     borderColor: '#D9D9D9',
     color: 'black',
     paddingRight: 30,
-    width: 270,
-    marginBottom: 5,
+    width: 250,
+    marginBottom: 15,
   },
   note: {
     fontSize: 16,
@@ -285,5 +302,15 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#fff'
   },
+  btn: {
+     marginRight:10, 
+     borderWidth:1, 
+     borderRadius:8, 
+     borderColor:'#D9D9D9', 
+     paddingTop: 5, 
+     paddingBottom: 5, 
+     paddingRight: 15, 
+     paddingLeft: 15
+  }
 });
 export default Withdraw
