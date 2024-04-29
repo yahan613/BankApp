@@ -59,7 +59,7 @@ const Withdraw = ({navigation}) => {
       <View style={{ width: '100%', height: 80, backgroundColor: '#244172', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
         {/*Header of Screen*/}
         <View style={{ position: 'absolute', left: 20 }}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
+          <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
             {geticon('Arrow')}
           </TouchableOpacity>
         </View>
@@ -97,7 +97,7 @@ const Withdraw = ({navigation}) => {
             <View style={styles.label}>
               <View style={{ height: '100%', width: 3, backgroundColor: '#244172', marginRight: 7, marginTop: 7 }}></View>
               <Text style={styles.labelText}>
-                提款金額
+                預約提款金額
               </Text>
             </View>
           </View>

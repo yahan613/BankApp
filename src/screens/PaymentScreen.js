@@ -1,15 +1,23 @@
 import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
 import React from 'react'
 import { geticon } from '../component/img/getIcon';
+import { useState } from 'react';
 
 const Payment = ({navigation}) => {
+
+  const [showMoreOptions, setShowMoreOptions] = useState(false);
+
+  const toggleMoreOptions = () => {
+    setShowMoreOptions(!showMoreOptions);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.topBackground} />
       <View style={{ width: '100%', height: 80, backgroundColor: '#244172', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
         {/*Header of Exchange Screen*/}
         <View style={{ position: 'absolute', left: 20 }}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
+          <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
             {geticon('Arrow')}
           </TouchableOpacity>
         </View>
@@ -27,7 +35,74 @@ const Payment = ({navigation}) => {
             </View>
           </View>
           <View style={styles.line} />
-          
+          <View style={styles.pItems}>
+            <TouchableOpacity style={{alignItems:'center'}}>
+                {geticon('Add_call')}
+                <Text>電信費</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={{alignItems:'center'}}>
+                {geticon('Water_ec')}
+                <Text>水電費</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={{alignItems:'center'}}>
+                {geticon('Request_page')}
+                <Text>繳稅</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.pItems}>
+            <TouchableOpacity style={{alignItems:'center'}}>
+                {geticon('Credit_card2')}
+                <Text>信用卡費</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={{alignItems:'center'}}>
+                {geticon('Local_parking')}
+                <Text>停車費</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={{alignItems:'center'}}>
+                {geticon('Local_gas_station')}
+                <Text>汽燃費</Text>
+            </TouchableOpacity>
+          </View>
+          {showMoreOptions && (
+            <View style={styles.pItems}>
+              <TouchableOpacity style={{alignItems:'center'}}>
+              {geticon('School')}
+                <Text>學雜費</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={{alignItems:'center'}}>
+              {geticon('Volunteer')}
+                <Text>愛心捐款</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={{alignItems:'center'}}>
+              {geticon('Widgets')}
+                <Text>其他費用</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+          <TouchableOpacity onPress={toggleMoreOptions} style={{ marginTop: 10, padding: 5, width: 140, justifyContent: 'center', alignItems: 'center', alignSelf: 'center' }}>
+            <Text style={{ color: '#5C94F3' }}>{showMoreOptions ? '顯示更少' : '顯示更多'}</Text>
+          </TouchableOpacity>
+      </View>
+      <View style={styles.box}>
+          <View style={styles.labelContainer}>
+            <View style={styles.label}>
+              <View style={{ height: '100%', width: 3, backgroundColor: '#244172', marginRight: 7, marginTop: 7 }}></View>
+              <Text style={styles.labelText}>
+                更多功能
+              </Text>
+            </View>
+          </View>
+          <View style={styles.line} />
+          <View style={{paddingTop: 10}}>
+            <TouchableOpacity style={{flexDirection: 'row', justifyContent: 'space-between', alignContent: 'center', marginBottom: 15}}>
+              <Text style={{fontSize: 16}}>近期帳單</Text>
+              {geticon('Arrow_forward_ios')}
+            </TouchableOpacity>
+            <TouchableOpacity style={{flexDirection: 'row', justifyContent: 'space-between', alignContent: 'center'}}>
+              <Text style={{fontSize: 16}}>查詢歷史紀錄</Text>
+              {geticon('Arrow_forward_ios')}
+            </TouchableOpacity>
+          </View>
       </View>
       </ScrollView>
       </View>
@@ -40,6 +115,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: '#D9D9D9'
   },
   topBackground: {
     position: 'absolute',
@@ -88,5 +164,12 @@ const styles = StyleSheet.create({
     marginLeft: -50,
     backgroundColor: '#D9D9D9'
   },
+  pItems:{
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    paddingTop: 20,
+    paddingBottom: 10
+  }
 });
 export default Payment
