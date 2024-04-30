@@ -101,6 +101,10 @@ const ExchangeScreen = ({ navigation }) => {
   const [toCurrency, setToCurrency] = useState("美元");
   const [fromAmount, setFromAmount] = useState('');
   const [toAmount, setToAmount] = useState('');
+  const [discount, setDiscount] = useState("一般優惠");
+  const [fromAccount, setFromAccount] = useState("活期儲蓄存款  0081234567890");
+  const [toAccount, setToAccount] = useState("外匯存款  0081234567891");
+
 
   const handleFromAmountChange = (amount) => {
     setFromAmount(amount);
@@ -162,21 +166,19 @@ const ExchangeScreen = ({ navigation }) => {
   const handleConfirm = () => {
     let transactionDetails;
     if (selectedSegment === 0) {
-      transactionDetails =  transactionDetails = `轉出 : ${fromCurrency} ${fromAmount}元\n轉入 : ${toCurrency} ${toAmount}元`;
+      transactionDetails =  transactionDetails = `轉出金額 : ${fromCurrency} ${fromAmount} 元\n轉入金額 : ${toCurrency} ${toAmount} 元\n\n優惠 : ${discount}\n轉出帳號 : \n${fromAccount}\n轉入帳號 : \n${toAccount}`;
+      navigation.navigate('ExchangeConfirm', { transactionDetails });
     } else if (selectedSegment === 1) {
       transactionDetails = `您預約的日期為：${moment(startDate).format('YYYY-MM-DD')}\n我們將在該日期再次與您確認交易詳情，巴菲特銀行感謝您。`;
+      showAlert(transactionDetails);
     }
-
-    // Show alert with transaction details
-    showAlert(transactionDetails);
+   
   };
 
-
-  // Function to show the alert
   const showAlert = (transactionDetails) => {
     Alert.alert(
-      '交易成功\n',
-      `-------交易詳情-------\n${transactionDetails}`,
+      '預約成功\n',
+      `${transactionDetails}`,
       [
         {
           text: '確認',
@@ -189,6 +191,7 @@ const ExchangeScreen = ({ navigation }) => {
       { cancelable: false }
     );
   };
+  
 
   return (
     
@@ -286,8 +289,8 @@ const ExchangeScreen = ({ navigation }) => {
               <RNPickerSelect
                 placeholder={{ label: "", value: "", color: "#000" }}
                 items={discountItems}
-                value="一般優惠"
-                onValueChange={(value) => console.log(value)}
+                value={discount}
+                onValueChange={(value) => setDiscount(value)}
               />
               </View>
               <View style={styles.line} />
@@ -300,8 +303,8 @@ const ExchangeScreen = ({ navigation }) => {
               <RNPickerSelect
                 placeholder={{ label: "", value: "", color: "#000" }}
                 items={accountItems}
-                value="活期儲蓄存款  0081234567890"
-                onValueChange={(value) => console.log(value)}
+                value={fromAccount}
+                onValueChange={(value) => setFromAccount(value)}
               />
               </View>
               <View style={styles.labelContainer}>
@@ -313,8 +316,8 @@ const ExchangeScreen = ({ navigation }) => {
               <RNPickerSelect
                 placeholder={{ label: "", value: "", color: "#000" }}
                 items={accountItems}
-                value="外匯存款  0081234567891"
-                onValueChange={(value) => console.log(value)}
+                value={toAccount}
+                onValueChange={(value) => setToAccount(value)}
               />
               </View>
             </View>
@@ -397,8 +400,8 @@ const ExchangeScreen = ({ navigation }) => {
               <RNPickerSelect
                 placeholder={{ label: "", value: "", color: "#000" }}
                 items={discountItems}
-                value="一般優惠"
-                onValueChange={(value) => console.log(value)}
+                value={discount}
+                onValueChange={(value) => setDiscount(value)}
               />
               </View>
               <View style={styles.line} />
@@ -411,8 +414,8 @@ const ExchangeScreen = ({ navigation }) => {
               <RNPickerSelect
                 placeholder={{ label: "", value: "", color: "#000" }}
                 items={accountItems}
-                value="活期儲蓄存款  0081234567890"
-                onValueChange={(value) => console.log(value)}
+                value={fromAccount}
+                onValueChange={(value) => setFromAccount(value)}
               />
               </View>
               <View style={styles.labelContainer}>
@@ -424,8 +427,8 @@ const ExchangeScreen = ({ navigation }) => {
               <RNPickerSelect
                 placeholder={{ label: "", value: "", color: "#000" }}
                 items={accountItems}
-                value="外匯存款  0081234567891"
-                onValueChange={(value) => console.log(value)}
+                value={toAccount}
+                onValueChange={(value) => setToAccount(value)}
               />
               </View>
               <View style={styles.line} />

@@ -10,10 +10,10 @@ import { createStore } from 'redux';
 import { Provider, useSelector, useDispatch } from 'react-redux';
 import { Counter, counterReducer, store } from './src/Store/Redux_Function';
 import { GetSelectedRates } from './src/component/Exchange/getExchange';
+import ExchangeConfirm from './src/screens/ExchangeConfirm';
 import { app } from './Firebaseinit';
 
-
-AppRegistry.registerComponent('mid_16_BuffetAPP', () => App);
+//<ExchangeConfirm />AppRegistry.registerComponent('mid_16_BuffetAPP', () => App);
 //https://reactnative.dev/docs/appregistry
 
 export default function App() {
