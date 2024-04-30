@@ -7,6 +7,7 @@ import Transfer from "../screens/TransferScreen";
 import Withdraw from "../screens/WithdrawScreen";
 import Payment from "../screens/PaymentScreen";
 import ExchangeScreen from "../screens/Exchange";
+import ExchangeConfirm from "../screens/ExchangeConfirm";
 const Stack = createNativeStackNavigator();
 
 const HomeScreenNavigator = () => {
@@ -41,6 +42,14 @@ const HomeScreenNavigator = () => {
             <Stack.Screen
                 name="Exchange"
                 component={ExchangeScreen}
+                options={{
+                    headerShown: false,
+                }}
+            />
+            {/* 交易成功頁面 */}
+            <Stack.Screen 
+                name="ExchangeConfirm" 
+                component={ExchangeConfirm} 
                 options={{
                     headerShown: false,
                 }}

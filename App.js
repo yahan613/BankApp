@@ -10,9 +10,9 @@ import { createStore } from 'redux';
 import { Provider, useSelector, useDispatch } from 'react-redux';
 import { Counter, counterReducer, store } from './src/Store/Redux_Function';
 import { GetSelectedRates } from './src/component/Exchange/getExchange';
+import ExchangeConfirm from './src/screens/ExchangeConfirm';
 
-
-
+//<ExchangeConfirm />
 export default function App() {
 
   return (
