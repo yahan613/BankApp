@@ -6,7 +6,9 @@ import { useFocusEffect } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { store } from '../Store/Redux_Function';
 import { Platform } from 'react-native';
-
+import { app } from '../../Firebaseinit'
+import { db } from '../../Firebaseinit'
+import { getFirestore, collection, getDocs, setDoc, doc, addDoc } from '@firebase/firestore';
 
 let EXCHANGE_DATA = [
     { id: '1', value: 'USA', width: '20%' },
@@ -76,7 +78,43 @@ const HomeScreen = ({ navigation }) => {
     FORtransactionAction();
     TWDtransactionAction();*/
     const balance = useSelector(state => state.trade.balance);
-    
+
+
+    const fetchData = async () => {
+        const docRef1 = await setDoc(doc(db, "Exchange", "USD"), {
+            [`${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`]: {
+                Buyin: EXCHANGE_DATA[2].value,
+                Sellout: EXCHANGE_DATA[3].value
+            }
+        });
+        const docRef2 = await setDoc(doc(db, "Exchange", "JPY"), {
+            [`${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`]: {
+                Buyin: EXCHANGE_DATA[6].value,
+                Sellout: EXCHANGE_DATA[7].value
+            }
+        });
+        const docRef3 = await setDoc(doc(db, "Exchange", "RMB"), {
+            [`${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`]: {
+                Buyin: EXCHANGE_DATA[10].value,
+                Sellout: EXCHANGE_DATA[11].value
+            }
+        });
+        const docRef4 = await setDoc(doc(db, "Exchange", "EUR"), {
+            [`${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`]: {
+                Buyin: EXCHANGE_DATA[14].value,
+                Sellout: EXCHANGE_DATA[15].value
+            }
+        });
+        const docRef5 = await setDoc(doc(db, "Exchange", "HKD"), {
+            [`${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`]: {
+                Buyin: EXCHANGE_DATA[18].value,
+                Sellout: EXCHANGE_DATA[19].value
+            }
+        });
+    };
+
+    fetchData();
+
 
     useFocusEffect(
         React.useCallback(() => {
@@ -122,7 +160,7 @@ const HomeScreen = ({ navigation }) => {
                         <View>
                             {geticon("Transfer")}
                         </View>
-                        <Text style={{fontSize:12}}>
+                        <Text style={{ fontSize: 12 }}>
                             轉帳
                         </Text>
                     </TouchableOpacity>
@@ -133,7 +171,7 @@ const HomeScreen = ({ navigation }) => {
                         <View>
                             {geticon("Withdraw")}
                         </View>
-                        <Text style={{fontSize:12}}>
+                        <Text style={{ fontSize: 12 }}>
                             提款
                         </Text>
                     </TouchableOpacity>
@@ -144,7 +182,7 @@ const HomeScreen = ({ navigation }) => {
                         <View>
                             {geticon("Bill")}
                         </View>
-                        <Text style={{fontSize:12}}>
+                        <Text style={{ fontSize: 12 }}>
                             繳費
                         </Text>
                     </TouchableOpacity>
@@ -155,7 +193,7 @@ const HomeScreen = ({ navigation }) => {
                         <View>
                             {geticon("Foreign_currency")}
                         </View>
-                        <Text style={{fontSize:12}}>
+                        <Text style={{ fontSize: 12 }}>
                             外幣
                         </Text>
                     </TouchableOpacity>
@@ -320,7 +358,7 @@ const styles = StyleSheet.create({
             android: {
                 height: 1500,
             }
-          }),
+        }),
         marginTop: 40,
         alignItems: 'center',
         alignSelf: 'center',
@@ -341,13 +379,13 @@ const styles = StyleSheet.create({
         paddingTop: 5,
         paddingBottom: 5,
         ...Platform.select({
-      ios: {
-        fontSize: 16,
-      },
-      android: {
-        fontSize: 18,
-      }
-    }),
+            ios: {
+                fontSize: 16,
+            },
+            android: {
+                fontSize: 18,
+            }
+        }),
     },
     numtext: {
         fontSize: 18,
@@ -389,12 +427,12 @@ const styles = StyleSheet.create({
     newsText: {
         ...Platform.select({
             ios: {
-              fontSize: 14,
+                fontSize: 14,
             },
             android: {
-              fontSize: 16,
+                fontSize: 16,
             }
-          }),
+        }),
         width: '55%'
     },
     moneyBox: {

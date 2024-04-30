@@ -1,6 +1,5 @@
 import { StyleSheet, Text, View, SafeAreaView} from 'react-native';
 import React from 'react'
-import HomeScrMonitor from '../component/HomeScreenMonitor';
 import { geticon } from '../component/img/getIcon';
 
 const Loan = () => {

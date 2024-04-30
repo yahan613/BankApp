@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "BankApp",
-    "slug": "BankApp",
+    "name": "mid_16_BuffetAPP",
+    "slug": "mid_16_BuffetAPP",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/LoadingIcon.png",
@@ -25,17 +25,6 @@
     },
     "web": {
       "favicon": "./assets/LoadingIcon.png"
-    },
-    "extra": {
-      "eas": {
-        "projectId": "e47645ef-47c0-411b-b98a-df3501e15321"
-      }
-    },
-    "runtimeVersion": {
-      "policy": "appVersion"
-    },
-    "updates": {
-      "url": "https://u.expo.dev/e47645ef-47c0-411b-b98a-df3501e15321"
     }
   }
 }
