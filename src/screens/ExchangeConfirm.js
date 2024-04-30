@@ -3,6 +3,7 @@ import React from 'react'
 import { geticon } from '../component/img/getIcon';
 import { useState } from 'react';
 import ExchangeScreen from './Exchange';
+import { Platform } from 'react-native';
 
 const ExchangeConfirm = ({ navigation, route }) => {
 
@@ -41,7 +42,7 @@ const ExchangeConfirm = ({ navigation, route }) => {
               </View>
           </View>
           <View>
-            <Text style={{fontSize: 18, marginBottom: 10, lineHeight: 35 }}>{transactionDetails}</Text>
+            <Text style={{...Platform.select({android: {fontSize: 18}, ios: {fontSize: 14}}), marginBottom: 10, lineHeight: 35 }}>{transactionDetails}</Text>
           </View>   
       </View>
       <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')} style={styles.button}>

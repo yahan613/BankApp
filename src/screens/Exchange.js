@@ -167,22 +167,18 @@ const ExchangeScreen = ({ navigation }) => {
     let transactionDetails;
     if (selectedSegment === 0) {
       transactionDetails =  transactionDetails = `轉出金額 : ${fromCurrency} ${fromAmount} 元\n轉入金額 : ${toCurrency} ${toAmount} 元\n\n優惠 : ${discount}\n轉出帳號 : \n${fromAccount}\n轉入帳號 : \n${toAccount}`;
+      navigation.navigate('ExchangeConfirm', { transactionDetails });
     } else if (selectedSegment === 1) {
       transactionDetails = `您預約的日期為：${moment(startDate).format('YYYY-MM-DD')}\n我們將在該日期再次與您確認交易詳情，巴菲特銀行感謝您。`;
+      showAlert(transactionDetails);
     }
-
-    //Show alert with transaction details
-    //showAlert(transactionDetails);
-    navigation.navigate('ExchangeConfirm', { transactionDetails });
+   
   };
 
-
-  // Function to show the alert (由交易成功頁取代)
-  /*
   const showAlert = (transactionDetails) => {
     Alert.alert(
-      '交易成功\n',
-      `-------交易詳情-------\n${transactionDetails}`,
+      '預約成功\n',
+      `${transactionDetails}`,
       [
         {
           text: '確認',
@@ -195,7 +191,7 @@ const ExchangeScreen = ({ navigation }) => {
       { cancelable: false }
     );
   };
-  */
+  
 
   return (
     
