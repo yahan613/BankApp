@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { View, Text } from 'react-native';
 import { useDispatch } from 'react-redux'; // 假設你使用的是 Redux
 
+
+
 const GetSelectedRates = () => {
     const apiKey = 'f835a80f35acb24a41b109e8';
     const apiUrl = 'https://open.er-api.com/v6/latest/TWD';
@@ -33,7 +35,7 @@ const GetSelectedRates = () => {
                     //USA
                     setUsdRate(json.rates.USD);
                     const usdRate = (1 / json.rates.USD).toFixed(2);
-
+                    
                     //JAPAN
 
                     setJpyRate(json.rates.JPY);
