@@ -49,23 +49,46 @@ const HeaderFlagReducer = (state = initialState, action) => {
 };
 
 const transactionReducer = (state = initialState, action) => {
+
+    console.log('typeof toAmount');
     switch (action.type) {
+        //deduct
         case 'SET_FOR_TR':
             return {
                 ...state,
                 balance: {
                     ...state.balance,
-                    for: state.balance.for - action.payload.money
+                    for: state.balance.for - parseInt(action.payload.money, 10)
                 }
             };
         case 'SET_TWD_TR':
+             
             return {
                 ...state,
                 balance: {
                     ...state.balance,
-                    twd: state.balance.twd - action.payload.money
+                    twd: state.balance.twd - parseInt(action.payload.money, 10)
                 }
             };
+            //add
+            case 'SET_FOR_TRA':
+                console.log("AAA", action);
+                console.log("RRR", typeof state.balance.for); 
+                return {
+                    ...state,
+                    balance: {
+                        ...state.balance,
+                        for: state.balance.for + parseInt(action.payload.money, 10)
+                    }
+                };
+            case 'SET_TWD_TRA':
+                return {
+                    ...state,
+                    balance: {
+                        ...state.balance,
+                        twd: state.balance.twd + parseInt(action.payload.money, 10)
+                    }
+                };
         default:
             return state;
     }

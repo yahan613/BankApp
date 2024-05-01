@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image, FlatList } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image, FlatList, Button } from 'react-native'
 import { geticon } from '../component/img/getIcon';
 import { getNewsPic } from '../component/img/getnews';
 import React, { useState, useEffect } from 'react';
@@ -6,6 +6,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { store } from '../Store/Redux_Function';
 import { Platform } from 'react-native';
+import { lightThemeColors, darkThemeColors } from '../component/Colors';
 
 
 let EXCHANGE_DATA = [
@@ -111,8 +112,18 @@ const HomeScreen = ({ navigation }) => {
             )}
         </View>
     );
+
+    const [theme, setTheme] = useState('light');
+
+    const toggleTheme = () => {
+      const newTheme = theme === 'light' ? 'dark' : 'light';
+      setTheme(newTheme);
+    };
+  
+    const colors = theme === 'light' ? lightThemeColors : darkThemeColors;
+
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, { backgroundColor: colors.background }]}>
             <View style={styles.header}>
                 <View style={styles.headerContainer}>
                     <TouchableOpacity
@@ -166,6 +177,7 @@ const HomeScreen = ({ navigation }) => {
                 contentContainerStyle={styles.scrollViewContent}
                 showsVerticalScrollIndicator={false}
             >
+                <Button title="Toggle Theme" onPress={toggleTheme} />
                 <View style={styles.box}>
                     <View style={styles.labelContainer}>
                         <View style={styles.label}>
@@ -175,7 +187,7 @@ const HomeScreen = ({ navigation }) => {
                             </Text>
                             <TouchableOpacity style={{ marginLeft: 10, }} onPress={toggleShowdeposit}>
                                 {geticon(showdeposit ? "Noeye" : "Eye")}
-                            </TouchableOpacity>
+                            </TouchableOpacity> 
                         </View>
                     </View>
                     <View style={styles.line} />

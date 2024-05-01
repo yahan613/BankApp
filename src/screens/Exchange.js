@@ -7,6 +7,7 @@ import SegmentedControl from '@react-native-segmented-control/segmented-control'
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 import { Platform } from 'react-native';
+import { useDispatch } from 'react-redux';
 
 
 //即時換匯
@@ -81,6 +82,8 @@ const currencyConversionRates = {
 //main!!!!!
 const ExchangeScreen = ({ navigation }) => {
 
+  const dispatch = useDispatch();
+
   // useEffect hook to reset data and clear inputs when component mounts
   useEffect(() => {
     // Reset state to default values
@@ -105,24 +108,63 @@ const ExchangeScreen = ({ navigation }) => {
   const [fromAccount, setFromAccount] = useState("活期儲蓄存款  0081234567890");
   const [toAccount, setToAccount] = useState("外匯存款  0081234567891");
 
+  const FORtransactionAction = (money) => {
+    dispatch({ type: 'SET_FOR_TR', payload: { money: money } });
+  };
+  const TWDtransactionAction = (money) => {
+    dispatch({ type: 'SET_TWD_TR', payload: { money: money } });
+  };
+  const FORtransactionActionA = (money) => {
+    
+    dispatch({ type: 'SET_FOR_TRA', payload: { money: money } });
+  };
+  const TWDtransactionActionA = (money) => {
+    
+    dispatch({ type: 'SET_TWD_TRA', payload: { money: money } });
+  };
+
+  const callTrade = (v, m) => {
+    switch (v) {
+      case '外匯存款  0081234567891':
+        FORtransactionAction(m);
+        break;
+      case '活期儲蓄存款  0081234567890':
+        TWDtransactionAction(m);
+        break;
+      default:
+        break;
+    }
+  }
+  const callTradeIn = (v, m) => {
+    switch (v) {
+      case '外匯存款  0081234567891':
+        FORtransactionActionA(m);
+        break;
+      case '活期儲蓄存款  0081234567890':
+        TWDtransactionActionA(m);
+        break;
+      default:
+        break;
+    }
+  }
 
   const handleFromAmountChange = (amount) => {
     setFromAmount(amount);
     const rate = currencyConversionRates[fromCurrency][toCurrency];
-    setToAmount((parseFloat(amount) * rate).toFixed(2));
+    setToAmount((parseFloat(amount) * rate).toFixed(0));
   };
 
   const handleToAmountChange = (amount) => {
     setToAmount(amount);
     const rate = currencyConversionRates[toCurrency][fromCurrency];
-    setFromAmount((parseFloat(amount) * rate).toFixed(2));
+    setFromAmount((parseFloat(amount) * rate).toFixed(0));
   };
 
   //處理及時計算換匯
   useEffect(() => {
     if (fromAmount !== '') {
       const rate = currencyConversionRates[fromCurrency][toCurrency];
-      setToAmount((parseFloat(fromAmount) * rate).toFixed(2));
+      setToAmount((parseFloat(fromAmount) * rate).toFixed(0));
     }
   }, [fromCurrency, toCurrency]);
 
@@ -321,7 +363,11 @@ const ExchangeScreen = ({ navigation }) => {
               />
               </View>
             </View>
-            <TouchableOpacity onPress={handleConfirm} style={styles.button}>
+            <TouchableOpacity onPress={() => {
+              callTrade(fromAccount, fromAmount)
+              callTradeIn(toAccount, toAmount)
+              handleConfirm()
+              }} style={styles.button}>
               <Text style={styles.buttonText}>確認</Text>
             </TouchableOpacity>
           </View>
