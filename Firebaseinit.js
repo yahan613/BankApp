@@ -18,24 +18,9 @@ const firebaseConfig = {
 export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 
-const fetchData = async () => {
-    const querySnapshot = await getDocs(collection(db, "ExchangeRate"));
-    querySnapshot.forEach((doc) => {
-        console.log(`${doc.id} => ${JSON.stringify(doc.data())}`);
-    });
-};
-
-fetchData();
-
-//const exchangeRateDocRef = firestore.collection('ExchangeRate').doc('ExchangeRate');
-//console.log(exchangeRateDocRef);
 
 
 
-// 獲取指向 "ExchangeRate" 文檔的參考
-//const exchangeRateDocRef = firestore().collection('ExchangeRate').doc('ExchangeRate');
-
-// 從 Firestore 中獲取該文檔的數據
 
 
 

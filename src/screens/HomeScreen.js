@@ -9,7 +9,7 @@ import { Platform } from 'react-native';
 import { lightThemeColors, darkThemeColors } from '../component/Colors';
 import { app } from '../../Firebaseinit'
 import { db } from '../../Firebaseinit'
-import { getFirestore, collection, getDocs, setDoc, doc, addDoc } from '@firebase/firestore';
+import { getFirestore, collection, getDocs, setDoc, doc, updateDoc } from '@firebase/firestore';
 
 let EXCHANGE_DATA = [
     { id: '1', value: 'USA', width: '20%' },
@@ -82,31 +82,31 @@ const HomeScreen = ({ navigation }) => {
 
 
     const fetchData = async () => {
-        const docRef1 = await setDoc(doc(db, "Exchange", "USD"), {
+        const docRef1 = await updateDoc(doc(db, "Exchange", "USD"), {
             [`${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`]: {
                 Buyin: EXCHANGE_DATA[2].value,
                 Sellout: EXCHANGE_DATA[3].value
             }
         });
-        const docRef2 = await setDoc(doc(db, "Exchange", "JPY"), {
+        const docRef2 = await updateDoc(doc(db, "Exchange", "JPY"), {
             [`${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`]: {
                 Buyin: EXCHANGE_DATA[6].value,
                 Sellout: EXCHANGE_DATA[7].value
             }
         });
-        const docRef3 = await setDoc(doc(db, "Exchange", "RMB"), {
+        const docRef3 = await updateDoc(doc(db, "Exchange", "RMB"), {
             [`${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`]: {
                 Buyin: EXCHANGE_DATA[10].value,
                 Sellout: EXCHANGE_DATA[11].value
             }
         });
-        const docRef4 = await setDoc(doc(db, "Exchange", "EUR"), {
+        const docRef4 = await updateDoc(doc(db, "Exchange", "EUR"), {
             [`${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`]: {
                 Buyin: EXCHANGE_DATA[14].value,
                 Sellout: EXCHANGE_DATA[15].value
             }
         });
-        const docRef5 = await setDoc(doc(db, "Exchange", "HKD"), {
+        const docRef5 = await updateDoc(doc(db, "Exchange", "HKD"), {
             [`${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`]: {
                 Buyin: EXCHANGE_DATA[18].value,
                 Sellout: EXCHANGE_DATA[19].value
