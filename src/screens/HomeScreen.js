@@ -9,7 +9,7 @@ import { Platform } from 'react-native';
 import { lightThemeColors, darkThemeColors } from '../component/Colors';
 import { app } from '../../Firebaseinit'
 import { db } from '../../Firebaseinit'
-import { getFirestore, collection, getDocs, setDoc, doc, addDoc } from '@firebase/firestore';
+import { getFirestore, collection, getDocs, setDoc, doc, updateDoc } from '@firebase/firestore';
 
 let EXCHANGE_DATA = [
     { id: '1', value: 'USA', width: '20%' },
@@ -79,6 +79,43 @@ const HomeScreen = ({ navigation }) => {
     FORtransactionAction();
     TWDtransactionAction();*/
     const balance = useSelector(state => state.trade.balance);
+
+
+    const fetchData = async () => {
+        const docRef1 = await updateDoc(doc(db, "Exchange", "USD"), {
+            [`${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`]: {
+                Buyin: EXCHANGE_DATA[2].value,
+                Sellout: EXCHANGE_DATA[3].value
+            }
+        });
+        const docRef2 = await updateDoc(doc(db, "Exchange", "JPY"), {
+            [`${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`]: {
+                Buyin: EXCHANGE_DATA[6].value,
+                Sellout: EXCHANGE_DATA[7].value
+            }
+        });
+        const docRef3 = await updateDoc(doc(db, "Exchange", "RMB"), {
+            [`${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`]: {
+                Buyin: EXCHANGE_DATA[10].value,
+                Sellout: EXCHANGE_DATA[11].value
+            }
+        });
+        const docRef4 = await updateDoc(doc(db, "Exchange", "EUR"), {
+            [`${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`]: {
+                Buyin: EXCHANGE_DATA[14].value,
+                Sellout: EXCHANGE_DATA[15].value
+            }
+        });
+        const docRef5 = await updateDoc(doc(db, "Exchange", "HKD"), {
+            [`${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`]: {
+                Buyin: EXCHANGE_DATA[18].value,
+                Sellout: EXCHANGE_DATA[19].value
+            }
+        });
+    };
+
+    fetchData();
+
 
     useFocusEffect(
         React.useCallback(() => {
@@ -197,12 +234,12 @@ const HomeScreen = ({ navigation }) => {
                             </TouchableOpacity> 
                         </View>
                     </View>
-                    <View style={styles.line} />
+                    <View style={[styles.line, { backgroundColor: colors.bg }]} />
                     <View style={styles.moneyBox}>
                         <Text style={[styles.text, textStyles]}>臺幣總額：</Text>
                         <Text style={[styles.numtext, textStyles]}>{!showdeposit ? numberWithCommas(balance.twd) : '*******'}</Text>
                     </View>
-                    <View style={styles.line} />
+                    <View style={[styles.line, { backgroundColor: colors.bg }]} />
                     <View style={styles.moneyBox}>
                         <Text style={[styles.text, textStyles]}>外幣總額：</Text>
                         <Text style={[styles.numtext, textStyles]}>{!showdeposit ? numberWithCommas(balance.for) : '*******'}</Text>
@@ -220,7 +257,7 @@ const HomeScreen = ({ navigation }) => {
                             </TouchableOpacity>
                         </View>
                     </View>
-                    <View style={styles.line} />
+                    <View style={[styles.line, { backgroundColor: colors.bg }]} />
                     <View style={styles.moneyBox}>
                         <Text style={[styles.text, textStyles]}>刷卡明細：</Text>
                         <Text style={[styles.numtext, textStyles]}>{!showcredit ? numberWithCommas(money.Credit) : '*****'}</Text>
@@ -237,7 +274,7 @@ const HomeScreen = ({ navigation }) => {
                             </Text>
                         </View>
                     </View>
-                    <View style={styles.line} />
+                    <View style={[styles.line, { backgroundColor: colors.bg }]} />
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', padding: 10, paddingRight: 30, }}>
                         <Text style={[{ color: '#244172', fontSize: 16, marginRight: 70, }, textStyles]}>幣別</Text>
                         <Text style={[{ color: '#244172', fontSize: 16, }, textStyles]}>本行買進</Text>
@@ -260,7 +297,7 @@ const HomeScreen = ({ navigation }) => {
                             </Text>
                         </View>
                     </View>
-                    <View style={styles.line} />
+                    <View style={[styles.line, { backgroundColor: colors.bg }]} />
                     <View style={{ flexDirection: 'column' }}>
                         <TouchableOpacity style={{ width: '100%', height: 120, flexDirection: 'row', alignItems: 'center' }}>
                             <Image
@@ -335,7 +372,7 @@ const styles = StyleSheet.create({
         width: '85%',
         ...Platform.select({
             ios: {
-                height: 1580,
+                height: 1700,
             },
             android: {
                 height: 1560,

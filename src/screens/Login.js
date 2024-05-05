@@ -57,10 +57,10 @@ const LoginScreen = ({ navigation }) => {
     const handleCloseAlert = () => {
         setShowAlert(false);
     };
-    
+
     return (
         <View style={styles.container}>
-            <View style={{ width: '100%', ...Platform.select({ios: {height: 200,},android: {height: 145,}}), backgroundColor: '#244172', justifyContent: 'center', alignItems: 'center' }}>
+            <View style={{ width: '100%', ...Platform.select({ ios: { height: 200, }, android: { height: 145, } }), backgroundColor: '#244172', justifyContent: 'center', alignItems: 'center' }}>
                 {/*Header of Login Screens*/}
                 <View style={{ flexDirection: 'row', alignItems: 'center', height: 70, marginTop: '10%' }}>
                     <View style={styles.logo} />
@@ -72,7 +72,7 @@ const LoginScreen = ({ navigation }) => {
                     </View>
                 </View>
             </View>
-            <View style={{width: 200, height: 10}}>
+            <View style={{ width: 200, height: 10 }}>
                 <AwesomeAlert
                     show={showAlert}
                     title="驗證碼輸入錯誤"
@@ -102,7 +102,7 @@ const LoginScreen = ({ navigation }) => {
                         {geticon(showPassword3 ? "Eye" : "Noeye")}
                     </TouchableOpacity>
                 </View>
-                
+
                 <View style={styles.input}>
                     <TextInput
                         style={styles.inputContent}
@@ -165,7 +165,6 @@ const LoginScreen = ({ navigation }) => {
                     onPress={() => {
                         console.log("SetShowAlert is", showAlert)
                         if (String(VerificaitonText) !== String(ActionSheetVernum[verifynum - 1].num)) {
-                            console.log("GGGGg"),
                             setShowAlert(true);
                             return; // 終止函數的執行
                         }
@@ -190,8 +189,8 @@ const LoginScreen = ({ navigation }) => {
                 alignItems: 'center',
             }}>
                 <Text>還沒有帳戶嗎？</Text>
-                <TouchableOpacity >
-                    <Text style={{ color: '#244172', fontWeight: 'bold', marginLeft: 3, }}>我要開戶</Text>
+                <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
+                    <Text style={{ color: '#244172', fontWeight: 'bold', marginLeft: 3 }}>我要開戶</Text>
                 </TouchableOpacity>
             </View>
             <View style={{ height: 50, width: '50%', marginTop: 50, alignItems: 'center' }}>

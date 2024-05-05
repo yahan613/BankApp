@@ -4,6 +4,7 @@ import { NavigationContainer, useFocusEffect } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from "../screens/Login";
 import HomeDrawer from "./HomeDrawer";
+import Signup from "../screens/SignupScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -19,6 +20,14 @@ const LoginStackNavigator = () => {
                 <Stack.Screen
                     name="HomeDrawer"
                     component={HomeDrawer}
+                    options={{
+                        headerShown: false,
+                        gestureEnabled: false,
+                    }}
+                />
+                <Stack.Screen
+                    name="Signup"
+                    component={Signup}
                     options={{
                         headerShown: false,
                         gestureEnabled: false,

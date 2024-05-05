@@ -4,7 +4,7 @@ import { geticon } from '../component/img/getIcon';
 import { useState } from 'react';
 import { Platform } from 'react-native';
 
-const ExchangeConfirm = ({ navigation, route }) => {
+const TransferConfirm = ({ navigation, route }) => {
 
   const { transactionDetails } = route.params;
   const [currentDateTime] = useState(new Date());
@@ -26,7 +26,7 @@ const ExchangeConfirm = ({ navigation, route }) => {
             {geticon('Arrow')}
           </TouchableOpacity>
         </View>
-        <Text style={{ color: '#fff', fontSize: 20 }}>外幣</Text>
+        <Text style={{ color: '#fff', fontSize: 20 }}>轉帳</Text>
       </View>
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <ScrollView contentContainerStyle={styles.scrollViewContent} showsVerticalScrollIndicator={false}>
@@ -34,7 +34,7 @@ const ExchangeConfirm = ({ navigation, route }) => {
           <View style={styles.labelContainer}>
               {geticon('Circle')}
               <Text style={styles.labelText}>
-                交易成功
+                轉帳成功
               </Text>   
               <View>
                 <Text style={{margin: 8, color: 'gray'}}>{taipeiTime}</Text>
@@ -117,4 +117,4 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
 });
-export default ExchangeConfirm;
+export default TransferConfirm;
