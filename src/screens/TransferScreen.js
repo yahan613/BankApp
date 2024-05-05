@@ -22,8 +22,13 @@ const Transfer = ({ navigation }) => {
   };
 
   const handleConfirm = () => {
+    if (!selectedValue || !selectedValue2 || !AccountText || !MoneyText) {
+      Alert.alert('有空白欄位', '請在確認送出前填寫所有欄位。');
+      return;
+    }
+  
     let transactionDetails;
-      transactionDetails =  transactionDetails = `轉出金額 : ${MoneyText} 元\n轉出帳號 :\n${selectedValue} \n轉入帳號 : ${selectedValue2}\n${AccountText} \n`;
+      transactionDetails =  transactionDetails = `轉出金額 : ${MoneyText} 元\n轉出帳號 :\n${selectedValue} \n轉入帳號 : \n${selectedValue2}\n${AccountText} \n`;
       navigation.navigate('TransferConfirm', { transactionDetails });
   };
 
