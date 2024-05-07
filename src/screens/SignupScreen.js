@@ -1,8 +1,9 @@
 import { StyleSheet, Text, View, SafeAreaView, Dimensions, TouchableOpacity, TextInput } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { geticon } from '../component/img/getIcon';
-import CheckBox from 'react-native-check-box';
 import { useNavigation } from '@react-navigation/native';
+import Step1 from '../component/Signup/step1';
+import AwesomeAlert from 'react-native-awesome-alerts';
 
 
 
@@ -12,6 +13,8 @@ const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 const itemWidth = screenWidth * 0.8;
 const itemHeight = screenHeight * 0.1;
+
+let stepPage = 1;
 
 
 const Signup = ({ navigation }) => {
@@ -24,101 +27,53 @@ const Signup = ({ navigation }) => {
 
     const [bankaccnuminput, setbankaccnuminput] = useState('');//銀行帳戶號碼
     const [bankpininput, setbankpininput] = useState('');//電話理財PIN碼
+    const [showAlert, setShowAlert] = React.useState(false);
+
+    //Awesome
+    const handleCloseAlert = () => {
+        setShowAlert(false);
+    };
     return (
         <SafeAreaView style={{ flex: 1, }}>
             <View style={styles.header}>
                 <Text style={{ color: '#fff', fontSize: 20 }}>開戶註冊</Text>
             </View>
+            <AwesomeAlert
+                    show={showAlert}
+                    title="驗證碼輸入錯誤"
+                    message="請重新輸入"
+                    showConfirmButton={true}
+                    confirmText="重試"
+                    confirmButtonColor="#5C94F3"
+                    onConfirmPressed={handleCloseAlert}
+                />
             <View style={{ width: '100%', height: '100%', backgroundColor: '#D9D9D9', justifyContent: 'center', }}>
                 <View style={styles.userSection}>
-                    <View style={{ fontSize: 20, fontWeight: 'bold', color: '#244172', marginBottom: 20, flexDirection: 'row', justifyContent: 'flex-start', flexDirection: 'row' }}>
-                        <View style={{ height: '100%', width: 3, backgroundColor: '#244172', borderRadius: 5, marginRight: 7 }}></View>
-                        <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#244172', }}>
-                            驗證您的身分
-                        </Text>
+                    <View style={{ flex: 1, }}>
+                        <Step1/>
                     </View>
-                    <View style={styles.selectbox}>
-                        <Text style={{ fontSize: 16, }}>請選擇驗證方式</Text>
-                    </View>
-                    <View style={styles.CheckBox}>
-                        <View style={{ alignItems: 'center', justifyContent: 'center', marginRight: 15 }}>
-                            <View style={styles.outerCircle} />
-                            <TouchableOpacity
-                                style={bankaccount ? styles.innerCircle : styles.noinnerCircle}
-                                onPress={() => {
-                                    setbankaccount(1);
-                                }}
-                            >
-                            </TouchableOpacity>
-                        </View>
-                        <Text style={{ fontSize: 16 }}>銀行帳戶號碼</Text>
-                    </View>
-                    <View style={{ flexDirection: 'column', marginLeft: 40, height: (bankaccount) ? 260 : 0, overflow: 'hidden' }}>
-                        <Text style={{ color: '#929191', marginBottom: 10, fontSize: 15 }}>銀行帳戶號碼</Text>
-                        <Text style={{ color: '#929191', fontSize: 13 }}>輸入”0”和”您本行帳戶號碼前9碼”</Text>
-                        <TextInput
-                            style={{ borderWidth: 1, borderColor: 'gray', padding: 5, borderRadius: 5, marginBottom: 20, width: '99%' }}
-                            value={bankaccnuminput}
-                            onChangeText={text => setbankaccnuminput(text)}
-                        />
-                        <Text style={{ color: '#929191', marginBottom: 10, fontSize: 15 }}>電話理財PIN碼</Text>
-                        <Text style={{ color: '#929191', marginBottom: 10, fontSize: 13 }}>6位數字(0~9)</Text>
-                        <TextInput
-                            style={{ borderWidth: 1, borderColor: 'gray', padding: 5, borderRadius: 5, marginBottom: 15, width: '99%' }}
-                            value={bankpininput}
-                            onChangeText={text => setbankpininput(text)}
-                        />
-                    </View>
-                    <View style={styles.CheckBox}>
-                        <View style={{ alignItems: 'center', justifyContent: 'center', marginRight: 15 }}>
-                            <View style={styles.outerCircle} />
-                            <TouchableOpacity
-                                style={bankaccount ? styles.noinnerCircle : styles.innerCircle}
-                                onPress={() => {
-                                    setbankaccount(0);
-                                }}
-                            >
-                            </TouchableOpacity>
-                        </View>
-                        <Text style={{ fontSize: 16 }}>金融卡或VISA金融卡號碼</Text>
-                    </View>
-                    <View style={{ flexDirection: 'column', marginLeft: 40, marginBottom: -10, height: (bankaccount) ? 0 : 350, overflow: 'hidden' }}>
-                        <Text style={{ color: '#929191', marginBottom: 10, fontSize: 15 }}>金融卡或VISA金融卡號碼</Text>
-                        <Text style={{ color: '#929191', marginBottom: 10, fontSize: 13 }}>12位數字(0~9)銀行帳號</Text>
-                        <TextInput
-                            style={{ borderWidth: 1, borderColor: 'gray', padding: 5, borderRadius: 5, marginBottom: 20, width: '99%' }}
-                            value={VISAnuminput}
-                            onChangeText={text => setVISAnuminput(text)}
-                        />
-                        <Text style={{ color: '#929191', marginBottom: 10, fontSize: 15 }}>金融卡發行號碼</Text>
-                        <Text style={{ color: '#929191', marginBottom: 10, fontSize: 13 }}>1位數字(0~9)</Text>
-                        <TextInput
-                            style={{ borderWidth: 1, borderColor: 'gray', padding: 5, borderRadius: 5, marginBottom: 20, width: '99%' }}
-                            value={VISAissinput}
-                            onChangeText={text => setVISAissinput(text)}
-                        />
-                        <Text style={{ color: '#929191', marginBottom: 10, fontSize: 15, }}>金融卡辭路密碼</Text>
-                        <Text style={{ color: '#929191', marginBottom: 10, fontSize: 13 }}>4位數字(0~9)</Text>
-                        <TextInput
-                            style={{ borderWidth: 1, borderColor: 'gray', padding: 5, borderRadius: 5, marginBottom: 15, width: '99%' }}
-                            value={VISApininput}
-                            onChangeText={text => setVISApininput(text)}
-                        />
-
-                    </View>
-                    <View style={{width: itemWidth, position: 'absolute', bottom: 10, padding: 15}}>
+                    <View style={{ width: itemWidth, position: 'absolute', bottom: 10, padding: 15 }}>
                         <View style={{ flexDirection: 'row', width: '100%', height: 50, justifyContent: 'space-around', alignItems: 'center' }}>
                             <TouchableOpacity style={{ backgroundColor: '#E3E3E3', width: '50%', height: 40, justifyContent: 'center', borderRadius: 10 }} onPress={() => navigation.goBack()}>
                                 <Text style={{ color: '#244172', textAlign: 'center' }}>取消</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={{ backgroundColor: '#244172', width: '50%', height: 40, justifyContent: 'center', borderRadius: 10 }}
+                                onPress={() => {
+                                    stepPage += 1;
+                                    console.log(stepPage);
+                                    if (stepPage === 4) {
+                                        showAlert = true;
+                                        console.log(showAlert)
+                                        navigation.goBack();
+                                        stepPage = 1;
+                                    }
+                                }}
                             >
                                 <Text style={{ color: '#fff', textAlign: 'center' }}>繼續</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
-
                 </View>
             </View>
         </SafeAreaView >
