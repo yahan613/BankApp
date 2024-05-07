@@ -1,8 +1,11 @@
-import { StyleSheet, Text, View, SafeAreaView, Dimensions, TouchableOpacity, TextInput } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, SafeAreaView, Dimensions, TouchableOpacity, TextInput, Animated } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
 import { geticon } from '../component/img/getIcon';
 import { useNavigation } from '@react-navigation/native';
 import Step1 from '../component/Signup/step1';
+import Step2 from '../component/Signup/step2';
+import Step3 from '../component/Signup/step3';
+import Step4 from '../component/Signup/step4';
 import AwesomeAlert from 'react-native-awesome-alerts';
 
 
@@ -18,7 +21,6 @@ let stepPage = 1;
 
 
 const Signup = ({ navigation }) => {
-
     const [bankaccount, setbankaccount] = useState(true);
 
     const [VISAnuminput, setVISAnuminput] = useState('');//金融卡或VISA金融卡號碼
@@ -33,41 +35,129 @@ const Signup = ({ navigation }) => {
     const handleCloseAlert = () => {
         setShowAlert(false);
     };
+
+    const [stepPage, setStepPage] = useState(1);
+    useEffect(() => {
+    }, [stepPage]);
+
+    //進度條
+    const prog1 = useRef(new Animated.Value(0)).current;
+    const prog2 = useRef(new Animated.Value(0)).current;
+    const prog3 = useRef(new Animated.Value(0)).current;
+
+    const start1 = () => {
+        Animated.timing(prog1, {
+            toValue: 100,
+            duration: 300,
+            useNativeDriver: false,
+        }).start();
+    }
+    const start2 = () => {
+        Animated.timing(prog2, {
+            toValue: 100,
+            duration: 300,
+            useNativeDriver: false,
+        }).start();
+    }
+    const start3 = () => {
+        Animated.timing(prog3, {
+            toValue: 131,
+            duration: 300,
+            useNativeDriver: false,
+        }).start();
+    }
+
     return (
         <SafeAreaView style={{ flex: 1, }}>
             <View style={styles.header}>
                 <Text style={{ color: '#fff', fontSize: 20 }}>開戶註冊</Text>
             </View>
-            <AwesomeAlert
-                    show={showAlert}
-                    title="驗證碼輸入錯誤"
-                    message="請重新輸入"
-                    showConfirmButton={true}
-                    confirmText="重試"
-                    confirmButtonColor="#5C94F3"
-                    onConfirmPressed={handleCloseAlert}
-                />
-            <View style={{ width: '100%', height: '100%', backgroundColor: '#D9D9D9', justifyContent: 'center', }}>
+            <View style={{ width: '100%', height: '100%', backgroundColor: '#D9D9D9', justifyContent: 'center', alignItems: 'center' }}>
+                <View style={{ width: '80%', height: 30, flexDirection: 'row', alignItems: 'center', marginTop: -100 }}>
+                    {stepPage < 4 ? (
+                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                            <Text style={{ color: '#929191', marginRight: 5 }}>註冊</Text>
+                            <View style={{ backgroundColor: '#929191', width: 2, height: 17 }}></View>
+                            <Text style={{ color: '#929191', marginLeft: 5 }}>第{stepPage}步，共3步</Text>
+                        </View>
+                    ) : (
+                        <Text style={{ color: '#929191', marginLeft: 5 }}>註冊成功！</Text>
+                    )}
+                    <Text></Text>
+                    <Text></Text>
+                </View>
+
+                <View style={styles.stepbar}>
+                    <Animated.View style={{
+                        width: prog1,
+                        height: 10,
+                        flexDirection: 'row',
+                        borderTopLeftRadius: 10,
+                        borderBottomLeftRadius: 10,
+                        borderBottomRightRadius: stepPage === 2 ? 10 : 'default',
+                        borderTopRightRadius: stepPage === 2 ? 10 : 'default',
+                        backgroundColor: '#5C94F3',
+                        marginBottom: 30,
+                    }}></Animated.View>
+                    <Animated.View style={{
+                        width: prog2,
+                        height: 10,
+                        flexDirection: 'row',
+                        borderBottomRightRadius: stepPage === 3 ? 10 : 'default',
+                        borderTopRightRadius: stepPage === 3 ? 10 : 'default',
+                        backgroundColor: '#5C94F3',
+                        marginBottom: 30,
+                    }}></Animated.View>
+                    <Animated.View style={{
+                        width: prog3,
+                        height: 10,
+                        flexDirection: 'row',
+                        borderBottomRightRadius: stepPage === 4 ? 10 : 'default',
+                        borderTopRightRadius: stepPage === 4 ? 10 : 'default',
+                        backgroundColor: '#5C94F3',
+                        marginBottom: 30,
+                    }}></Animated.View>
+                </View>
                 <View style={styles.userSection}>
-                    <View style={{ flex: 1, }}>
-                        <Step1/>
+                    <View style={{ flex: 1 }}>
+                        {stepPage === 1 && <Step1 />}
+                        {stepPage === 2 && <Step2 />}
+                        {stepPage === 3 && <Step3 />}
+                        {stepPage === 4 && <Step4 />}
                     </View>
                     <View style={{ width: itemWidth, position: 'absolute', bottom: 10, padding: 15 }}>
                         <View style={{ flexDirection: 'row', width: '100%', height: 50, justifyContent: 'space-around', alignItems: 'center' }}>
-                            <TouchableOpacity style={{ backgroundColor: '#E3E3E3', width: '50%', height: 40, justifyContent: 'center', borderRadius: 10 }} onPress={() => navigation.goBack()}>
+                            <TouchableOpacity
+                                style={{ backgroundColor: '#fff', width: '50%', height: 40, justifyContent: 'center', borderRadius: 10 }}
+                                onPress={() => {
+                                    navigation.goBack();
+                                    setStepPage(1);
+                                }}
+                            >
                                 <Text style={{ color: '#244172', textAlign: 'center' }}>取消</Text>
                             </TouchableOpacity>
+
                             <TouchableOpacity
                                 style={{ backgroundColor: '#244172', width: '50%', height: 40, justifyContent: 'center', borderRadius: 10 }}
                                 onPress={() => {
-                                    stepPage += 1;
-                                    console.log(stepPage);
-                                    if (stepPage === 4) {
-                                        showAlert = true;
-                                        console.log(showAlert)
-                                        navigation.goBack();
-                                        stepPage = 1;
-                                    }
+                                    setStepPage(prevStepPage => {
+                                        const newStepPage = prevStepPage + 1;
+                                        if (newStepPage === 2) {
+                                            start1()
+                                        }
+                                        if (newStepPage === 3) {
+                                            start2()
+                                        }
+                                        if (newStepPage === 4) {
+                                            start3()
+                                        }
+                                        if (newStepPage === 5) {
+                                            navigation.goBack();
+                                            setShowAlert(true)
+                                            return 1; // Reset stepPage to 1
+                                        }
+                                        return newStepPage;
+                                    });
                                 }}
                             >
                                 <Text style={{ color: '#fff', textAlign: 'center' }}>繼續</Text>
@@ -91,9 +181,46 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    title: {
-        fontSize: 20,
-        marginBottom: 10,
+    stepbar: {
+        width: '80%',
+        height: 10,
+        flexDirection: 'row',
+        borderTopLeftRadius: 10,
+        borderBottomRightRadius: 10,
+        borderBottomLeftRadius: 10,
+        borderTopRightRadius: 10,
+        backgroundColor: '#fff',
+        marginBottom: 30,
+        flexDirection: 'row',
+    },
+    stepbystepbar1: {
+        width: '30%',
+        height: 10,
+        flexDirection: 'row',
+        borderTopLeftRadius: 10,
+        borderBottomLeftRadius: 10,
+        borderBottomRightRadius: stepPage === 1 ? 10 : 'default',
+        borderTopRightRadius: stepPage === 1 ? 10 : 'default',
+        backgroundColor: stepPage === 1 ? 'red' : 'blue',
+        marginBottom: 30,
+    },
+    stepbystepbar2: {
+        width: '60%',
+        height: 10,
+        flexDirection: 'row',
+        borderBottomRightRadius: 10,
+        borderTopRightRadius: 10,
+        backgroundColor: 'brown',
+        marginBottom: 30,
+    },
+    stepbystepbar3: {
+        width: '90%',
+        height: 10,
+        flexDirection: 'row',
+        borderBottomRightRadius: 10,
+        borderTopRightRadius: 10,
+        backgroundColor: 'green',
+        marginBottom: 30,
     },
     userSection: {
         alignSelf: 'center',
@@ -101,7 +228,7 @@ const styles = StyleSheet.create({
         width: itemWidth,
         height: 600,
         borderRadius: 15,
-        backgroundColor: '#E3E3E3',
+        backgroundColor: '#fff',
         justifyContent: 'flex-start',
     },
     selectbox: {
@@ -121,20 +248,6 @@ const styles = StyleSheet.create({
         borderRadius: 25,
         borderWidth: 1,
         borderColor: '#929191',
-    },
-    innerCircle: {
-        width: 15,
-        height: 15,
-        borderRadius: 15,
-        backgroundColor: '#244172',
-        position: 'absolute',
-    },
-    noinnerCircle: {
-        width: 15,
-        height: 15,
-        borderRadius: 15,
-        backgroundColor: '#E3E3E3',
-        position: 'absolute',
     },
 });
 export default Signup;

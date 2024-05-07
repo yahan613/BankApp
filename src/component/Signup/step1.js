@@ -27,7 +27,7 @@ const Step1 = () => {
                 </Text>
             </View>
             <View style={styles.selectbox}>
-                <Text style={{ fontSize: 16, }}>請選擇驗證方式</Text>
+                <Text style={{ fontSize: 12.5, }}>請選擇驗證方式</Text>
             </View>
             <View style={styles.CheckBox}>
                 <View style={{ alignItems: 'center', justifyContent: 'center', marginRight: 15 }}>
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
         width: 15,
         height: 15,
         borderRadius: 15,
-        backgroundColor: '#E3E3E3',
+        backgroundColor: '#fff',
         position: 'absolute',
     },
 });
