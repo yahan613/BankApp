@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from "../screens/HomeScreen";
 import Transfer from "../screens/TransferScreen";
+import TransferConfirm from "../screens/TransferConfirm";
 import Withdraw from "../screens/WithdrawScreen";
 import Payment from "../screens/PaymentScreen";
 import ExchangeScreen from "../screens/Exchange";
@@ -50,6 +51,13 @@ const HomeScreenNavigator = () => {
             <Stack.Screen 
                 name="ExchangeConfirm" 
                 component={ExchangeConfirm} 
+                options={{
+                    headerShown: false,
+                }}
+            />
+            <Stack.Screen 
+                name="TransferConfirm" 
+                component={TransferConfirm} 
                 options={{
                     headerShown: false,
                 }}

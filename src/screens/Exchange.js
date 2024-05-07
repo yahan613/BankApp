@@ -204,20 +204,51 @@ const ExchangeScreen = ({ navigation }) => {
     setShowEndDatePicker(true);
   };
 
+  //設定匯到通知
+  const [ConversionRates, setConversionRates] = useState('');
+
+  const handleNotificationExchangeRateChange = (rate) => {
+    setConversionRates(rate);
+  };
+
 
   const handleConfirm = () => {
+
     let transactionDetails;
     if (selectedSegment === 0) {
+      if (!fromCurrency || !toCurrency || !fromAccount || !fromAmount || !toAmount) {
+        Alert.alert('有空白欄位', '請在確認送出前填寫所有欄位。');
+        return;
+      }
+
       transactionDetails =  transactionDetails = `轉出金額 : ${fromCurrency} ${fromAmount} 元\n轉入金額 : ${toCurrency} ${toAmount} 元\n\n優惠 : ${discount}\n轉出帳號 : \n${fromAccount}\n轉入帳號 : \n${toAccount}`;
       navigation.navigate('ExchangeConfirm', { transactionDetails });
-    } else if (selectedSegment === 1) {
-      transactionDetails = `您預約的日期為：${moment(startDate).format('YYYY-MM-DD')}\n我們將在該日期再次與您確認交易詳情，巴菲特銀行感謝您。`;
-      showAlert(transactionDetails);
+    } 
+    else if (selectedSegment === 1) {
+      if( selectedOption === 'option1' ){
+        if (!fromCurrency || !toCurrency || !fromAccount || !fromAmount || !toAmount) {
+          Alert.alert('有空白欄位', '請在確認送出前填寫所有欄位。');
+          return;
+        }
+
+        transactionDetails = `您預約的日期為：${moment(startDate).format('YYYY-MM-DD')}\n我們將於該日期再次與您確認交易詳情，巴菲特銀行感謝您。`;
+        showAlert(transactionDetails);
+      }
+      else if( selectedOption === 'option2' ){
+        if (!ConversionRates) {
+          Alert.alert('有空白欄位', '請在確認送出前填寫所有欄位。');
+          return;
+        }
+
+        transactionDetails = `您設定的匯率為：${ConversionRates}\n我們將於匯率到價的時候通知您，巴菲特銀行感謝您。`;
+        showAlert(transactionDetails);
+      }
     }
    
   };
 
   const showAlert = (transactionDetails) => {
+    
     Alert.alert(
       '預約成功\n',
       `${transactionDetails}`,
@@ -234,6 +265,11 @@ const ExchangeScreen = ({ navigation }) => {
     );
   };
   
+  const [selectedOption, setSelectedOption] = useState(null);
+
+  const handleOptionSelect = (option) => {
+    setSelectedOption(option);
+  };
 
   return (
     
@@ -480,13 +516,31 @@ const ExchangeScreen = ({ navigation }) => {
               <View style={styles.line} />
               <View style={styles.labelContainer}>
                 <Text style={styles.label}>
-                  預約設定
+                  預約設定選擇
                 </Text>
               </View>
 
-              <View style={{ width: '95%', alignContent: 'center' }}>
+              
+              <View style={{flexDirection: 'row', justifyContent: 'space-between', padding: 3, marginTop: 10}}>
+                <TouchableOpacity onPress={() => handleOptionSelect('option1')}>
+                  <Text style={[{ fontSize: 13 }, selectedOption === 'option1' && { textDecorationLine: 'underline', textDecorationColor: '#5C94F3' }]}>
+                    (1)預約入帳日
+                  </Text>
+                </TouchableOpacity>
+                <Text style={{ fontSize: 13, color: '#D9D9D9' }}>|</Text>
+                <TouchableOpacity onPress={() => handleOptionSelect('option2')}>
+                  <Text style={[{ fontSize: 13 }, selectedOption === 'option2' && { textDecorationLine: 'underline', textDecorationColor: '#5C94F3' }]}>
+                    (2)設定匯率通知
+                  </Text>
+                </TouchableOpacity>
+              </View>
+
+              {/* You can render different components based on the selected option */}
+              {selectedOption === 'option1' && (
+                <View>
+                  <View style={{ alignContent: 'center' }}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 10, marginBottom: 10 }}>
-                  <Text style={{ fontSize: 16 }}>    預約入帳日</Text>
+                  <Text style={{ fontSize: 16 }}>預約入帳日</Text>
                   <TouchableOpacity onPress={showStartDatepicker} style={{ borderWidth: 1, padding: 5, width: 160, borderColor: '#244172', marginTop: 10, marginBottom: 5 }}>
                     <Text>{moment(startDate).format('YYYY-MM-DD')}</Text>
                   </TouchableOpacity>
@@ -502,7 +556,39 @@ const ExchangeScreen = ({ navigation }) => {
                   )}
                 </View>
               </View>
-              {/* or? */}
+                </View>
+              )}
+              {selectedOption === 'option2' && (
+                <View>
+                  <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 15, marginBottom: 10}}>
+                  <Text style={{ fontSize: 16 }}>設定通知匯率</Text>
+                  <TextInput
+                    style={{
+                          width: 160,
+                          borderWidth: 1,
+                          paddingLeft: 10,
+                          paddingTop: 5,
+                          paddingBottom: 5,
+                          backgroundColor: '#fff',
+                          borderColor: '#244172',
+                    }}
+                    value={ConversionRates}
+                    placeholder="輸入通知匯率"
+                    keyboardType="numeric"
+                    onChangeText={handleNotificationExchangeRateChange}
+                />
+              </View>
+                </View>
+              )}
+
+              {/* 
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                <View style={{height: 1, backgroundColor: '#D9D9D9', width: 125 }}></View>
+                <Text style={{color: '#929191'}}>或</Text>
+                <View style={{height: 1, backgroundColor: '#D9D9D9', width: 125}}></View>
+              </View>
+              */}
+
             </View>
             <TouchableOpacity onPress={handleConfirm} style={styles.button}>
               <Text style={styles.buttonText}>確認</Text>
@@ -526,7 +612,7 @@ const styles = StyleSheet.create({
   },
   scrollViewContent: {
     width: '85%',
-    height: 820,
+    height: 850,
     marginTop: 10,
   },
   box: {

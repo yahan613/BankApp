@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image, FlatList, Button } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image, FlatList, Button, Switch } from 'react-native'
 import { geticon } from '../component/img/getIcon';
 import { getNewsPic } from '../component/img/getnews';
 import React, { useState, useEffect } from 'react';
@@ -160,10 +160,17 @@ const HomeScreen = ({ navigation }) => {
   
     const colors = theme === 'light' ? lightThemeColors : darkThemeColors;
 
+    const textStyles = {
+        color: colors.text,
+    };
+    const htextStyles = {
+        color: colors.htext,
+    };
+
     return (
-        <View style={[styles.container, { backgroundColor: colors.background }]}>
-            <View style={styles.header}>
-                <View style={styles.headerContainer}>
+        <View style={[styles.container, { backgroundColor: colors.bg }]}>
+            <View style={[styles.header, { backgroundColor: colors.header }]}>
+                <View style={[styles.headerContainer, { backgroundColor: colors.headerC }]}>
                     <TouchableOpacity
                         style={styles.functionbox}
                         onPress={() => navigation.navigate('Transfer')}
@@ -171,7 +178,7 @@ const HomeScreen = ({ navigation }) => {
                         <View>
                             {geticon("Transfer")}
                         </View>
-                        <Text style={{ fontSize: 12 }}>
+                        <Text style={[{ fontSize: 12 }, textStyles]}>
                             轉帳
                         </Text>
                     </TouchableOpacity>
@@ -182,7 +189,7 @@ const HomeScreen = ({ navigation }) => {
                         <View>
                             {geticon("Withdraw")}
                         </View>
-                        <Text style={{ fontSize: 12 }}>
+                        <Text style={[{ fontSize: 12 }, textStyles]}>
                             提款
                         </Text>
                     </TouchableOpacity>
@@ -193,7 +200,7 @@ const HomeScreen = ({ navigation }) => {
                         <View>
                             {geticon("Bill")}
                         </View>
-                        <Text style={{ fontSize: 12 }}>
+                        <Text style={[{ fontSize: 12 }, textStyles]}>
                             繳費
                         </Text>
                     </TouchableOpacity>
@@ -204,7 +211,7 @@ const HomeScreen = ({ navigation }) => {
                         <View>
                             {geticon("Foreign_currency")}
                         </View>
-                        <Text style={{ fontSize: 12 }}>
+                        <Text style={[{ fontSize: 12 }, textStyles]}>
                             外幣
                         </Text>
                     </TouchableOpacity>
@@ -215,12 +222,11 @@ const HomeScreen = ({ navigation }) => {
                 contentContainerStyle={styles.scrollViewContent}
                 showsVerticalScrollIndicator={false}
             >
-                <Button title="Toggle Theme" onPress={toggleTheme} />
-                <View style={styles.box}>
+                <View style={[styles.box, { backgroundColor: colors.box}]}>
                     <View style={styles.labelContainer}>
                         <View style={styles.label}>
-                            <View style={{ height: '100%', width: 3, backgroundColor: '#244172', marginRight: 7 }}></View>
-                            <Text style={styles.labelText}>
+                            <View style={[{ height: '100%', width: 3, backgroundColor: '#244172', marginRight: 7 }, { backgroundColor: colors.htext}]}></View>
+                            <Text style={[styles.labelText, htextStyles]}>
                                 存款
                             </Text>
                             <TouchableOpacity style={{ marginLeft: 10, }} onPress={toggleShowdeposit}>
@@ -228,22 +234,22 @@ const HomeScreen = ({ navigation }) => {
                             </TouchableOpacity> 
                         </View>
                     </View>
-                    <View style={styles.line} />
+                    <View style={[styles.line, { backgroundColor: colors.bg }]} />
                     <View style={styles.moneyBox}>
-                        <Text style={styles.text}>臺幣總額：</Text>
-                        <Text style={styles.numtext}>{!showdeposit ? numberWithCommas(balance.twd) : '*******'}</Text>
+                        <Text style={[styles.text, textStyles]}>臺幣總額：</Text>
+                        <Text style={[styles.numtext, textStyles]}>{!showdeposit ? numberWithCommas(balance.twd) : '*******'}</Text>
                     </View>
-                    <View style={styles.line} />
+                    <View style={[styles.line, { backgroundColor: colors.bg }]} />
                     <View style={styles.moneyBox}>
-                        <Text style={styles.text}>外幣總額：</Text>
-                        <Text style={styles.numtext}>{!showdeposit ? numberWithCommas(balance.for) : '*******'}</Text>
+                        <Text style={[styles.text, textStyles]}>外幣總額：</Text>
+                        <Text style={[styles.numtext, textStyles]}>{!showdeposit ? numberWithCommas(balance.for) : '*******'}</Text>
                     </View>
                 </View>
-                <View style={styles.box}>
+                <View style={[styles.box, { backgroundColor: colors.box}]}>
                     <View style={styles.labelContainer}>
                         <View style={styles.label}>
-                            <View style={{ height: '100%', width: 3, backgroundColor: '#244172', marginRight: 7 }}></View>
-                            <Text style={styles.labelText}>
+                            <View style={[{ height: '100%', width: 3, backgroundColor: '#244172', marginRight: 7 }, { backgroundColor: colors.htext}]}></View>
+                            <Text style={[styles.labelText, htextStyles]}>
                                 信用卡
                             </Text>
                             <TouchableOpacity style={{ marginLeft: 10, }} onPress={toggleShowcredit}>
@@ -251,28 +257,28 @@ const HomeScreen = ({ navigation }) => {
                             </TouchableOpacity>
                         </View>
                     </View>
-                    <View style={styles.line} />
+                    <View style={[styles.line, { backgroundColor: colors.bg }]} />
                     <View style={styles.moneyBox}>
-                        <Text style={styles.text}>刷卡明細：</Text>
-                        <Text style={styles.numtext}>{!showcredit ? numberWithCommas(money.Credit) : '*****'}</Text>
+                        <Text style={[styles.text, textStyles]}>刷卡明細：</Text>
+                        <Text style={[styles.numtext, textStyles]}>{!showcredit ? numberWithCommas(money.Credit) : '*****'}</Text>
                     </View>
                     <Text style={{ textAlign: 'right', color: '#5C94F3', marginBottom: 3, marginTop: 3, }}>可用餘額：{numberWithCommas(money.CreditCoda - money.Credit)}</Text>
                     <Text style={{ textAlign: 'right', color: '#5C94F3', marginBottom: 3 }}>本期應繳：{numberWithCommas(money.CreditofTheMonth)}</Text>
                 </View>
-                <View style={styles.box}>
+                <View style={[styles.box, { backgroundColor: colors.box}]}>
                     <View style={styles.labelContainer}>
                         <View style={styles.label}>
-                            <View style={{ height: '100%', width: 3, backgroundColor: '#244172', marginRight: 7 }}></View>
-                            <Text style={styles.labelText}>
+                            <View style={[{ height: '100%', width: 3, backgroundColor: '#244172', marginRight: 7 }, { backgroundColor: colors.htext}]}></View>
+                            <Text style={[styles.labelText, htextStyles]}>
                                 匯率
                             </Text>
                         </View>
                     </View>
-                    <View style={styles.line} />
+                    <View style={[styles.line, { backgroundColor: colors.bg }]} />
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', padding: 10, paddingRight: 30, }}>
-                        <Text style={{ color: '#244172', fontSize: 16, marginRight: 70, }}>幣別</Text>
-                        <Text style={{ color: '#244172', fontSize: 16, }}>本行買進</Text>
-                        <Text style={{ color: '#244172', fontSize: 16, marginRight: -15 }}>本行賣出</Text>
+                        <Text style={[{ color: '#244172', fontSize: 16, marginRight: 70, }, textStyles]}>幣別</Text>
+                        <Text style={[{ color: '#244172', fontSize: 16, }, textStyles]}>本行買進</Text>
+                        <Text style={[{ color: '#244172', fontSize: 16, marginRight: -15 }, textStyles]}>本行賣出</Text>
                     </View>
                     <FlatList
                         data={EXCHANGE_DATA}
@@ -282,40 +288,41 @@ const HomeScreen = ({ navigation }) => {
                     />
                     <Text style={{ color: '#5C94F3', fontSize: 14, alignSelf: 'flex-end', marginRight: 20, marginTop: 10, }}>最後更新日期：{year}-{month < 10 ? '0' + month : month}-{day < 10 ? '0' + day : day}</Text>
                 </View>
-                <View style={styles.box}>
+                <View style={[styles.box, { backgroundColor: colors.box}]}>
                     <View style={styles.labelContainer}>
                         <View style={styles.label}>
-                            <View style={{ height: '100%', width: 3, backgroundColor: '#244172', marginRight: 7 }}></View>
-                            <Text style={styles.labelText}>
+                            <View style={[{ height: '100%', width: 3, backgroundColor: '#244172', marginRight: 7 }, { backgroundColor: colors.htext}]}></View>
+                            <Text style={[styles.labelText, htextStyles]}>
                                 巴菲特報報
                             </Text>
                         </View>
                     </View>
-                    <View style={styles.line} />
+                    <View style={[styles.line, { backgroundColor: colors.bg }]} />
                     <View style={{ flexDirection: 'column' }}>
                         <TouchableOpacity style={{ width: '100%', height: 120, flexDirection: 'row', alignItems: 'center' }}>
                             <Image
                                 source={getNewsPic('news1')}
                                 style={styles.newsImg}
                             />
-                            <Text style={styles.newsText}>巴菲特銀行和LINE Pay信用卡合作，消費最高贈7%點數</Text>
+                            <Text style={[styles.newsText, textStyles]}>巴菲特銀行和LINE Pay信用卡合作，消費最高贈7%點數</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={{ width: '100%', height: 120, flexDirection: 'row', alignItems: 'center' }}>
                             <Image
                                 source={getNewsPic('news2')}
                                 style={styles.newsImg}
                             />
-                            <Text style={styles.newsText}>強勢登場！巴菲特集團新推吃到飽品牌 「Buffet Restaurant」</Text>
+                            <Text style={[styles.newsText, textStyles]}>強勢登場！巴菲特集團新推吃到飽品牌 「Buffet Restaurant」</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={{ width: '100%', height: 120, flexDirection: 'row', alignItems: 'center' }}>
                             <Image
                                 source={getNewsPic('news3')}
                                 style={styles.newsImg}
                             />
-                            <Text style={styles.newsText}>巴菲特銀行3月大賺168億元！第1季每股盈餘2.57元創歷史次高</Text>
+                            <Text style={[styles.newsText, textStyles]}>巴菲特銀行3月大賺168億元！第1季每股盈餘2.57元創歷史次高</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
+                <Button title="Toggle Theme" onPress={toggleTheme} />
             </ScrollView>
         </View>
     )
@@ -365,10 +372,10 @@ const styles = StyleSheet.create({
         width: '85%',
         ...Platform.select({
             ios: {
-                height: 1580,
+                height: 1700,
             },
             android: {
-                height: 1500,
+                height: 1560,
             }
         }),
         marginTop: 40,

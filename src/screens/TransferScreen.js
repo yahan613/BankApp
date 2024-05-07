@@ -6,7 +6,6 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 
-
 const Transfer = ({ navigation }) => {
   const dispatch = useDispatch();
 
@@ -22,27 +21,23 @@ const Transfer = ({ navigation }) => {
     dispatch({ type: 'SET_TWD_TR', payload: { money: money } });
   };
 
-  const showAlert = () => {
-    Alert.alert(
-      "轉帳成功",
-      `成功轉帳 ${MoneyText} 元`,
-      [
-        {
-          text: "完成", onPress: () => {
-            // Navigate back to HomeScreen upon confirmation
-            navigation.navigate('HomeScreen');
-          },
-        }
-      ],
-      { cancelable: false }
-    );
-  }
+  const handleConfirm = () => {
+    if (!selectedValue || !selectedValue2 || !AccountText || !MoneyText) {
+      Alert.alert('有空白欄位', '請在確認送出前填寫所有欄位。');
+      return;
+    }
+  
+    let transactionDetails;
+      transactionDetails =  transactionDetails = `轉出金額 : ${MoneyText} 元\n轉出帳號 :\n${selectedValue} \n轉入帳號 : \n${selectedValue2}\n${AccountText} \n`;
+      navigation.navigate('TransferConfirm', { transactionDetails });
+  };
+
   const callTrade = (v, m) => {
     switch (v) {
-      case 'SFOR':
+      case '外匯存款  0081234567891':
         FORtransactionAction(m);
         break;
-      case 'STWD':
+      case '活期儲蓄存款  0081234567890':
         TWDtransactionAction(m);
         break;
       default:
@@ -83,8 +78,8 @@ const Transfer = ({ navigation }) => {
                 }}
                 onValueChange={(value) => setSelectedValue(value)}
                 items={[
-                  { label: '活期儲蓄存款  0081234567890', value: 'STWD' },
-                  { label: "外匯存款  0081234567891", value: 'SFOR' },
+                  { label: '活期儲蓄存款  0081234567890', value: '活期儲蓄存款  0081234567890' },
+                  { label: "外匯存款  0081234567891", value: '外匯存款  0081234567891' },
                 ]}
               />
               <View style={{ width: 100, right: 200 }}>{geticon('scan')}</View>
@@ -102,19 +97,19 @@ const Transfer = ({ navigation }) => {
                 }}
                 onValueChange={(value) => setSelectedValue2(value)}
                 items={[
-                  { label: '(100) 巴菲特銀行', value: 'A' },
-                  { label: "(001) 中國信託", value: 'B' },
-                  { label: "(004) 台灣銀行", value: 'C' },
-                  { label: "(005) 土地銀行", value: 'D' },
-                  { label: "(007) 第一銀行", value: 'E' },
-                  { label: "(013) 國泰世華", value: 'F' },
+                  { label: '(100) 巴菲特銀行', value: '(100) 巴菲特銀行' },
+                  { label: "(001) 中國信託", value: '(001) 中國信託' },
+                  { label: "(004) 台灣銀行", value: '(004) 台灣銀行' },
+                  { label: "(005) 土地銀行", value: '(005) 土地銀行' },
+                  { label: "(007) 第一銀行", value: '(007) 第一銀行' },
+                  { label: "(013) 國泰世華", value: '(013) 國泰世華' },
                 ]}
               />
               <View style={{ width: 100, right: 200 }}>{geticon('scan')}</View>
             </View>
           </View>
           <View style={styles.selectBox}>
-            <Text style={styles.selectlabel}>轉入帳號</Text>
+            <Text style={styles.selectlabel}>轉入帳號(代碼)</Text>
             <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-between', alignItems: 'center' }}>
               <TextInput
                 style={styles.select2}
@@ -153,7 +148,7 @@ const Transfer = ({ navigation }) => {
           style={styles.button}
           onPress={() => {
             callTrade(selectedValue, MoneyText)
-            showAlert();
+            handleConfirm();
           }}>
           <Text style={styles.buttonText}>確認</Text>
         </TouchableOpacity>

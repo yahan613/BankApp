@@ -26,7 +26,18 @@ const Withdraw = ({navigation}) => {
     dispatch({ type: 'SET_TWD_TR', payload: { money: money } });
   };
 
+  const [passwordText, setPasswordText] = useState('');
+
+  const onChangePassword = (text) => {
+    setPasswordText(text);
+  };
+
   const showAlert = () => {
+    if (!selectedValue || !moneyText || !passwordText) {
+      Alert.alert('有空白欄位', '請在確認送出前填寫所有欄位。');
+      return;
+    }
+
     Alert.alert(
       "預約成功",
       `預約提款金額為 ${moneyText} 元，\n請於15分鐘內至ATM取款，超過時間需重新預約`,
@@ -140,6 +151,7 @@ const Withdraw = ({navigation}) => {
                 style={styles.select2}
                 keyboardType="numeric"
                 secureTextEntry={true}
+                onChangeText={onChangePassword}
                 />
             </View>
           </View>
@@ -158,6 +170,8 @@ const Withdraw = ({navigation}) => {
                 maxLength={6}
                 style={styles.select2}
                 keyboardType="numeric"
+                secureTextEntry={true}
+                onChangeText={onChangePassword}
               />
             </View>
           </View>
