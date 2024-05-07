@@ -134,7 +134,11 @@ const Signup = ({ navigation }) => {
                                     setStepPage(1);
                                 }}
                             >
-                                <Text style={{ color: '#244172', textAlign: 'center' }}>取消</Text>
+                                {stepPage < 4 ? 
+                                    <Text style={{ color: '#244172', textAlign: 'center' }}> 取消 </Text>
+                                    : <Text style={{ color: '#244172', textAlign: 'center' }}>{' '} </Text>
+                                }
+
                             </TouchableOpacity>
 
                             <TouchableOpacity
@@ -159,8 +163,10 @@ const Signup = ({ navigation }) => {
                                         return newStepPage;
                                     });
                                 }}
-                            >
-                                <Text style={{ color: '#fff', textAlign: 'center' }}>繼續</Text>
+                            >   
+                            {stepPage < 4 ? 
+                                <Text style={{ color: '#fff', textAlign: 'center' }}>繼續</Text>:<Text style={{ color: '#fff', textAlign: 'center' }}>完成</Text>
+                            }
                             </TouchableOpacity>
                         </View>
                     </View>
