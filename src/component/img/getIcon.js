@@ -92,6 +92,8 @@ export const geticon = (imagePath) => {
             return (require("./coin.png"))
         case "LeftMore":
             return (<LeftBar />)
+        case "SignUpSuccess":
+            return(require("./accept.png"))
         default:
             return null;
     }

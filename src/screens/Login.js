@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Dimensions, TextInput, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, TextInput, Image, TouchableOpacity, } from 'react-native';
 import { geticon } from '../component/img/getIcon';
 import CheckBox from 'react-native-check-box';
 import { getverifyPic } from '../component/img/getVerifyPic';
@@ -174,7 +174,7 @@ const LoginScreen = ({ navigation }) => {
                         onChangePassword('');
                         onChangeID('');
                         onChangeVerification('');
-                        console.log("VerificationText equals ActionSheetVernum[verifynum-1]:", String(VerificaitonText) === String(ActionSheetVernum[verifynum - 1].num));
+                        setShowAlert(false);
                     }}>
                     <Text style={{ position: 'absolute', bottom: -90, left: 0, right: 0, textAlign: 'center', color: '#fff', fontSize: 16, justifyContent: 'center' }}>
                         登入
