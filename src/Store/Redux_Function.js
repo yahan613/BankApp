@@ -71,9 +71,8 @@ const transactionReducer = (state = initialState, action) => {
                 }
             };
             //add
-            case 'SET_FOR_TRA':
-                console.log("AAA", action);
-                console.log("RRR", typeof state.balance.for); 
+            case 'SET_FOR_TRA': 
+            
                 return {
                     ...state,
                     balance: {

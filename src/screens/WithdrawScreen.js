@@ -124,13 +124,13 @@ const Withdraw = ({navigation}) => {
             </View>
             <View style={{flexDirection:'row', padding: 8}}>
               <TouchableOpacity style={styles.btn} onPress={() => setAmount(2000)}>
-                <Text style={{ fontSize: 18 }}>2000</Text>
+                <Text style={{ fontSize: 16 }}>$2000</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.btn} onPress={() => setAmount(3000)}>
-                <Text style={{ fontSize: 18 }}>3000</Text>
+                <Text style={{ fontSize: 16 }}>$3000</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.btn} onPress={() => setAmount(5000)}>
-                <Text style={{ fontSize: 18 }}>5000</Text>
+                <Text style={{ fontSize: 16 }}>$5000</Text>
               </TouchableOpacity>
             </View>   
           </View>

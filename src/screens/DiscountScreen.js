@@ -8,7 +8,7 @@ const Discount = () => {
       <View style={styles.header}>
         <Text style={{ color: '#fff', fontSize: 20 }}>優惠</Text>
       </View>
-      <ScrollView contentContainerStyle={{ marginTop: 50, width: '85%', justifyContent: 'center', }} showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
+      <ScrollView contentContainerStyle={{ marginTop: 35, width: '85%', justifyContent: 'center', }} showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
         <View style={styles.memberbox}>
           <Image
             source={geticon('userHead')}
@@ -35,7 +35,7 @@ const Discount = () => {
         </View>
         <View style={{ height: 300, marginBottom: 10 }}>
           <View style={{ flexDirection: 'row', marginBottom: 10 }}>
-            <View style={{ backgroundColor: '#244172', width: 5, borderRadius: 5, marginRight: 7 }}></View>
+            <View style={{ backgroundColor: '#244172', width: 3, marginRight: 7 }}></View>
             <Text style={{ fontSize: 20 }}>快閃優惠</Text>
           </View>
 
@@ -69,7 +69,7 @@ const Discount = () => {
         </View>
         <View style={{ height: 250, marginBottom: 180 }}>
           <View style={{ flexDirection: 'row', marginBottom: 10 }}>
-            <View style={{ backgroundColor: '#244172', width: 5, borderRadius: 5, marginRight: 7 }}></View>
+            <View style={{ backgroundColor: '#244172', width: 3, marginRight: 7 }}></View>
             <Text style={{ fontSize: 20 }}>熱門兌換</Text>
           </View>
           <ScrollView horizontal style={styles.container2} showsHorizontalScrollIndicator={false}>

@@ -236,6 +236,8 @@ const ExchangeScreen = ({ navigation }) => {
       }
       else if( selectedOption === 'option2' ){
         if (!ConversionRates) {
+          fromAmount = 0;
+          toAmount = 0;
           Alert.alert('有空白欄位', '請在確認送出前填寫所有欄位。');
           return;
         }
@@ -331,9 +333,10 @@ const ExchangeScreen = ({ navigation }) => {
                     width: '40%',
                     height: 40,
                     borderWidth: 1,
+                    borderRadius: 4,
                     padding: 10,
                     backgroundColor: '#fff',
-                    borderColor: '#244172',
+                    borderColor: '#929191',
                   }}
                   placeholder="轉出金額"
                   value={fromAmount}
@@ -347,9 +350,10 @@ const ExchangeScreen = ({ navigation }) => {
                     width: '40%',
                     height: 40,
                     borderWidth: 1,
+                    borderRadius: 4,
                     padding: 10,
                     backgroundColor: '#fff',
-                    borderColor: '#244172',
+                    borderColor: '#929191',
                   }}
                   placeholder="轉入金額"
                   value={toAmount}
@@ -446,9 +450,10 @@ const ExchangeScreen = ({ navigation }) => {
                     width: '40%',
                     height: 40,
                     borderWidth: 1,
+                    borderRadius: 4,
                     padding: 10,
                     backgroundColor: '#fff',
-                    borderColor: '#244172',
+                    borderColor: '#929191',
                   }}
                   placeholder="轉出金額"
                   value={fromAmount}
@@ -462,9 +467,10 @@ const ExchangeScreen = ({ navigation }) => {
                     width: '40%',
                     height: 40,
                     borderWidth: 1,
+                    borderRadius: 4,
                     padding: 10,
                     backgroundColor: '#fff',
-                    borderColor: '#244172',
+                    borderColor: '#929191',
                   }}
                   placeholder="轉入金額"
                   value={toAmount}
@@ -523,13 +529,13 @@ const ExchangeScreen = ({ navigation }) => {
               
               <View style={{flexDirection: 'row', justifyContent: 'space-between', padding: 3, marginTop: 10}}>
                 <TouchableOpacity onPress={() => handleOptionSelect('option1')}>
-                  <Text style={[{ fontSize: 13 }, selectedOption === 'option1' && { textDecorationLine: 'underline', textDecorationColor: '#5C94F3' }]}>
+                  <Text style={[{ ...Platform.select({ios: {fontSize: 13}, android: {fontSize: 14}}) }, selectedOption === 'option1' && { textDecorationLine: 'underline', textDecorationColor: '#5C94F3' }]}>
                     (1)預約入帳日
                   </Text>
                 </TouchableOpacity>
-                <Text style={{ fontSize: 13, color: '#D9D9D9' }}>|</Text>
+                <Text style={{ ...Platform.select({ios: {fontSize: 13}, android: {fontSize: 14}}) , color: '#D9D9D9' }}>|</Text>
                 <TouchableOpacity onPress={() => handleOptionSelect('option2')}>
-                  <Text style={[{ fontSize: 13 }, selectedOption === 'option2' && { textDecorationLine: 'underline', textDecorationColor: '#5C94F3' }]}>
+                  <Text style={[{ ...Platform.select({ios: {fontSize: 13}, android: {fontSize: 14}}) }, selectedOption === 'option2' && { textDecorationLine: 'underline', textDecorationColor: '#5C94F3' }]}>
                     (2)設定匯率通知
                   </Text>
                 </TouchableOpacity>
@@ -541,7 +547,7 @@ const ExchangeScreen = ({ navigation }) => {
                   <View style={{ alignContent: 'center' }}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 10, marginBottom: 10 }}>
                   <Text style={{ fontSize: 16 }}>預約入帳日</Text>
-                  <TouchableOpacity onPress={showStartDatepicker} style={{ borderWidth: 1, padding: 5, width: 160, borderColor: '#244172', marginTop: 10, marginBottom: 5 }}>
+                  <TouchableOpacity onPress={showStartDatepicker} style={{ borderWidth: 1, borderRadius: 4, padding: 6, width: 160, borderColor: '#929191', marginTop: 10, marginBottom: 5 }}>
                     <Text>{moment(startDate).format('YYYY-MM-DD')}</Text>
                   </TouchableOpacity>
                   {showStartDatePicker && (
@@ -566,11 +572,12 @@ const ExchangeScreen = ({ navigation }) => {
                     style={{
                           width: 160,
                           borderWidth: 1,
+                          borderRadius: 4,
                           paddingLeft: 10,
-                          paddingTop: 5,
-                          paddingBottom: 5,
+                          paddingTop: 2,
+                          paddingBottom: 2,
                           backgroundColor: '#fff',
-                          borderColor: '#244172',
+                          borderColor: '#929191',
                     }}
                     value={ConversionRates}
                     placeholder="輸入通知匯率"
