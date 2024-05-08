@@ -7,7 +7,7 @@ import SegmentedControl from '@react-native-segmented-control/segmented-control'
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 import { Platform } from 'react-native';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 //即時換匯
@@ -28,62 +28,70 @@ const accountItems = [
   { label: "外匯存款  0081234567891", value: "外匯存款  0081234567891" },
 ];
 
-const currencyConversionRates = {
-  "新台幣": {
-    "美元": 0.03099,
-    "日幣": 4.7619,
-    "人民幣": 0.2247,
-    "歐元": 0.02909,
-    "港幣": 0.2427,
-    "新台幣": 1
-  },
-  "美元": {
-    "新台幣": 32.28,
-    "日幣": 109.20,
-    "人民幣": 6.47,
-    "歐元": 1.17,
-    "港幣": 7.77,
-    "美元": 1
-  },
-  "日幣": {
-    "新台幣": 0.21,
-    "美元": 0.00915,
-    "人民幣": 15.15,
-    "歐元": 0.0078,
-    "港幣": 0.59,
-    "日幣": 1
-  },
-  "人民幣": {
-    "新台幣": 4.45,
-    "美元": 0.1545,
-    "日幣": 0.0659,
-    "歐元": 0.1217,
-    "港幣": 0.13,
-    "人民幣": 1
-  },
-  "歐元": {
-    "新台幣": 34.37,
-    "美元": 0.8547,
-    "日幣": 128.21,
-    "人民幣": 8.2137,
-    "港幣": 9.57,
-    "歐元": 1
-  },
-  "港幣": {
-    "新台幣": 4.12,
-    "美元": 0.1286,
-    "日幣": 1.69,
-    "人民幣": 7.78,
-    "歐元": 0.1045,
-    "港幣": 1
-  }
-};
+
 
 //main!!!!!
 const ExchangeScreen = ({ navigation }) => {
 
   const dispatch = useDispatch();
 
+  const usdRate = useSelector(state => state.rate.usdRate);
+  const jpyRate = useSelector(state => state.rate.jpyRate);
+  const eurRate = useSelector(state => state.rate.eurRate);
+  const rmbRate = useSelector(state => state.rate.rmbRate);
+  const hkdRate = useSelector(state => state.rate.hkdRate);
+
+  const currencyConversionRates = {
+    "新台幣": {
+      "美元": 1 / usdRate,
+      "日幣": 1 / jpyRate,
+      "人民幣": 1 / rmbRate,
+      "歐元": 1 / eurRate,
+      "港幣": 1 / hkdRate,
+      "新台幣": 1
+    },
+    "美元": {
+      "新台幣": usdRate,
+      "日幣": usdRate / jpyRate,
+      "人民幣": usdRate / rmbRate,
+      "歐元": usdRate / eurRate,
+      "港幣": usdRate / hkdRate,
+      "美元": 1
+    },
+    "日幣": {
+      "新台幣": jpyRate,
+      "美元": jpyRate / usdRate,
+      "人民幣": jpyRate / rmbRate,
+      "歐元": jpyRate / eurRate,
+      "港幣": jpyRate / hkdRate,
+      "日幣": 1
+    },
+    "人民幣": {
+      "新台幣": rmbRate,
+      "美元": rmbRate / usdRate,
+      "日幣": rmbRate / jpyRate,
+      "歐元": rmbRate / eurRate,
+      "港幣": rmbRate / hkdRate,
+      "人民幣": 1
+    },
+    "歐元": {
+      "新台幣": eurRate,
+      "美元": eurRate / usdRate,
+      "日幣": eurRate / jpyRate,
+      "人民幣": eurRate / rmbRate,
+      "港幣": eurRate / hkdRate,
+      "歐元": 1
+    },
+    "港幣": {
+      "新台幣": hkdRate,
+      "美元": hkdRate / usdRate,
+      "日幣": hkdRate / jpyRate,
+      "人民幣": hkdRate / rmbRate,
+      "歐元": hkdRate / eurRate,
+      "港幣": 1
+    }
+  };
+  
   // useEffect hook to reset data and clear inputs when component mounts
   useEffect(() => {
     // Reset state to default values
@@ -151,20 +159,20 @@ const ExchangeScreen = ({ navigation }) => {
   const handleFromAmountChange = (amount) => {
     setFromAmount(amount);
     const rate = currencyConversionRates[fromCurrency][toCurrency];
-    setToAmount((parseFloat(amount) * rate).toFixed(0));
+    setToAmount((parseFloat(amount) * rate).toFixed(2));
   };
 
   const handleToAmountChange = (amount) => {
     setToAmount(amount);
     const rate = currencyConversionRates[toCurrency][fromCurrency];
-    setFromAmount((parseFloat(amount) * rate).toFixed(0));
+    setFromAmount((parseFloat(amount) * rate).toFixed(2));
   };
 
   //處理及時計算換匯
   useEffect(() => {
     if (fromAmount !== '') {
       const rate = currencyConversionRates[fromCurrency][toCurrency];
-      setToAmount((parseFloat(fromAmount) * rate).toFixed(0));
+      setToAmount((parseFloat(fromAmount) * rate).toFixed(2));
     }
   }, [fromCurrency, toCurrency]);
 

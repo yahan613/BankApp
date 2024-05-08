@@ -94,8 +94,8 @@ const Signup = ({ navigation }) => {
                         flexDirection: 'row',
                         borderTopLeftRadius: 10,
                         borderBottomLeftRadius: 10,
-                        borderBottomRightRadius: stepPage === 2 ? 10 : 'default',
-                        borderTopRightRadius: stepPage === 2 ? 10 : 'default',
+                        borderBottomRightRadius: (stepPage === 2 ? 10 : 0),
+                        borderTopRightRadius: (stepPage === 2 ? 10 : 0),
                         backgroundColor: '#5C94F3',
                         marginBottom: 30,
                     }}></Animated.View>
@@ -103,8 +103,8 @@ const Signup = ({ navigation }) => {
                         width: prog2,
                         height: 10,
                         flexDirection: 'row',
-                        borderBottomRightRadius: stepPage === 3 ? 10 : 'default',
-                        borderTopRightRadius: stepPage === 3 ? 10 : 'default',
+                        borderBottomRightRadius: (stepPage === 3 ? 10 : 0),
+                        borderTopRightRadius: (stepPage === 3 ? 10 : 0),
                         backgroundColor: '#5C94F3',
                         marginBottom: 30,
                     }}></Animated.View>
@@ -112,8 +112,8 @@ const Signup = ({ navigation }) => {
                         width: prog3,
                         height: 10,
                         flexDirection: 'row',
-                        borderBottomRightRadius: stepPage === 4 ? 10 : 'default',
-                        borderTopRightRadius: stepPage === 4 ? 10 : 'default',
+                        borderBottomRightRadius: (stepPage === 4 ? 10 : 0),
+                        borderTopRightRadius: (stepPage === 4 ? 10 : 0),
                         backgroundColor: '#5C94F3',
                         marginBottom: 30,
                     }}></Animated.View>
