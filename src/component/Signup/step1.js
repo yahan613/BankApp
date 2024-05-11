@@ -1,6 +1,9 @@
 import { StyleSheet, Text, View, SafeAreaView, Dimensions, TouchableOpacity, TextInput } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import { createUserWithEmailAndPassword, onAuthStateChanged, signOut, } from '@firebase/auth';
+import { getAuth, signInWithPhoneNumber, RecaptchaVerifier} from "firebase/auth";
+import { auth } from '../../../Firebaseinit';
 
 
 const screenWidth = Dimensions.get('window').width;
@@ -16,7 +19,10 @@ const Step1 = () => {
     const [VISApininput, setVISApininput] = useState('');//金融卡辭路密碼
 
     const [bankaccnuminput, setbankaccnuminput] = useState('');//銀行帳戶號碼
-    const [bankpininput, setbankpininput] = useState('');//電話理財PIN碼
+
+    //手機驗證
+    const [phoneinput, setphoneinput] = useState('');//電話理財PIN碼
+    const [verifphoneinput, setverifphoneinput] = useState('');//電話理財PIN碼
 
     return (
         <View>
@@ -50,13 +56,28 @@ const Step1 = () => {
                     value={bankaccnuminput}
                     onChangeText={text => setbankaccnuminput(text)}
                 />
-                <Text style={{ color: '#929191', marginBottom: 10, fontSize: 15 }}>電話理財PIN碼</Text>
-                <Text style={{ color: '#929191', marginBottom: 10, fontSize: 13 }}>6位數字(0~9)</Text>
-                <TextInput
-                    style={{ borderWidth: 1, borderColor: 'gray', padding: 5, borderRadius: 5, marginBottom: 15, width: '99%' }}
-                    value={bankpininput}
-                    onChangeText={text => setbankpininput(text)}
-                />
+                <Text style={{ color: '#929191', marginBottom: 10, fontSize: 15 }}>電話號碼</Text>
+                <Text style={{ color: '#929191', marginBottom: 10, fontSize: 13 }}>10位數字(0~9)</Text>
+                <View style={{ flexDirection: 'column', width: '99%', borderColor: 'grey', borderWidth: 1, borderRadius: 5, }}>
+                    <View style={{ width: '100%', flexDirection: 'row', height: 40, alignItems: 'center', borderBottomWidth: 1, borderColor: 'gray', }}>
+                        <TextInput
+                            style={{ padding: 5, borderRadius: 5, width: '100%', height: '90%' }}
+                            value={phoneinput}
+                            onChangeText={text => setphoneinput(text)}
+                        />
+                        <TouchableOpacity
+                            style={{ width: '33%', backgroundColor: '#5C94F3', marginLeft: -76, height: 33.7, borderRadius: 3, justifyContent: 'center', alignItems: 'center' }}
+                        >
+                            <Text style={{ fontSize: 12, color: '#fff' }}>獲取驗證碼</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <TextInput
+                        style={{ padding: 5, width: '100%', height: 38, }}
+                        value={verifphoneinput}
+                        onChangeText={text => setverifphoneinput(text)}
+                        placeholder="請輸入手機簡訊驗證碼"
+                    />
+                </View>
             </View>
             <View style={styles.CheckBox}>
                 <View style={{ alignItems: 'center', justifyContent: 'center', marginRight: 15 }}>

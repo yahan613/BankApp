@@ -2,23 +2,43 @@ import { StyleSheet, Text, View, SafeAreaView, Dimensions, TouchableOpacity, Tex
 import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { geticon } from '../img/getIcon';
+import { createUserWithEmailAndPassword, onAuthStateChanged, signOut, } from '@firebase/auth';
+import { getAuth, signInWithPhoneNumber, RecaptchaVerifier } from "firebase/auth";
+import { auth } from '../../../Firebaseinit';
+
 
 
 const screenWidth = Dimensions.get('window').width;
-const screenHeight = Dimensions.get('window').height;
 const itemWidth = screenWidth * 0.8;
-const itemHeight = screenHeight * 0.1;
+let Spassword = 'default';
+let Susername = 'default';
+
+const setSpasswordfun = (newPassword) => {
+    Spassword = newPassword;
+};
+
+export const setSusernamefun = (newUsername) => {
+    Susername = newUsername;
+};
+
+export const getSpassword = () => {
+    return(Spassword)
+};
+
+export const getSusername = () => {
+    return(Susername)
+};
+
+
 
 const Step2 = () => {
     const [bankaccount, setbankaccount] = useState(true);
 
     const [VISAnuminput, setVISAnuminput] = useState('');//金融卡或VISA金融卡號碼
-    const [VISAissinput, setVISAissinput] = useState('');//金融卡發行號碼
-    const [VISApininput, setVISApininput] = useState('');//金融卡辭路密碼
-    const [Surepininput, setSurepininput] = useState('');//金融卡辭路密碼
+    const [Susername, setSusername] = useState('');//金融卡發行號碼
+    const [Spassword, setSpassword] = useState('');//金融卡辭路密碼
+    const [SureSpassword, setSureSpassword] = useState('');//金融卡辭路密碼
 
-    const [bankaccnuminput, setbankaccnuminput] = useState('');//銀行帳戶號碼
-    const [bankpininput, setbankpininput] = useState('');//電話理財PIN碼
 
     const [showPassword, setShowPassword] = React.useState(false);
     const toggleShowPassword = () => {
@@ -32,6 +52,18 @@ const Step2 = () => {
     const toggleShowPassword3 = () => {
         setShowPassword3(!showPassword3);
     };
+
+    useEffect(() => {
+        // 在这里执行任何你希望在 VISApininput 变化时执行的操作
+        setSpasswordfun(Spassword);
+        // 你可以在这里调用任何你希望执行的函数或方法
+    }, [Spassword]); // 这里是一个依赖数组，只有当数组中的值发生变化时，useEffect 才会执行
+    
+    useEffect(() => {
+        // 在这里执行任何你希望在 VISApininput 变化时执行的操作
+        setSusernamefun(Susername);
+        // 你可以在这里调用任何你希望执行的函数或方法
+    }, [Susername]); // 这里是一个依赖数组，只有当数组中的值发生变化时，useEffect 才会执行
 
     return (
         <View>
@@ -63,17 +95,17 @@ const Step2 = () => {
                 <Text style={{ color: '#929191', marginBottom: 10, fontSize: 15 }}>使用者名稱</Text>
                 <TextInput
                     style={{ borderWidth: 1, borderColor: 'gray', padding: 5, borderRadius: 5, marginBottom: 15, width: '99%', height: 40, }}
-                    value={VISAissinput}
-                    onChangeText={text => setVISAissinput(text)}
-                    secureTextEntry={!showPassword}
+                    value={Susername}
+                    onChangeText={text => setSusername(text)}
+                    
                 />
 
                 <Text style={{ color: '#929191', marginBottom: 10, fontSize: 15, }}>註冊密碼</Text>
                 <View style={styles.input}>
                     <TextInput
                         style={{ width: '88%', height: '99%' }}
-                        value={VISApininput}
-                        onChangeText={text => setVISApininput(text)}
+                        value={Spassword}
+                        onChangeText={text => setSpassword(text)}
                         secureTextEntry={!showPassword2}
                     />
                     <TouchableOpacity style={styles.visible} onPress={toggleShowPassword2}>
@@ -86,21 +118,23 @@ const Step2 = () => {
                 <View style={styles.input}>
                     <TextInput
                         style={{ width: '88%', height: '99%' }}
-                        value={Surepininput}
-                        onChangeText={text => setSurepininput(text)}
+                        value={SureSpassword}
+                        onChangeText={text => setSureSpassword(text)}
                         secureTextEntry={!showPassword3}
                     />
                     <TouchableOpacity style={styles.visible} onPress={toggleShowPassword3}>
                         {geticon(showPassword3 ? "Eye" : "Noeye")}
                     </TouchableOpacity>
                 </View>
-
-
             </View>
         </View>
 
     );
 }
+
+
+
+
 
 const styles = StyleSheet.create({
     container: {

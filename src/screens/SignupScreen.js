@@ -7,8 +7,7 @@ import Step2 from '../component/Signup/step2';
 import Step3 from '../component/Signup/step3';
 import Step4 from '../component/Signup/step4';
 import AwesomeAlert from 'react-native-awesome-alerts';
-
-
+import { getSpassword, getSusername } from '../component/Signup/step2';
 
 
 
@@ -18,7 +17,8 @@ const itemWidth = screenWidth * 0.8;
 const itemHeight = screenHeight * 0.1;
 
 let stepPage = 1;
-
+let Susername = 'default';
+let Spassword = 'default';
 
 const Signup = ({ navigation }) => {
     const [bankaccount, setbankaccount] = useState(true);
@@ -66,6 +66,17 @@ const Signup = ({ navigation }) => {
             useNativeDriver: false,
         }).start();
     }
+
+    const ReadSignUpData = async () => {
+        try {
+            const response = await fetch('./'); // 替换为文件B的路径
+            const fileContent = await response.text();
+            console.log(fileContent); // 打印文件内容，你可以根据需要处理这个内容
+        } catch (error) {
+            console.error('Error reading file B:', error);
+        }
+    };
+
 
     return (
         <SafeAreaView style={{ flex: 1, }}>
@@ -151,6 +162,10 @@ const Signup = ({ navigation }) => {
                                         }
                                         if (newStepPage === 3) {
                                             start2()
+                                            Spassword = getSpassword();
+                                            console.log("I got pass:", Spassword)
+                                            Susername  = getSusername();
+                                            console.log("I got user:", Susername)
                                         }
                                         if (newStepPage === 4) {
                                             start3()
