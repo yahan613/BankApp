@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, ScrollView, Platform } from 'react-native';
 import React from 'react'
 import { geticon } from '../component/img/getIcon';
 import { useState } from 'react';
@@ -38,49 +38,49 @@ const Payment = ({navigation}) => {
           <View style={styles.pItems}>
             <TouchableOpacity style={{alignItems:'center'}}>
                 {geticon('Add_call')}
-                <Text>電信費</Text>
+                <Text style={{...Platform.select({ios: {fontSize: 12},android: {fontSize: 14}})}}>電信費</Text>
             </TouchableOpacity>
             <TouchableOpacity style={{alignItems:'center'}}>
                 {geticon('Water_ec')}
-                <Text>水電費</Text>
+                <Text style={{...Platform.select({ios: {fontSize: 12},android: {fontSize: 14}})}}>水電費</Text>
             </TouchableOpacity>
             <TouchableOpacity style={{alignItems:'center'}}>
                 {geticon('Request_page')}
-                <Text>繳稅</Text>
+                <Text style={{...Platform.select({ios: {fontSize: 12},android: {fontSize: 14}})}}>繳稅</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.pItems}>
             <TouchableOpacity style={{alignItems:'center'}}>
                 {geticon('Credit_card2')}
-                <Text>信用卡費</Text>
+                <Text style={{...Platform.select({ios: {fontSize: 12},android: {fontSize: 14}})}}>信用卡費</Text>
             </TouchableOpacity>
             <TouchableOpacity style={{alignItems:'center'}}>
                 {geticon('Local_parking')}
-                <Text>停車費</Text>
+                <Text style={{...Platform.select({ios: {fontSize: 12},android: {fontSize: 14}})}}>停車費</Text>
             </TouchableOpacity>
             <TouchableOpacity style={{alignItems:'center'}}>
                 {geticon('Local_gas_station')}
-                <Text>汽燃費</Text>
+                <Text style={{...Platform.select({ios: {fontSize: 12},android: {fontSize: 14}})}}>汽燃費</Text>
             </TouchableOpacity>
           </View>
           {showMoreOptions && (
             <View style={styles.pItems}>
               <TouchableOpacity style={{alignItems:'center'}}>
               {geticon('School')}
-                <Text>學雜費</Text>
+                <Text style={{...Platform.select({ios: {fontSize: 12},android: {fontSize: 14}})}}>學雜費</Text>
               </TouchableOpacity>
               <TouchableOpacity style={{alignItems:'center'}}>
               {geticon('Volunteer')}
-                <Text>愛心捐款</Text>
+                <Text style={{...Platform.select({ios: {fontSize: 12},android: {fontSize: 14}})}}>愛心捐款</Text>
               </TouchableOpacity>
               <TouchableOpacity style={{alignItems:'center'}}>
               {geticon('Widgets')}
-                <Text>其他費用</Text>
+                <Text style={{...Platform.select({ios: {fontSize: 12},android: {fontSize: 14}})}}>其他費用</Text>
               </TouchableOpacity>
             </View>
           )}
           <TouchableOpacity onPress={toggleMoreOptions} style={{ marginTop: 10, padding: 5, width: 140, justifyContent: 'center', alignItems: 'center', alignSelf: 'center' }}>
-            <Text style={{ color: '#5C94F3' }}>{showMoreOptions ? '顯示更少' : '顯示更多'}</Text>
+            <Text style={{ color: '#5C94F3', borderWidth: 1, borderRadius: 8, borderColor: '#D9D9D9', paddingTop: 3, paddingBottom: 3, paddingRight: 10, paddingLeft: 10 }}>{showMoreOptions ? '顯示更少' : '顯示更多'}</Text>
           </TouchableOpacity>
       </View>
       <View style={styles.box}>
@@ -94,12 +94,13 @@ const Payment = ({navigation}) => {
           </View>
           <View style={styles.line} />
           <View style={{paddingTop: 10}}>
-            <TouchableOpacity style={{flexDirection: 'row', justifyContent: 'space-between', alignContent: 'center', marginBottom: 15}}>
-              <Text style={{fontSize: 16}}>近期帳單</Text>
+            <TouchableOpacity style={{flexDirection: 'row', justifyContent: 'space-between', alignContent: 'center', marginBottom: 10}}>
+              <Text style={{...Platform.select({ios: {fontSize: 14},android: {fontSize: 16}})}}>近期帳單</Text>
               {geticon('Arrow_forward_ios')}
             </TouchableOpacity>
-            <TouchableOpacity style={{flexDirection: 'row', justifyContent: 'space-between', alignContent: 'center'}}>
-              <Text style={{fontSize: 16}}>查詢歷史紀錄</Text>
+            <View style={styles.line} />
+            <TouchableOpacity style={{flexDirection: 'row', justifyContent: 'space-between', alignContent: 'center', marginTop: 10}}>
+              <Text style={{...Platform.select({ios: {fontSize: 14},android: {fontSize: 16}})}}>查詢歷史紀錄</Text>
               {geticon('Arrow_forward_ios')}
             </TouchableOpacity>
           </View>
@@ -126,7 +127,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#244172',
   },
   scrollViewContent: {
-    width: 320,
+    ...Platform.select({
+      ios: {
+        width: 350,
+      },
+      android: {
+        width: 325,
+      }
+    }),
     height: 750,
     marginTop: 20,
   },

@@ -3,7 +3,8 @@ import React from 'react'
 
 const Service = () => {
   return (
-    <SafeAreaView style={{ flex: 1, }}>
+    <SafeAreaView style={{ flex: 1,  backgroundColor: '#D9D9D9'}}>
+      <View style={styles.topBackground} />
       <View style={styles.header}>
         <Text style={{ color: '#fff', fontSize: 20 }}>服務</Text>
       </View>
@@ -24,6 +25,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#244172',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  topBackground: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: 50,
+    backgroundColor: '#244172',
   },
   title: {
     fontSize: 20,

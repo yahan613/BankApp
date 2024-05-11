@@ -1,10 +1,11 @@
-import { StyleSheet, Text, View, SafeAreaView, ScrollView, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, ScrollView, Image, TouchableOpacity, Platform } from 'react-native';
 import React from 'react'
 import { geticon } from '../component/img/getIcon';
 
 const Discount = () => {
   return (
-    <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#D9D9D9' }}>
+      <View style={styles.topBackground} />
       <View style={styles.header}>
         <Text style={{ color: '#fff', fontSize: 20 }}>優惠</Text>
       </View>
@@ -15,28 +16,26 @@ const Discount = () => {
             style={{ width: 60, height: 60 }}
           />
           <View style={styles.memberTextbox}>
-            <Text style={{ fontSize: 16 }}>Amy</Text>
-            <Text style={{ fontSize: 16 }}>查看個人資料</Text>
+            <Text style={{ ...Platform.select({ios: {fontSize: 14},android: {fontSize: 16}}) }}>Amy</Text>
+            <Text style={{ ...Platform.select({ios: {fontSize: 14},android: {fontSize: 16}}) }}>查看個人資料</Text>
           </View>
           <View style={styles.coinContainer}>
-            <View style={{ height: 30, width: 30, flexDirection: 'row', alignItems: 'center' }}>
+            <TouchableOpacity style={{ height: 30, width: 30, flexDirection: 'row', alignItems: 'center' }}>
               {[1, 2, 3].map((index) => (
                 <Image
                   source={geticon('DiscountCoin')}
                   style={{ width: 20.5, height: 20.5, marginRight: -8 }}
                 />
               ))}
-              <Text style={{ fontSize: 16, marginLeft: 12, color: '#5C94F3', width: 30 }}>123dddd</Text>
-              <TouchableOpacity>
-                {geticon('LeftMore')}
-              </TouchableOpacity>
-            </View>
+              <Text style={{ fontSize: 16, marginLeft: 12, color: '#5C94F3', ...Platform.select({ios: {width: 35},android: {width: 30}}) }}>123</Text>
+              {geticon('LeftMore')}     
+            </TouchableOpacity>
           </View>
         </View>
-        <View style={{ height: 300, marginBottom: 10 }}>
+        <View style={{ height: 300 }}>
           <View style={{ flexDirection: 'row', marginBottom: 10 }}>
             <View style={{ backgroundColor: '#244172', width: 3, marginRight: 7 }}></View>
-            <Text style={{ fontSize: 20 }}>快閃優惠</Text>
+            <Text style={{ fontSize: 20, color: '#244172' }}>快閃優惠</Text>
           </View>
 
           <ScrollView horizontal style={styles.container2} showsHorizontalScrollIndicator={false}>
@@ -59,7 +58,7 @@ const Discount = () => {
             <TouchableOpacity style={styles.item}>
               <Image
                 source={require("../component/img/popup3.png")}
-                style={{ width: '100%', height: 100, resizeMode: 'contain' }}
+                style={{ width: '100%', height: 100 }}
               />
               <Text style={styles.popupText}>首刷滿3,000 享好禮三選一</Text>
               <Text style={styles.popupdate}>2024/5/5截止</Text>
@@ -67,10 +66,10 @@ const Discount = () => {
             {/* Add more items here */}
           </ScrollView>
         </View>
-        <View style={{ height: 250, marginBottom: 180 }}>
+        <View style={{ height: 265, marginBottom: 180 }}>
           <View style={{ flexDirection: 'row', marginBottom: 10 }}>
             <View style={{ backgroundColor: '#244172', width: 3, marginRight: 7 }}></View>
-            <Text style={{ fontSize: 20 }}>熱門兌換</Text>
+            <Text style={{ fontSize: 20, color: '#244172' }}>熱門兌換</Text>
           </View>
           <ScrollView horizontal style={styles.container2} showsHorizontalScrollIndicator={false}>
             <TouchableOpacity style={styles.item}>
@@ -126,6 +125,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  topBackground: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: 50,
+    backgroundColor: '#244172',
+  },
   header: {
     width: '100%',
     height: 80,
@@ -138,7 +145,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   memberbox: {
-    width: 350,
+    ...Platform.select({ios: {width: 365},android: {width: 350}}),
     alignSelf: 'center',
     height: 100,
     backgroundColor: '#fff',
@@ -152,7 +159,6 @@ const styles = StyleSheet.create({
   },
   memberTextbox: {
     flexDirection: 'column',
-    fontSize: 18,
   },
   selectedOption: {
     marginTop: 20,
@@ -169,22 +175,35 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
     borderRadius: 10,
-    overflow: 'hidden'
+    overflow: 'hidden',
   },
   coinContainer: {
     flexDirection: 'row',
     alignItems: 'flex-end',
     height: 40,
-    width: 100,
+    width: 120,
   },
   popupText: {
-    fontSize: 14,
+    ...Platform.select({
+      ios: {
+        fontSize: 12,
+      },
+      android: {
+        fontSize: 14,
+      }
+    }),
     margin: 8,
     marginTop: 18,
-
   },
   popupdate: {
-    fontSize: 13,
+    ...Platform.select({
+      ios: {
+        fontSize: 10,
+      },
+      android: {
+        fontSize: 13,
+      }
+    }),
     color: '#929191',
     margin: 8,
     marginTop: 10,

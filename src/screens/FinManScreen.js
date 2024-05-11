@@ -10,45 +10,11 @@ import RBSheet from 'react-native-raw-bottom-sheet';
 
 const FinMan = () => {
   const dispatch = useDispatch();
-  //const [assetType, setAssetType] = useState(null); // State to track selected asset type
-
+  
   const HeaderFlagAction = (flag) => {
     dispatch({ type: 'SET_HEADER_FLAG', payload: flag });
   };
   const headerShowFlag = useSelector(state => state.header.headerShowFlag);
-
-  /*
-  const { showActionSheetWithOptions } = useActionSheet();
-  // Function to handle action sheet
-  const showActionSheet = () => {
-    showActionSheetWithOptions(
-      {
-        options: ['取消', '基金', 'ETF', '股票', '債券'], // Options to display in the action sheet
-        cancelButtonIndex: 0 // Index of 'Cancel' option
-      },
-      (buttonIndex) => {
-       // Update asset type based on selected option
-       switch (buttonIndex) {
-        case 1:
-          setAssetType('fund');
-          break;
-        case 2:
-          setAssetType('ETF');
-          break;
-        case 3:
-          setAssetType('stock');
-          break;
-        case 4:
-          setAssetType('bond');
-          break;
-        default:
-          // Handle cancel action or any other case
-          break;
-       }
-      }
-    );
-  };
-  */
 
   const bottomSheetRef = useRef(null);
   const [assetType, setAssetType] = useState(null);
@@ -89,7 +55,7 @@ const FinMan = () => {
          <TouchableOpacity style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
             <View>
                 <Text style={{fontSize: 12, color: '#929191'}}>0325</Text>
-                <Text style={{marginTop:5, marginBottom:5}}>巴菲特全球資產組合A (新台幣) (月配息)</Text>
+                <Text style={{marginTop:5, marginBottom:5, maxWidth: '95%'}}>巴菲特全球資產組合A (新台幣) (月配息)</Text>
                 <View style={{flexDirection: 'row', justifyContent: 'space-between', width: '50%'}}><Text style={{ fontSize: 10 }}>穩健型</Text><Text style={{ fontSize: 10, color: '#FF0202' }}>+3.24%</Text></View>
             </View>
             {geticon('Arrow_forward_ios')}
@@ -100,7 +66,7 @@ const FinMan = () => {
           <TouchableOpacity style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
             <View>
                 <Text style={{fontSize: 12, color: '#929191'}}>MNO012</Text>
-                <Text style={{marginTop:5, marginBottom:5}}>新興市場增長基金 (歐元) (穩定配息)</Text>
+                <Text style={{marginTop:5, marginBottom:5, maxWidth: '95%'}}>新興市場增長基金 (歐元) (穩定配息)</Text>
                 <View style={{flexDirection: 'row', justifyContent: 'space-between', width: '50%'}}><Text style={{ fontSize: 10 }}>成長型</Text><Text style={{ fontSize: 10, color: '#FF0202' }}>+8.12%</Text></View>          
             </View>
             {geticon('Arrow_forward_ios')}
@@ -111,7 +77,7 @@ const FinMan = () => {
           <TouchableOpacity style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
             <View>
                 <Text style={{fontSize: 12, color: '#929191'}}>GHI345</Text>
-                <Text style={{marginTop:5, marginBottom:5}}>日本永續股票基金 (日幣) </Text>
+                <Text style={{marginTop:5, marginBottom:5, maxWidth: '95%'}}>日本永續股票基金 (日幣) </Text>
                 <View style={{flexDirection: 'row', justifyContent: 'space-between', width: '50%'}}><Text style={{ fontSize: 10 }}>穩健型</Text><Text style={{ fontSize: 10, color: '#66AF47' }}>-1.67%</Text></View>          
             </View>
             {geticon('Arrow_forward_ios')}
@@ -138,7 +104,7 @@ const FinMan = () => {
           <TouchableOpacity style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
             <View>
                 <Text style={{fontSize: 12, color: '#929191'}}>URBI</Text>
-                <Text style={{marginTop:5, marginBottom:5}}>城市化基礎設施ETF(Urban Infrastructure ETF)</Text>
+                <Text style={{marginTop:5, marginBottom:5, maxWidth: '95%'}}>城市化基礎設施ETF(Urban Infrastructure ETF)</Text>
                 <View style={{flexDirection: 'row', justifyContent: 'space-between', width: '50%'}}><Text style={{ fontSize: 10 }}>保守型</Text><Text style={{ fontSize: 10, color: '#FF0202' }}>+0.17%</Text></View>          
             </View>
             {geticon('Arrow_forward_ios')}
@@ -148,7 +114,7 @@ const FinMan = () => {
           <TouchableOpacity style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
             <View>
                 <Text style={{fontSize: 12, color: '#929191'}}>GTS</Text>
-                <Text style={{marginTop:5, marginBottom:5}}>環球科技精選ETF(GlobalTech Select ETF)</Text>
+                <Text style={{marginTop:5, marginBottom:5, maxWidth: '95%'}}>環球科技精選ETF(GlobalTech Select ETF)</Text>
                 <View style={{flexDirection: 'row', justifyContent: 'space-between', width: '50%'}}><Text style={{ fontSize: 10 }}>成長型</Text><Text style={{ fontSize: 10, color: '#66AF47' }}>-12.19%</Text></View>          
             </View>
             {geticon('Arrow_forward_ios')}
@@ -165,7 +131,7 @@ const FinMan = () => {
           <TouchableOpacity style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
             <View>
                 <Text style={{fontSize: 12, color: '#929191'}}>GLT</Text>
-                <Text style={{marginTop:5, marginBottom:5}}>全球科技股份有限公司(GlobalTech Corp.) (現金股息)</Text>
+                <Text style={{marginTop:5, marginBottom:5, maxWidth: '95%' }}>全球科技股份有限公司(GlobalTech Corp.) (現金股息)</Text>
                 <View style={{flexDirection: 'row', justifyContent: 'space-between', width: '50%'}}><Text style={{ fontSize: 10 }}>高風險型</Text><Text style={{ fontSize: 10, color: '#FF0202' }}>+21.8%</Text></View>          
             </View>
             {geticon('Arrow_forward_ios')}
@@ -175,7 +141,7 @@ const FinMan = () => {
           <TouchableOpacity style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
             <View>
                 <Text style={{fontSize: 12, color: '#929191'}}>NEG</Text>
-                <Text style={{marginTop:5, marginBottom:5}}>新能源集團有限公司 (股票股息)</Text>
+                <Text style={{marginTop:5, marginBottom:5, maxWidth: '95%'}}>新能源集團有限公司 (股票股息)</Text>
                 <View style={{flexDirection: 'row', justifyContent: 'space-between', width: '50%'}}><Text style={{ fontSize: 10 }}>穩健型</Text><Text style={{ fontSize: 10, color: '#FF0202' }}>+7.01%</Text></View>          
             </View>
             {geticon('Arrow_forward_ios')}
@@ -185,7 +151,7 @@ const FinMan = () => {
           <TouchableOpacity style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
             <View>
                 <Text style={{fontSize: 12, color: '#929191'}}>ACH</Text>
-                <Text style={{marginTop:5, marginBottom:5}}>亞洲消費品控股有限公司(AsiaConsumer Holdings Ltd.) (現金股息)</Text>
+                <Text style={{marginTop:5, marginBottom:5, maxWidth: '95%'}}>亞洲消費品控股有限公司(AsiaConsumer Holdings Ltd.) (現金股息)</Text>
                 <View style={{flexDirection: 'row', justifyContent: 'space-between', width: '50%'}}><Text style={{ fontSize: 10 }}>高風險型</Text><Text style={{ fontSize: 10, color: '#66AF47' }}>-14.89%</Text></View>          
             </View>
             {geticon('Arrow_forward_ios')}
@@ -202,7 +168,7 @@ const FinMan = () => {
           <TouchableOpacity style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
             <View>
                 <Text style={{fontSize: 12, color: '#929191'}}>AHCB</Text>
-                <Text style={{marginTop:5, marginBottom:5}}>亞洲高收益公司債券 (半年度支付利息)</Text>
+                <Text style={{marginTop:5, marginBottom:5, maxWidth: '95%'}}>亞洲高收益公司債券 (半年度支付利息)</Text>
                 <View style={{flexDirection: 'row', justifyContent: 'space-between', width: '50%'}}><Text style={{ fontSize: 10 }}>穩健型</Text><Text style={{ fontSize: 10, color: '#66AF47' }}>-1.21%</Text></View>          
             </View>
             {geticon('Arrow_forward_ios')}
@@ -212,7 +178,7 @@ const FinMan = () => {
           <TouchableOpacity style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
             <View>
                 <Text style={{fontSize: 12, color: '#929191'}}>EMCB</Text>
-                <Text style={{marginTop:5, marginBottom:5}}>新興市場企業債券(Emerging Market Corporate Bond)</Text>
+                <Text style={{marginTop:5, marginBottom:5, maxWidth: '95%'}}>新興市場企業債券(Emerging Market Corporate Bond)</Text>
                 <View style={{flexDirection: 'row', justifyContent: 'space-between', width: '50%'}}><Text style={{ fontSize: 10 }}>穩健型</Text><Text style={{ fontSize: 10, color: '#FF0202' }}>+3.65%</Text></View>          
             </View>
             {geticon('Arrow_forward_ios')}
@@ -222,7 +188,7 @@ const FinMan = () => {
           <TouchableOpacity style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
             <View>
                 <Text style={{fontSize: 12, color: '#929191'}}>GYB</Text>
-                <Text style={{marginTop:5, marginBottom:5}}>環球收益債券(Global Yield Bonds)</Text>
+                <Text style={{marginTop:5, marginBottom:5, maxWidth: '95%'}}>環球收益債券(Global Yield Bonds)</Text>
                 <View style={{flexDirection: 'row', justifyContent: 'space-between', width: '50%'}}><Text style={{ fontSize: 10 }}>保守型</Text><Text style={{ fontSize: 10, color: '#FF0202' }}>+0.89%</Text></View>          
             </View>
             {geticon('Arrow_forward_ios')}
@@ -234,13 +200,14 @@ const FinMan = () => {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#D9D9D9'}}>
+      <View style={styles.topBackground} />
       <View style={styles.header}>
         <Text style={{ color: '#fff', fontSize: 20 }}>理財</Text>
       </View>
-      <ScrollView contentContainerStyle={{ marginTop: 35, width: '85%', height: 780, alignSelf: 'center' }} showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
+      <ScrollView contentContainerStyle={{ marginTop: 35, width: '85%', ...Platform.select({ios: {height: 810},android: {height: 780}}), alignSelf: 'center' }} showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
         <View style={{ flexDirection: 'row', marginBottom: 20 }}>
           <View style={{ backgroundColor: '#244172', width: 3, marginRight: 7 }}></View>
-          <Text style={{ fontSize: 20 }}>我的理財規劃</Text>
+          <Text style={{ fontSize: 20, color: '#244172' }}>我的理財規劃</Text>
         </View>
         <TouchableOpacity style={styles.addbox}>
             <Text style={{ color: '#000', fontSize: 18, marginTop: 40,color: '#D9D9D9' }}>開始你的第一筆理財規劃吧！</Text>
@@ -250,7 +217,7 @@ const FinMan = () => {
         </TouchableOpacity>
         <View style={{ flexDirection: 'row', marginBottom: 20 }}>
           <View style={{ backgroundColor: '#244172', width: 3, marginRight: 7 }}></View>
-          <Text style={{ fontSize: 20 }}>熱門投資主題</Text>
+          <Text style={{ fontSize: 20, color: '#244172' }}>熱門投資主題</Text>
         </View>  
         
         <View style={styles.box}>
@@ -258,18 +225,16 @@ const FinMan = () => {
             <View style={styles.label}>
               <View style={{ flexDirection: 'row', alignItems: 'center'}}>
                 <Text style={[styles.labelText, { flex: 1 }]}>
-                  {assetType === 'fund' ? '基金' : assetType === 'ETF' ? 'ETF' : assetType === 'stock' ? '股票' : '債券'}
+                  {assetType === 'bond' ? '債券' : assetType === 'ETF' ? 'ETF' : assetType === 'stock' ? '股票' : '基金'}
                 </Text>
                 <TouchableOpacity onPress={() => bottomSheetRef.current.open()} style={{ marginLeft: 'auto' }}>
-                  <Text style={{ borderWidth: 1, borderRadius: 8, borderColor: '#D9D9D9', paddingTop: 3, paddingBottom: 3, paddingRight: 10, paddingLeft: 10 }}>選擇主題</Text>
+                  <Text style={{ color: '#5C94F3', borderWidth: 1, borderRadius: 8, borderColor: '#D9D9D9', paddingTop: 3, paddingBottom: 3, paddingRight: 10, paddingLeft: 10 }}>選擇主題</Text>
                 </TouchableOpacity>
               </View>
             </View>
           </View>
           <View style={styles.line} />
           {renderAssets()}
-          
-
         </View>
 
       </ScrollView>
@@ -308,6 +273,14 @@ const FinMan = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  topBackground: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: 50,
+    backgroundColor: '#244172',
   },
   header: {
     width: '100%',

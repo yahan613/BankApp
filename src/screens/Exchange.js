@@ -21,7 +21,7 @@ const currencyItems  = [
 ];
 const discountItems = [
   { label: "一般優惠", value: "一般優惠" },
-  { label: "VIP優惠?", value: "VIP優惠?" },
+  { label: "VIP優惠", value: "VIP優惠" },
 ];
 const accountItems = [
   { label: "活期儲蓄存款  0081234567890", value: "活期儲蓄存款  0081234567890" },
@@ -33,6 +33,11 @@ const accountItems = [
 //main!!!!!
 const ExchangeScreen = ({ navigation }) => {
 
+  const balance = useSelector(state => state.trade.balance);
+  const numberWithCommas = (x) => {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
+  
   const dispatch = useDispatch();
 
   const usdRate = useSelector(state => state.rate.usdRate);
@@ -48,7 +53,6 @@ const ExchangeScreen = ({ navigation }) => {
       "人民幣": 1 / rmbRate,
       "歐元": 1 / eurRate,
       "港幣": 1 / hkdRate,
-      "新台幣": 1
     },
     "美元": {
       "新台幣": usdRate,
@@ -56,7 +60,6 @@ const ExchangeScreen = ({ navigation }) => {
       "人民幣": usdRate / rmbRate,
       "歐元": usdRate / eurRate,
       "港幣": usdRate / hkdRate,
-      "美元": 1
     },
     "日幣": {
       "新台幣": jpyRate,
@@ -64,7 +67,6 @@ const ExchangeScreen = ({ navigation }) => {
       "人民幣": jpyRate / rmbRate,
       "歐元": jpyRate / eurRate,
       "港幣": jpyRate / hkdRate,
-      "日幣": 1
     },
     "人民幣": {
       "新台幣": rmbRate,
@@ -72,7 +74,6 @@ const ExchangeScreen = ({ navigation }) => {
       "日幣": rmbRate / jpyRate,
       "歐元": rmbRate / eurRate,
       "港幣": rmbRate / hkdRate,
-      "人民幣": 1
     },
     "歐元": {
       "新台幣": eurRate,
@@ -80,7 +81,6 @@ const ExchangeScreen = ({ navigation }) => {
       "日幣": eurRate / jpyRate,
       "人民幣": eurRate / rmbRate,
       "港幣": eurRate / hkdRate,
-      "歐元": 1
     },
     "港幣": {
       "新台幣": hkdRate,
@@ -88,7 +88,6 @@ const ExchangeScreen = ({ navigation }) => {
       "日幣": hkdRate / jpyRate,
       "人民幣": hkdRate / rmbRate,
       "歐元": hkdRate / eurRate,
-      "港幣": 1
     }
   };
   
@@ -248,9 +247,9 @@ const ExchangeScreen = ({ navigation }) => {
           toAmount = 0;
           Alert.alert('有空白欄位', '請在確認送出前填寫所有欄位。');
           return;
-        }
+      }
 
-        transactionDetails = `您設定的匯率為：${ConversionRates}\n我們將於匯率到價的時候通知您，巴菲特銀行感謝您。`;
+        transactionDetails = `您設定的匯率為：${ConversionRates}\n我們將於匯率到價的時候通知您，交易會以當日匯率作計算，巴菲特銀行感謝您。`;
         showAlert(transactionDetails);
       }
     }
@@ -320,16 +319,24 @@ const ExchangeScreen = ({ navigation }) => {
                     placeholder={{ label: "請選擇轉出幣別", value: "", color: "#000" }}
                     items={currencyItems}
                     value={fromCurrency}
-                    onValueChange={(value) => setFromCurrency(value)}
+                    onValueChange={(value) => {
+                        setFromCurrency(value);
+                        // Conditionally set default account based on 'fromCurrency'
+                        setFromAccount(value === "新台幣" ? "活期儲蓄存款  0081234567890" : "外匯存款  0081234567891");
+                    }}
                     style={styles.picker}
                   />
                 </View>
                 <View style={styles.Sec}>
                   <RNPickerSelect
                     placeholder={{ label: "請選擇轉入幣別", value: "", color: "#000" }}
-                    items={currencyItems}
+                    items={currencyItems.filter(item => item.value !== fromCurrency)} // Filter out the current 'fromCurrency' from the options
                     value={toCurrency}
-                    onValueChange={(value) => setToCurrency(value)} // Corrected to update toCurrency
+                    onValueChange={(value) => {
+                      setToCurrency(value);
+                      // Conditionally set default account based on 'toCurrency'
+                      setToAccount(value === "新台幣" ? "活期儲蓄存款  0081234567890" : "外匯存款  0081234567891");
+                    }}
                     style={styles.picker}
                   />
                 </View>
@@ -391,11 +398,12 @@ const ExchangeScreen = ({ navigation }) => {
               </View>
               <View style={styles.PlatformAdj2}>
               <RNPickerSelect
-                placeholder={{ label: "", value: "", color: "#000" }}
-                items={accountItems}
+                placeholder={{ label: "請選擇轉出帳號", value: "", color: "#000" }}
+                items={fromCurrency === "新台幣" ? accountItems.slice(0, 1) : accountItems.slice(1)} // Conditionally set default account based on 'fromCurrency'
                 value={fromAccount}
                 onValueChange={(value) => setFromAccount(value)}
               />
+              <Text style={{...Platform.select({ios:{marginTop: 5},android:{marginLeft: 15, marginBottom: 15}}), color: '#929191'}}>可用餘額 : {fromAccount==="活期儲蓄存款  0081234567890"?numberWithCommas(balance.twd):fromAccount==="外匯存款  0081234567891"?numberWithCommas(balance.for): ""}</Text>
               </View>
               <View style={styles.labelContainer}>
                 <Text style={styles.label}>
@@ -404,12 +412,15 @@ const ExchangeScreen = ({ navigation }) => {
               </View>
               <View style={styles.PlatformAdj2}>
               <RNPickerSelect
-                placeholder={{ label: "", value: "", color: "#000" }}
-                items={accountItems}
+                placeholder={{ label: "請選擇轉入帳號", value: "", color: "#000" }}
+                items={toCurrency === "新台幣" ? accountItems.slice(0, 1) : accountItems.slice(1)} // Conditionally set default account based on 'toCurrency'
                 value={toAccount}
                 onValueChange={(value) => setToAccount(value)}
               />
+              <Text style={{...Platform.select({ios:{marginTop: 5},android:{marginLeft: 15}}), color: '#929191'}}>可用餘額 : {toAccount==="活期儲蓄存款  0081234567890"?numberWithCommas(balance.twd):toAccount==="外匯存款  0081234567891"?numberWithCommas(balance.for): ""}</Text>   
               </View>
+
+              
             </View>
             <TouchableOpacity onPress={() => {
               callTrade(fromAccount, fromAmount)
@@ -437,16 +448,24 @@ const ExchangeScreen = ({ navigation }) => {
                     placeholder={{ label: "請選擇轉出幣別", value: "", color: "#000" }}
                     items={currencyItems}
                     value={fromCurrency}
-                    onValueChange={(value) => setFromCurrency(value)}
+                    onValueChange={(value) => {
+                        setFromCurrency(value);
+                        // Conditionally set default account based on 'fromCurrency'
+                        setFromAccount(value === "新台幣" ? "活期儲蓄存款  0081234567890" : "外匯存款  0081234567891");
+                    }}
                     style={styles.picker}
                   />
                 </View>
                 <View style={styles.Sec}>
                   <RNPickerSelect
                     placeholder={{ label: "請選擇轉入幣別", value: "", color: "#000" }}
-                    items={currencyItems}
+                    items={currencyItems.filter(item => item.value !== fromCurrency)} // Filter out the current 'fromCurrency' from the options
                     value={toCurrency}
-                    onValueChange={(value) => setToCurrency(value)} // Corrected to update toCurrency
+                    onValueChange={(value) => {
+                      setToCurrency(value);
+                      // Conditionally set default account based on 'toCurrency'
+                      setToAccount(value === "新台幣" ? "活期儲蓄存款  0081234567890" : "外匯存款  0081234567891");
+                    }}
                     style={styles.picker}
                   />
                 </View>
@@ -508,11 +527,12 @@ const ExchangeScreen = ({ navigation }) => {
               </View>
               <View style={styles.PlatformAdj2}>
               <RNPickerSelect
-                placeholder={{ label: "", value: "", color: "#000" }}
-                items={accountItems}
+                placeholder={{ label: "請選擇轉出帳號", value: "", color: "#000" }}
+                items={fromCurrency === "新台幣" ? accountItems.slice(0, 1) : accountItems.slice(1)} // Conditionally set default account based on 'fromCurrency'
                 value={fromAccount}
                 onValueChange={(value) => setFromAccount(value)}
               />
+              <Text style={{...Platform.select({ios:{marginTop: 5},android:{marginLeft: 15, marginBottom: 15}}), color: '#929191'}}>可用餘額 : {fromAccount==="活期儲蓄存款  0081234567890"?numberWithCommas(balance.twd):fromAccount==="外匯存款  0081234567891"?numberWithCommas(balance.for): ""}</Text>
               </View>
               <View style={styles.labelContainer}>
                 <Text style={styles.label}>
@@ -521,19 +541,19 @@ const ExchangeScreen = ({ navigation }) => {
               </View>
               <View style={styles.PlatformAdj2}>
               <RNPickerSelect
-                placeholder={{ label: "", value: "", color: "#000" }}
-                items={accountItems}
+                placeholder={{ label: "請選擇轉入帳號", value: "", color: "#000" }}
+                items={toCurrency === "新台幣" ? accountItems.slice(0, 1) : accountItems.slice(1)} // Conditionally set default account based on 'toCurrency'
                 value={toAccount}
                 onValueChange={(value) => setToAccount(value)}
               />
+              <Text style={{...Platform.select({ios:{marginTop: 5},android:{marginLeft: 15}}), color: '#929191'}}>可用餘額 : {toAccount==="活期儲蓄存款  0081234567890"?numberWithCommas(balance.twd):toAccount==="外匯存款  0081234567891"?numberWithCommas(balance.for): ""}</Text>
               </View>
               <View style={styles.line} />
               <View style={styles.labelContainer}>
                 <Text style={styles.label}>
-                  預約設定選擇
+                  選擇預約方式
                 </Text>
               </View>
-
               
               <View style={{flexDirection: 'row', justifyContent: 'space-between', padding: 3, marginTop: 10}}>
                 <TouchableOpacity onPress={() => handleOptionSelect('option1')}>
