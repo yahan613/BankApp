@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, SafeAreaView, TextInput, Alert } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, SafeAreaView, TextInput, Alert, Platform } from 'react-native';
 import React from 'react'
 import { geticon } from '../component/img/getIcon';
 import RNPickerSelect from "react-native-picker-select";
@@ -119,8 +119,8 @@ const Transfer = ({ navigation }) => {
               <TouchableOpacity style={{ width: 100, right: 35, zIndex: 2 }}>{geticon('Transfer_Scan')}</TouchableOpacity>
             </View>
           </View>
-          <TouchableOpacity style={{ right: 0, margin: 5, marginBottom: 0, padding: 5, width: 140, justifyContent: 'center', alignItems: 'center', alignSelf: 'flex-end' }}>
-            <Text style={{ color: '#5C94F3' }}>選擇常用/約定</Text>
+          <TouchableOpacity style={{ right: 0, margin: 5, marginBottom: 0, padding: 5, ...Platform.select({ios: {width: 160},android: {width: 125}}), justifyContent: 'center', alignItems: 'center', alignSelf: 'flex-end' }}>
+            <Text style={{  color: '#5C94F3', borderWidth: 1, borderRadius: 8, borderColor: '#D9D9D9', paddingTop: 3, paddingBottom: 3, paddingRight: 10, paddingLeft: 10 }}>選擇常用/約定</Text>
           </TouchableOpacity>
           <View style={styles.selectBox}>
             <Text style={styles.selectlabel}>轉入金額</Text>
@@ -167,7 +167,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#D9D9D9'
   },
   scrollViewContent: {
-    width: 320,
+    ...Platform.select({
+      ios: {
+        width: 350,
+      },
+      android: {
+        width: 325,
+      }
+    }),
     height: 900,
     marginTop: 20,
   },
@@ -235,7 +242,7 @@ const styles = StyleSheet.create({
       borderRadius: 4,
       color: 'black',
       paddingRight: 30, // to ensure the text is never behind the icon
-      width: 270,
+      width: 300,
     },
     inputAndroid: {
       fontSize: 16,
@@ -258,7 +265,14 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     color: 'black',
     paddingRight: 30, // to ensure the text is never behind the icon
-    width: 270,
+    ...Platform.select({
+      ios: {
+        width: 300,
+      },
+      android: {
+        width: 280,
+      }
+    }),
     zIndex: 1
   },
   note: {
@@ -270,7 +284,14 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     color: 'black',
     paddingRight: 30, // to ensure the text is never behind the icon
-    width: 270,
+    ...Platform.select({
+      ios: {
+        width: 300,
+      },
+      android: {
+        width: 280,
+      }
+    }),
     height: 100,
   },
   button: {

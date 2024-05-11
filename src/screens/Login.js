@@ -146,14 +146,14 @@ const LoginScreen = ({ navigation }) => {
                             padding: 10,
                             backgroundColor: '#fff',
                             marginRight: 15,
-                            borderRadius: 8,
+                            borderRadius: 5,
                         }}
                         onChangeText={text => onChangeVerification(text)}
                         value={VerificaitonText}
                         placeholder="驗證碼"
                     />
                     <Image
-                        style={{ width: '40%', height: 31, backgroundColor: '#fff', marginRight: 5, }}
+                        style={{ ...Platform.select({ios: {width: '38%'},android: {width: '42%'}}), height: 31, backgroundColor: '#fff', marginRight: 5, }}
                         source={getverifyPic(verifynum)} // 使用 imageSource 變數
                         resizeMode="contain"
                     />
@@ -231,7 +231,7 @@ const styles = StyleSheet.create({
         paddingBottom: 5,
         backgroundColor: '#fff',
         marginBottom: 15,
-        borderRadius: 8,
+        borderRadius: 5,
         flexDirection: 'row',
         alignItems: 'center',
     },

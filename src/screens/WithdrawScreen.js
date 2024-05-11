@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextInput, View, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
+import { StyleSheet, Text, TextInput, View, TouchableOpacity, SafeAreaView, ScrollView, Platform } from 'react-native';
 import React from 'react'
 import { geticon } from '../component/img/getIcon';
 import RNPickerSelect from "react-native-picker-select";
@@ -124,13 +124,13 @@ const Withdraw = ({navigation}) => {
             </View>
             <View style={{flexDirection:'row', padding: 8}}>
               <TouchableOpacity style={styles.btn} onPress={() => setAmount(2000)}>
-                <Text style={{ fontSize: 16 }}>$2000</Text>
+                <Text style={{ ...Platform.select({ios: {fontSize: 14},android: {fontSize: 16}}) }}>$2000</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.btn} onPress={() => setAmount(3000)}>
-                <Text style={{ fontSize: 16 }}>$3000</Text>
+                <Text style={{ ...Platform.select({ios: {fontSize: 14},android: {fontSize: 16}}) }}>$3000</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.btn} onPress={() => setAmount(5000)}>
-                <Text style={{ fontSize: 16 }}>$5000</Text>
+                <Text style={{ ...Platform.select({ios: {fontSize: 14},android: {fontSize: 16}}) }}>$5000</Text>
               </TouchableOpacity>
             </View>   
           </View>
@@ -206,7 +206,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#244172',
   },
   scrollViewContent: {
-    width: 320,
+    ...Platform.select({
+      ios: {
+        width: 350,
+      },
+      android: {
+        width: 325,
+      }
+    }),
     height: 750,
     marginTop: 20,
   },
@@ -265,7 +272,7 @@ const styles = StyleSheet.create({
       borderRadius: 4,
       color: 'black',
       paddingRight: 30,
-      width: 270,
+      width: 300,
       marginBottom: 10
     },
     inputAndroid: {
@@ -288,7 +295,14 @@ const styles = StyleSheet.create({
     borderColor: '#D9D9D9',
     color: 'black',
     paddingRight: 30,
-    width: 250,
+    ...Platform.select({
+      ios: {
+        width: 300,
+      },
+      android: {
+        width: 275,
+      }
+    }),
     marginBottom: 15,
   },
   note: {
