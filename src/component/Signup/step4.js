@@ -3,10 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { geticon } from '../img/getIcon';
 import CheckBox from 'react-native-check-box';
-import { Susername, Spassword } from './step2';
-import { createUserWithEmailAndPassword, onAuthStateChanged, signOut, } from '@firebase/auth';
-import { getAuth, signInWithPhoneNumber, RecaptchaVerifier } from "firebase/auth";
-import { auth } from '../../../Firebaseinit';
+
+
 
 
 
@@ -17,17 +15,6 @@ const itemWidth = screenWidth * 0.8;
 const itemHeight = screenHeight * 0.1;
 
 const Step4 = () => {
-    const handleRegister = async () => {
-        try {
-            const userCredential = await firebase.auth().createUserWithEmailAndPassword(`${Susername}@example.com`, Spassword);
-            const user = userCredential.user;
-            Alert.alert('Registration Successful', `User registered with username: ${Susername}`);
-        } catch (error) {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            Alert.alert('Registration Failed', errorMessage);
-        }
-    };
     return (
         <View>
             <Image

@@ -1,7 +1,9 @@
 import { initializeApp, getApps, } from '@firebase/app';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, initializeAuth, getReactNativePersistence, RecaptchaVerifier, signInWithPhoneNumber  } from '@firebase/auth';
+import { getAuth, initializeAuth, getReactNativePersistence, RecaptchaVerifier, signInWithPhoneNumber  } from '@firebase/auth';
 import { getFirestore, collection, getDocs } from '@firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
 
 const firebaseConfig = {
     apiKey: "AIzaSyDr2OtR81_c-3yAOaIZB7fVubz2chv6vFY",
@@ -20,9 +22,9 @@ export const db = getFirestore(app);
 export const auth = app_length ? getAuth(app) :
     initializeAuth(app, {
         persistence: getReactNativePersistence(AsyncStorage)
-    });
+});
 
-auth.languageCode = 'it';
+
 // To apply the default browser preference instead of explicitly setting it.
 // auth.useDeviceLanguage();
 

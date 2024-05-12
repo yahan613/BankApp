@@ -7,18 +7,19 @@ import Step2 from '../component/Signup/step2';
 import Step3 from '../component/Signup/step3';
 import Step4 from '../component/Signup/step4';
 import AwesomeAlert from 'react-native-awesome-alerts';
-import { getSpassword, getSusername } from '../component/Signup/step2';
-
+import { getSpassword, getSusername, getSID } from '../component/Signup/step2';
+import { getSPhone, getSAccount } from '../component/Signup/step1';
+import { getSEmail } from '../component/Signup/step3';
+import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, User } from "@firebase/auth";
+import { auth, db } from '../../Firebaseinit';
+import { doc, setDoc } from "@firebase/firestore";
 
 
 const screenWidth = Dimensions.get('window').width;
-const screenHeight = Dimensions.get('window').height;
 const itemWidth = screenWidth * 0.8;
-const itemHeight = screenHeight * 0.1;
 
 let stepPage = 1;
-let Susername = 'default';
-let Spassword = 'default';
+let [SEmail, SPhone, Susername, Spassword, SID, SAccount] = 'default';
 
 const Signup = ({ navigation }) => {
     const [bankaccount, setbankaccount] = useState(true);
@@ -67,17 +68,22 @@ const Signup = ({ navigation }) => {
         }).start();
     }
 
-    const ReadSignUpData = async () => {
+    async function SignupSystem() {
         try {
-            const response = await fetch('./'); // 替换为文件B的路径
-            const fileContent = await response.text();
-            console.log(fileContent); // 打印文件内容，你可以根据需要处理这个内容
+            await createUserWithEmailAndPassword(auth, SEmail, Spassword);
+            console.log(SEmail, SPhone, Susername, Spassword, SID, SAccount);
+            await setDoc(doc(db, "User", Susername), {
+                Name: Susername,
+                AccountNum: SAccount,
+                ID: SID,
+                Phone: SPhone,
+                mail: SEmail,
+            });
+
         } catch (error) {
-            console.error('Error reading file B:', error);
+            console.log("註冊失敗", error)
         }
-    };
-
-
+    }
     return (
         <SafeAreaView style={{ flex: 1, }}>
             <View style={styles.header}>
@@ -145,7 +151,7 @@ const Signup = ({ navigation }) => {
                                     setStepPage(1);
                                 }}
                             >
-                                {stepPage < 4 ? 
+                                {stepPage < 4 ?
                                     <Text style={{ color: '#244172', textAlign: 'center' }}> 取消 </Text>
                                     : <Text style={{ color: '#244172', textAlign: 'center' }}>{' '} </Text>
                                 }
@@ -159,16 +165,20 @@ const Signup = ({ navigation }) => {
                                         const newStepPage = prevStepPage + 1;
                                         if (newStepPage === 2) {
                                             start1()
+                                            SPhone = getSPhone();
+                                            SAccount = getSAccount();
                                         }
                                         if (newStepPage === 3) {
                                             start2()
                                             Spassword = getSpassword();
-                                            console.log("I got pass:", Spassword)
-                                            Susername  = getSusername();
-                                            console.log("I got user:", Susername)
+                                            Susername = getSusername();
+                                            SID = getSID();
                                         }
                                         if (newStepPage === 4) {
                                             start3()
+                                            SEmail = getSEmail();
+                                            SignupSystem();
+                                            //console.log("State:",useAuth())
                                         }
                                         if (newStepPage === 5) {
                                             navigation.goBack();
@@ -178,10 +188,10 @@ const Signup = ({ navigation }) => {
                                         return newStepPage;
                                     });
                                 }}
-                            >   
-                            {stepPage < 4 ? 
-                                <Text style={{ color: '#fff', textAlign: 'center' }}>繼續</Text>:<Text style={{ color: '#fff', textAlign: 'center' }}>完成</Text>
-                            }
+                            >
+                                {stepPage < 4 ?
+                                    <Text style={{ color: '#fff', textAlign: 'center' }}>繼續</Text> : <Text style={{ color: '#fff', textAlign: 'center' }}>完成</Text>
+                                }
                             </TouchableOpacity>
                         </View>
                     </View>

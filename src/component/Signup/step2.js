@@ -2,9 +2,7 @@ import { StyleSheet, Text, View, SafeAreaView, Dimensions, TouchableOpacity, Tex
 import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { geticon } from '../img/getIcon';
-import { createUserWithEmailAndPassword, onAuthStateChanged, signOut, } from '@firebase/auth';
-import { getAuth, signInWithPhoneNumber, RecaptchaVerifier } from "firebase/auth";
-import { auth } from '../../../Firebaseinit';
+
 
 
 
@@ -12,12 +10,17 @@ const screenWidth = Dimensions.get('window').width;
 const itemWidth = screenWidth * 0.8;
 let Spassword = 'default';
 let Susername = 'default';
+let SID = 'default';
 
 const setSpasswordfun = (newPassword) => {
     Spassword = newPassword;
 };
 
-export const setSusernamefun = (newUsername) => {
+const setSIDfun = (newID) => {
+    SID = newID;
+};
+
+const setSusernamefun = (newUsername) => {
     Susername = newUsername;
 };
 
@@ -29,12 +32,16 @@ export const getSusername = () => {
     return(Susername)
 };
 
+export const getSID = () => {
+    return(SID)
+};
+
 
 
 const Step2 = () => {
     const [bankaccount, setbankaccount] = useState(true);
 
-    const [VISAnuminput, setVISAnuminput] = useState('');//金融卡或VISA金融卡號碼
+    const [SIDinput, setSIDinput] = useState('');//金融卡或VISA金融卡號碼
     const [Susername, setSusername] = useState('');//金融卡發行號碼
     const [Spassword, setSpassword] = useState('');//金融卡辭路密碼
     const [SureSpassword, setSureSpassword] = useState('');//金融卡辭路密碼
@@ -54,10 +61,12 @@ const Step2 = () => {
     };
 
     useEffect(() => {
-        // 在这里执行任何你希望在 VISApininput 变化时执行的操作
         setSpasswordfun(Spassword);
-        // 你可以在这里调用任何你希望执行的函数或方法
-    }, [Spassword]); // 这里是一个依赖数组，只有当数组中的值发生变化时，useEffect 才会执行
+    }, [Spassword]); 
+
+    useEffect(() => {
+        setSIDfun(SIDinput);
+    }, [SIDinput]); 
     
     useEffect(() => {
         // 在这里执行任何你希望在 VISApininput 变化时执行的操作
@@ -82,8 +91,8 @@ const Step2 = () => {
                 <View style={styles.input}>
                     <TextInput
                         style={{ width: '88%', height: '99%' }}
-                        value={VISAnuminput}
-                        onChangeText={text => setVISAnuminput(text)}
+                        value={SIDinput}
+                        onChangeText={text => setSIDinput(text)}
                         secureTextEntry={!showPassword}
                     />
                     <TouchableOpacity style={styles.visible} onPress={toggleShowPassword}>

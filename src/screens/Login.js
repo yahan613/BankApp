@@ -1,29 +1,80 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, Text, View, Dimensions, TextInput, Image, TouchableOpacity, } from 'react-native';
 import { geticon } from '../component/img/getIcon';
 import CheckBox from 'react-native-check-box';
 import { getverifyPic } from '../component/img/getVerifyPic';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import GetSelectedRates from '../component/Exchange/getExchange';
 import ActionSheetVernum from '../component/data/ActionSheetVernum.json'
 import AwesomeAlert from 'react-native-awesome-alerts';
 import { Platform } from 'react-native';
+import { signInWithEmailAndPassword, onAuthStateChanged } from '@firebase/auth';
+import { auth, db } from '../../Firebaseinit';
+import { collection, doc, getDocs, query, where } from "@firebase/firestore";
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 const itemWidth = screenWidth * 0.8;
 const itemHeight = screenHeight * 0.1;
-
-
+let [LID, LUserNum, email] = 'default';
 
 
 const LoginScreen = ({ navigation }) => {
     //Login Action
     const dispatch = useDispatch();
 
-    const handleLogin = () => {
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            setUser(user);
+        });
+
+        return () => unsubscribe();
+    }, [auth]);
+
+    async function queryUserSubcollection(IDText) {
+        try {
+            // 获取指定用户的文档引用
+            const ref = collection(db, "User");
+            const q = query(ref, where("ID", "==", IDText));
+            const getmail = 'default';
+            console.log("QU", q)
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach((doc) => {
+                console.log("RESULT", doc.data());
+                const data = doc.data();
+                getmail = data.mail
+                console.log("AAAA", getmail)
+                return (getmail)
+            });
+        } catch (error) {
+            // 处理查询失败的情况
+            console.error("查询失败:", error);
+        }
+    }
+
+    const handleLogin = async () => {
         dispatch({ type: 'LOGIN', payload: AccountText });
+        try {
+            //const getmail = await queryUserSubcollection(IDText);
+            const ref = collection(db, "User");
+            const q = query(ref, where("ID", "==", IDText));
+            let getmail = 'default';
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach((doc) => {
+                console.log("RESULT", doc.data());
+                const data = doc.data();
+                getmail = data.mail
+            });
+            const userCredential = await signInWithEmailAndPassword(auth, getmail, passwordText);
+            const user = userCredential.user;
+            console.log("用户登录成功:", user);
+            navigation.navigate('HomeDrawer');
+        } catch (error) {
+            // 处理登录失败
+            console.error("登录失败:", error);
+        }
     };
+
 
 
     const [AccountText, onChangeAccount] = React.useState(''); //輸入帳號
@@ -153,7 +204,7 @@ const LoginScreen = ({ navigation }) => {
                         placeholder="驗證碼"
                     />
                     <Image
-                        style={{ ...Platform.select({ios: {width: '38%'},android: {width: '42%'}}), height: 31, backgroundColor: '#fff', marginRight: 5, }}
+                        style={{ ...Platform.select({ ios: { width: '38%' }, android: { width: '42%' } }), height: 31, backgroundColor: '#fff', marginRight: 5, }}
                         source={getverifyPic(verifynum)} // 使用 imageSource 變數
                         resizeMode="contain"
                     />
@@ -168,7 +219,6 @@ const LoginScreen = ({ navigation }) => {
                             setShowAlert(true);
                             return; // 終止函數的執行
                         }
-                        navigation.navigate('HomeDrawer');
                         handleLogin();
                         onChangeAccount('');
                         onChangePassword('');
