@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
         width: '80%',
         height: 40,
         margin: 23,
-        borderRadius: 10,
+        borderRadius: 5,
         flexDirection: 'row',
         padding: 10,
         paddingLeft: 15,

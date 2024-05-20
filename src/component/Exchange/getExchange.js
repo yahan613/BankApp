@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux'; // 假設你使用的是 Redux
 
 
 const GetSelectedRates = () => {
-    const apiKey = 'f835a80f35acb24a41b109e8';
+    const apiKey = '2a368b784b7f086faf2f3941';
     const apiUrl = 'https://open.er-api.com/v6/latest/TWD';
     const [usdRate, setUsdRate] = useState(null);
     const [jpyRate, setJpyRate] = useState(null);

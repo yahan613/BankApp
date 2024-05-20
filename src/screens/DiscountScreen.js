@@ -17,7 +17,7 @@ const Discount = () => {
           />
           <View style={styles.memberTextbox}>
             <Text style={{ ...Platform.select({ios: {fontSize: 14},android: {fontSize: 16}}) }}>Amy</Text>
-            <Text style={{ ...Platform.select({ios: {fontSize: 14},android: {fontSize: 16}}) }}>查看個人資料</Text>
+            <TouchableOpacity><Text style={{ ...Platform.select({ios: {fontSize: 12},android: {fontSize: 14}}), color: '#5C94F3' }}>查看個人資料</Text></TouchableOpacity>
           </View>
           <View style={styles.coinContainer}>
             <TouchableOpacity style={{ height: 30, width: 30, flexDirection: 'row', alignItems: 'center' }}>
