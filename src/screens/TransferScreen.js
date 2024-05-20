@@ -4,6 +4,9 @@ import { geticon } from '../component/img/getIcon';
 import RNPickerSelect from "react-native-picker-select";
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { getFirestore, collection, getDocs, setDoc, doc, updateDoc } from '@firebase/firestore';
+import { db } from '../../Firebaseinit';
+
 
 
 const Transfer = ({ navigation }) => {
@@ -14,9 +17,18 @@ const Transfer = ({ navigation }) => {
   const [AccountText, onChangeAccount] = React.useState(''); //輸入帳號
   const [MoneyText, onChangeMoney] = React.useState(''); //輸入金額
   const [NoteText, onChangeNote] = React.useState(''); //輸入備註
+
+  //從後端獲取資料
+  let UserData = useSelector(state => state.auth.UserData);
+  const userName = UserData.Name
+  const cre = UserData.Balance.credit
+  const ori_twd = UserData.Balance.twd
+  const ori_for = UserData.Balance.for
+
   const FORtransactionAction = (money) => {
     dispatch({ type: 'SET_FOR_TR', payload: { money: money } });
   };
+
   const TWDtransactionAction = (money) => {
     dispatch({ type: 'SET_TWD_TR', payload: { money: money } });
   };
@@ -26,19 +38,44 @@ const Transfer = ({ navigation }) => {
       Alert.alert('有空白欄位', '請在確認送出前填寫所有欄位。');
       return;
     }
-  
+
     let transactionDetails;
-      transactionDetails =  transactionDetails = `轉出金額 : ${MoneyText} 元\n轉出帳號 :\n${selectedValue} \n轉入帳號 : \n${selectedValue2}\n${AccountText} \n`;
-      navigation.navigate('TransferConfirm', { transactionDetails });
+    transactionDetails = transactionDetails = `轉出金額 : ${MoneyText} 元\n轉出帳號 :\n${selectedValue} \n轉入帳號 : \n${selectedValue2}\n${AccountText} \n`;
+    navigation.navigate('TransferConfirm', { transactionDetails, });
+  };
+
+  const upDateFireBase = async (money, acctype) => {
+    console.log("money is ", money)
+    console.log("acc is ",  ori_for - money,)
+    switch(acctype){
+      case 'twd':
+        await updateDoc(doc(db, "User", userName), {
+          Balance:{
+            for: ori_for,
+            twd: ori_twd - money,
+            credit: cre,
+          }
+        });
+        break;
+      case 'for':
+        await updateDoc(doc(db, "User", userName), {
+          Balance: {
+            for: ori_for - money,
+            twd: ori_twd,
+            credit: cre,
+          }
+        });
+        break;
+    }
   };
 
   const callTrade = (v, m) => {
     switch (v) {
       case '外匯存款  0081234567891':
-        FORtransactionAction(m);
+        upDateFireBase(m, 'for'); //要轉多少，轉哪個帳戶的錢(活儲或外匯)
         break;
       case '活期儲蓄存款  0081234567890':
-        TWDtransactionAction(m);
+        upDateFireBase(m, 'twd');
         break;
       default:
         break;
@@ -84,7 +121,7 @@ const Transfer = ({ navigation }) => {
               />
               <View style={{ width: 100, right: 200 }}>{geticon('scan')}</View>
             </View>
-            
+
           </View>
           <View style={styles.selectBox}>
             <Text style={styles.selectlabel}>轉入銀行</Text>
@@ -119,8 +156,8 @@ const Transfer = ({ navigation }) => {
               <TouchableOpacity style={{ width: 100, right: 35, zIndex: 2 }}>{geticon('Transfer_Scan')}</TouchableOpacity>
             </View>
           </View>
-          <TouchableOpacity style={{ right: 0, margin: 5, marginBottom: 0, padding: 5, ...Platform.select({ios: {width: 160},android: {width: 125}}), justifyContent: 'center', alignItems: 'center', alignSelf: 'flex-end' }}>
-            <Text style={{  color: '#5C94F3', borderWidth: 1, borderRadius: 8, borderColor: '#D9D9D9', paddingTop: 3, paddingBottom: 3, paddingRight: 10, paddingLeft: 10 }}>選擇常用/約定</Text>
+          <TouchableOpacity style={{ right: 0, margin: 5, marginBottom: 0, padding: 5, ...Platform.select({ ios: { width: 160 }, android: { width: 125 } }), justifyContent: 'center', alignItems: 'center', alignSelf: 'flex-end' }}>
+            <Text style={{ color: '#5C94F3', borderWidth: 1, borderRadius: 8, borderColor: '#D9D9D9', paddingTop: 3, paddingBottom: 3, paddingRight: 10, paddingLeft: 10 }}>選擇常用/約定</Text>
           </TouchableOpacity>
           <View style={styles.selectBox}>
             <Text style={styles.selectlabel}>轉入金額</Text>

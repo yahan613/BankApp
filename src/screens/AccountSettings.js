@@ -67,7 +67,27 @@ const AccountSettingsScreen = ({ navigation }) => {
             </View>
           </View>
          
-          {/* other selections*/}
+          {/* not yet merged
+          
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => { navigation.navigate("PersonalInfo") }}
+          >
+            <Text>編輯個人資料</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+          >
+            <Text>安全性設定</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => { navigation.navigate("ResetPassword")}}
+          >
+            <Text>重置密碼</Text>
+          </TouchableOpacity>
+          */}
+
         </View>
         
       </View>
@@ -136,6 +156,16 @@ const styles = StyleSheet.create({
     height: 1,
     marginLeft: -50,
     backgroundColor: '#D9D9D9'
+  },
+  button: {
+    width: '100%',
+    height: 60,
+    borderBottomColor: '#D9D9D9',
+    borderBottomWidth: 2,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    padding: 10,
   },
 });
 export default AccountSettingsScreen

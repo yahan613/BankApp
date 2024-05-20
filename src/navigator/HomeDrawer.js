@@ -10,6 +10,7 @@ import MyTab from './ButtomTab';
 import Payment from '../screens/PaymentScreen';
 import Transfer from '../screens/TransferScreen';
 import AccountSettingsScreen from '../screens/AccountSettings';
+import AccSettingNavigator from './AccountSettingStack';
 import ExchangeScreen from '../screens/Exchange';
 import Withdraw from '../screens/WithdrawScreen';
 
@@ -57,7 +58,7 @@ function CustomDrawerContent(props) {
 }
 
 const menuItems = [
-    { name: "帳戶設定", component: AccountSettingsScreen, icon: 'Account' },
+    { name: "帳戶設定", component: AccSettingNavigator, icon: 'Account' },
     { name: "轉帳服務", component: Transfer, icon: 'Transfer' },
     { name: "提款服務", component: Withdraw, icon: 'Withdraw' },
     { name: "繳費服務", component: Payment, icon: 'Bill' },
@@ -74,7 +75,9 @@ function resetFlagToZero() {
 }
 
 
-const HomeDrawer = ({ navigation, route }) => {
+const HomeDrawer = ({ navigation }) => {
+    //const {paraBalance} = route.params;
+    //console.log("Para in HomeDr", paraBalance)
     //Name
     useEffect(() => {
         if (Bflag === 1) {

@@ -4,6 +4,7 @@ import { geticon } from '../component/img/getIcon';
 import { useState } from 'react';
 import { Platform } from 'react-native';
 
+
 const TransferConfirm = ({ navigation, route }) => {
 
   const { transactionDetails } = route.params;
