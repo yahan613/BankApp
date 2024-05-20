@@ -16,7 +16,7 @@ const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 const itemWidth = screenWidth * 0.8;
 const itemHeight = screenHeight * 0.1;
-let [LID, LUserNum, email] = 'default';
+let [LID, LUserNum, email, ParaBalance] = 'default';
 
 
 const LoginScreen = ({ navigation }) => {
@@ -25,9 +25,7 @@ const LoginScreen = ({ navigation }) => {
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
-            setUser(user);
         });
-
         return () => unsubscribe();
     }, [auth]);
 
@@ -36,14 +34,12 @@ const LoginScreen = ({ navigation }) => {
             // 获取指定用户的文档引用
             const ref = collection(db, "User");
             const q = query(ref, where("ID", "==", IDText));
-            const getmail = 'default';
-            console.log("QU", q)
+            const getmail = 'default'
             const querySnapshot = await getDocs(q);
             querySnapshot.forEach((doc) => {
                 console.log("RESULT", doc.data());
                 const data = doc.data();
                 getmail = data.mail
-                console.log("AAAA", getmail)
                 return (getmail)
             });
         } catch (error) {
@@ -53,7 +49,7 @@ const LoginScreen = ({ navigation }) => {
     }
 
     const handleLogin = async () => {
-        dispatch({ type: 'LOGIN', payload: AccountText });
+        let data = [];
         try {
             //const getmail = await queryUserSubcollection(IDText);
             const ref = collection(db, "User");
@@ -61,22 +57,23 @@ const LoginScreen = ({ navigation }) => {
             let getmail = 'default';
             const querySnapshot = await getDocs(q);
             querySnapshot.forEach((doc) => {
-                console.log("RESULT", doc.data());
-                const data = doc.data();
+                data = doc.data();
                 getmail = data.mail
+                ParaBalance = data.Balance
+                console.log("ParaBalance is", ParaBalance)
             });
             const userCredential = await signInWithEmailAndPassword(auth, getmail, passwordText);
             const user = userCredential.user;
-            console.log("用户登录成功:", user);
-            navigation.navigate('HomeDrawer');
+            dispatch({ type: 'LOGIN', payload: data });
+            setTimeout(() => {
+                navigation.navigate('HomeDrawer');
+            }, 3000);
         } catch (error) {
             // 处理登录失败
             console.error("登录失败:", error);
         }
     };
-
-
-
+    
     const [AccountText, onChangeAccount] = React.useState(''); //輸入帳號
     const [passwordText, onChangePassword] = React.useState(''); //輸入密碼
     const [IDText, onChangeID] = React.useState(''); //輸入密碼
@@ -214,7 +211,6 @@ const LoginScreen = ({ navigation }) => {
                 </View>
                 <TouchableOpacity
                     onPress={() => {
-                        console.log("SetShowAlert is", showAlert)
                         if (String(VerificaitonText) !== String(ActionSheetVernum[verifynum - 1].num)) {
                             setShowAlert(true);
                             return; // 終止函數的執行

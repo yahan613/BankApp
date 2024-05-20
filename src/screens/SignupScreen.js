@@ -15,8 +15,14 @@ import { auth, db } from '../../Firebaseinit';
 import { doc, setDoc } from "@firebase/firestore";
 
 
+
 const screenWidth = Dimensions.get('window').width;
 const itemWidth = screenWidth * 0.8;
+
+//隨機產生餘額
+const randomTWD = Math.floor(Math.random() * (200000 - 10000 + 1)) + 10000;
+const randomFor = Math.floor(Math.random() * (30000 - 10000 + 1)) + 10000;
+
 
 let stepPage = 1;
 let [SEmail, SPhone, Susername, Spassword, SID, SAccount] = 'default';
@@ -78,6 +84,12 @@ const Signup = ({ navigation }) => {
                 ID: SID,
                 Phone: SPhone,
                 mail: SEmail,
+                Balance: {
+                    twd: randomTWD,
+                    for: randomFor,
+                    credit: randomTWD - 5000, //信用卡餘額為台幣餘額-5000,
+                }, 
+
             });
 
         } catch (error) {

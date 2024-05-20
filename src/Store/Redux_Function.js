@@ -1,6 +1,9 @@
 import { createStore, combineReducers } from 'redux';
 import { useSelector, useDispatch } from 'react-redux';
 import { StyleSheet, Text, View, Button } from 'react-native';
+import { db } from '../../Firebaseinit';
+import { collection, doc, getDocs, query, where } from "@firebase/firestore";
+
 
 // Reducer functions
 
@@ -21,8 +24,21 @@ const initialState = {
         day: 0,
     },
     balance: {
-        twd: 300000,
-        for: 10000,//折合台幣
+        twd: 0,
+        for: 0,//折合台幣
+        credit: 0,
+    },
+    UserData: {
+        AccountNum: 'default',
+        Balance: {
+            Credit: 0,
+            for: 0,
+            twd: 0,
+        },
+        ID: 'default',
+        Name: 'default',
+        Phone: 'default',
+        mail: 'default',
     }
 };
 
@@ -49,49 +65,51 @@ const HeaderFlagReducer = (state = initialState, action) => {
 };
 
 const transactionReducer = (state = initialState, action) => {
-
-    console.log('typeof toAmount');
     switch (action.type) {
         //deduct
         case 'SET_FOR_TR':
             return {
                 ...state,
-                balance: {
-                    ...state.balance,
-                    for: state.balance.for - parseInt(action.payload.money, 10)
-                }
+                UserData: {
+                    Balance: {
+                        ...state,
+                        for: state.UserData.Balance.for - parseInt(action.payload.money, 10)
+                    }
+                },
             };
         case 'SET_TWD_TR':
-             
+            //console.log('change SET_FOR_TR', state.UserData.Balance)
+            return {
+                ...state,
+                UserData: {
+                    Balance: {
+                        ...state,
+                        for: state.UserData.Balance.twd - parseInt(action.payload.money, 10)
+                    }
+                },
+            };
+        //add
+        case 'SET_FOR_TRA':
             return {
                 ...state,
                 balance: {
                     ...state.balance,
-                    twd: state.balance.twd - parseInt(action.payload.money, 10)
+                    for: state.balance.for + parseInt(action.payload.money, 10)
                 }
             };
-            //add
-            case 'SET_FOR_TRA': 
-            
-                return {
-                    ...state,
-                    balance: {
-                        ...state.balance,
-                        for: state.balance.for + parseInt(action.payload.money, 10)
-                    }
-                };
-            case 'SET_TWD_TRA':
-                return {
-                    ...state,
-                    balance: {
-                        ...state.balance,
-                        twd: state.balance.twd + parseInt(action.payload.money, 10)
-                    }
-                };
+        case 'SET_TWD_TRA':
+            return {
+                ...state,
+                balance: {
+                    ...state.balance,
+                    twd: state.balance.twd + parseInt(action.payload.money, 10)
+                }
+            };
         default:
             return state;
     }
 };
+
 
 
 const counterReducer = (state = { count: 0 }, action) => {
@@ -108,9 +126,39 @@ const counterReducer = (state = { count: 0 }, action) => {
 const authReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'LOGIN':
-            return { ...state, isSignedIn: true, userName: action.payload };
+            return {
+                ...state,
+                isSignedIn: true,
+                UserData: {
+                    AccountNum: action.payload.AccountNum,
+                    Balance: {
+                        credit: action.payload.Balance.credit,
+                        for: action.payload.Balance.for,
+                        twd: action.payload.Balance.twd,
+                    },
+                    ID: action.payload.ID,
+                    Name: action.payload.Name,
+                    Phone: action.payload.Phone,
+                    mail: action.payload.mail,
+                },
+            };
         case 'LOGOUT':
-            return { ...state, isSignedIn: false, userName: '' };
+            return {
+                ...state,
+                isSignedIn: false,
+                UserData: {
+                    AccountNum: 'Logged out',
+                    Balance: {
+                        credit: 'Logged out',
+                        for:'Logged out',
+                        twd: 'Logged out',
+                    },
+                    ID: 'Logged out',
+                    Name: 'Logged out',
+                    Phone: 'Logged out',
+                    mail: 'Logged out',
+                },
+            };
         default:
             return state;
     }

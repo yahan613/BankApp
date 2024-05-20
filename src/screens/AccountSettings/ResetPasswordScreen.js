@@ -1,37 +1,24 @@
+//重設密碼Screen
+
+//編輯個人資料Screen
 import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView } from 'react-native';
-import { geticon } from '../component/img/getIcon';
+import { geticon } from '../../component/img/getIcon';
 import React, { useEffect, useState } from 'react';
 
-const AccountSettingsScreen = ({ navigation }) => {
+const ResetPassword = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={{ width: '100%', height: 80, backgroundColor: '#244172', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
         {/*Header of Exchange Screen*/}
         <View style={{ position: 'absolute', left: 20 }}>
-          <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
             {geticon('Arrow')}
           </TouchableOpacity>
         </View>
-        <Text style={{ color: '#fff', fontSize: 20 }}>帳戶設定</Text>
+        <Text style={{ color: '#fff', fontSize: 20 }}>重置密碼</Text>
       </View>
-      <View style={{ flex: 1, flexDirection: 'column', width: '100%' }}>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => { navigation.navigate("PersonalInfo") }}
-        >
-          <Text>編輯個人資料</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button}
-        >
-          <Text>安全性設定</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => { navigation.navigate("ResetPassword")}}
-        >
-          <Text>重置密碼</Text>
-        </TouchableOpacity>
+      <View style={{ flex: 1, flexDirection: 'column', width: '100%'}}>
+        <Text>重置密碼</Text>
       </View>
     </SafeAreaView>
 
@@ -55,4 +42,4 @@ const styles = StyleSheet.create({
     padding: 10,
   },
 });
-export default AccountSettingsScreen
+export default ResetPassword

@@ -47,6 +47,11 @@ let money = {
 }
 
 const HomeScreen = ({ navigation }) => {
+    //const {paraBalance} = route.params;
+    //console.log("GGGG", paraBalance)
+    let UserData = []
+    let firstcome = 1;
+    UserData = useSelector(state => state.auth.UserData);
     const dispatch = useDispatch();
     const usdRate = useSelector(state => state.rate.usdRate);
     const jpyRate = useSelector(state => state.rate.jpyRate);
@@ -70,16 +75,13 @@ const HomeScreen = ({ navigation }) => {
     const HeaderFlagAction = (flag) => {
         dispatch({ type: 'SET_HEADER_FLAG', payload: flag });
     };
-    /*const FORtransactionAction = () => {
-        dispatch({ type: 'SET_FOR_TR', payload: { money: 0 } });
-    };
-    const TWDtransactionAction = () => {
-        dispatch({ type: 'SET_TWD_TR', payload: { money: 0 } });
-    };
-    FORtransactionAction();
-    TWDtransactionAction();*/
-    const balance = useSelector(state => state.trade.balance);
-
+    //const balance = useSelector(state => state.trade.balance);
+    //useSelector(state => state.auth.UserData);
+    /*useEffect(() => {
+        // 这里可以放入您希望在每次更新后只读取一次的代码
+        console.log('UserData updated:', UserData);
+        UserData = useSelector(state => state.auth.UserData);
+    }, [UserData]); // 只有当 UserData 发生变化时才执行 useEffect*/
 
     const fetchData = async () => {
         const docRef1 = await updateDoc(doc(db, "Exchange", "USD"), {
@@ -112,6 +114,7 @@ const HomeScreen = ({ navigation }) => {
                 Sellout: EXCHANGE_DATA[19].value
             }
         });
+
     };
 
     fetchData();
@@ -122,6 +125,7 @@ const HomeScreen = ({ navigation }) => {
             HeaderFlagAction(1);//HomeHeader!!!!
             return () => {
                 HeaderFlagAction(0);//NoHeader!!!!
+                firstcome = 0
             };
         }, [])
     );
@@ -154,10 +158,10 @@ const HomeScreen = ({ navigation }) => {
     const [theme, setTheme] = useState('light');
 
     const toggleTheme = () => {
-      const newTheme = theme === 'light' ? 'dark' : 'light';
-      setTheme(newTheme);
+        const newTheme = theme === 'light' ? 'dark' : 'light';
+        setTheme(newTheme);
     };
-  
+
     const colors = theme === 'light' ? lightThemeColors : darkThemeColors;
 
     const textStyles = {
@@ -184,7 +188,10 @@ const HomeScreen = ({ navigation }) => {
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.functionbox}
-                        onPress={() => navigation.navigate('Withdraw')}
+                        onPress={() => {
+                            firstcome = 0;
+                            navigation.navigate('Withdraw');
+                        }}
                     >
                         <View>
                             {geticon("Withdraw")}
@@ -222,33 +229,33 @@ const HomeScreen = ({ navigation }) => {
                 contentContainerStyle={styles.scrollViewContent}
                 showsVerticalScrollIndicator={false}
             >
-                <View style={[styles.box, { backgroundColor: colors.box}]}>
+                <View style={[styles.box, { backgroundColor: colors.box }]}>
                     <View style={styles.labelContainer}>
                         <View style={styles.label}>
-                            <View style={[{ height: '100%', width: 3, backgroundColor: '#244172', marginRight: 7 }, { backgroundColor: colors.htext}]}></View>
+                            <View style={[{ height: '100%', width: 3, backgroundColor: '#244172', marginRight: 7 }, { backgroundColor: colors.htext }]}></View>
                             <Text style={[styles.labelText, htextStyles]}>
                                 存款
                             </Text>
                             <TouchableOpacity style={{ marginLeft: 10, }} onPress={toggleShowdeposit}>
                                 {geticon(showdeposit ? "Noeye" : "Eye")}
-                            </TouchableOpacity> 
+                            </TouchableOpacity>
                         </View>
                     </View>
                     <View style={[styles.line, { backgroundColor: colors.bg }]} />
                     <View style={styles.moneyBox}>
                         <Text style={[styles.text, textStyles]}>臺幣總額：</Text>
-                        <Text style={[styles.numtext, textStyles]}>{!showdeposit ? numberWithCommas(balance.twd) : '*******'}</Text>
+                        <Text style={[styles.numtext, textStyles]}>{!showdeposit ? numberWithCommas(UserData.Balance.twd) : '*******'}</Text>
                     </View>
                     <View style={[styles.line, { backgroundColor: colors.bg }]} />
                     <View style={styles.moneyBox}>
                         <Text style={[styles.text, textStyles]}>外幣總額：</Text>
-                        <Text style={[styles.numtext, textStyles]}>{!showdeposit ? numberWithCommas(balance.for) : '*******'}</Text>
+                        <Text style={[styles.numtext, textStyles]}>{!showdeposit ? numberWithCommas(UserData.Balance.for) : '*******'}</Text>
                     </View>
                 </View>
-                <View style={[styles.box, { backgroundColor: colors.box}]}>
+                <View style={[styles.box, { backgroundColor: colors.box }]}>
                     <View style={styles.labelContainer}>
                         <View style={styles.label}>
-                            <View style={[{ height: '100%', width: 3, backgroundColor: '#244172', marginRight: 7 }, { backgroundColor: colors.htext}]}></View>
+                            <View style={[{ height: '100%', width: 3, backgroundColor: '#244172', marginRight: 7 }, { backgroundColor: colors.htext }]}></View>
                             <Text style={[styles.labelText, htextStyles]}>
                                 信用卡
                             </Text>
@@ -260,15 +267,15 @@ const HomeScreen = ({ navigation }) => {
                     <View style={[styles.line, { backgroundColor: colors.bg }]} />
                     <View style={styles.moneyBox}>
                         <Text style={[styles.text, textStyles]}>刷卡明細：</Text>
-                        <Text style={[styles.numtext, textStyles]}>{!showcredit ? numberWithCommas(money.Credit) : '*****'}</Text>
+                        <Text style={[styles.numtext, textStyles]}>{!showcredit ? numberWithCommas(UserData.Balance.credit) : '*****'}</Text>
                     </View>
-                    <Text style={{ textAlign: 'right', color: '#5C94F3', marginBottom: 3, marginTop: 3, }}>可用餘額：{numberWithCommas(money.CreditCoda - money.Credit)}</Text>
-                    <Text style={{ textAlign: 'right', color: '#5C94F3', marginBottom: 3 }}>本期應繳：{numberWithCommas(money.CreditofTheMonth)}</Text>
+                    <Text style={{ textAlign: 'right', color: '#5C94F3', marginBottom: 3, marginTop: 3, }}>可用餘額：{numberWithCommas(money.CreditCoda - UserData.Balance.credit)}</Text>
+                    <Text style={{ textAlign: 'right', color: '#5C94F3', marginBottom: 3 }}>本期應繳：{numberWithCommas(UserData.Balance.for)}</Text>
                 </View>
-                <View style={[styles.box, { backgroundColor: colors.box}]}>
+                <View style={[styles.box, { backgroundColor: colors.box }]}>
                     <View style={styles.labelContainer}>
                         <View style={styles.label}>
-                            <View style={[{ height: '100%', width: 3, backgroundColor: '#244172', marginRight: 7 }, { backgroundColor: colors.htext}]}></View>
+                            <View style={[{ height: '100%', width: 3, backgroundColor: '#244172', marginRight: 7 }, { backgroundColor: colors.htext }]}></View>
                             <Text style={[styles.labelText, htextStyles]}>
                                 匯率
                             </Text>
@@ -288,10 +295,10 @@ const HomeScreen = ({ navigation }) => {
                     />
                     <Text style={{ color: '#5C94F3', fontSize: 14, alignSelf: 'flex-end', marginRight: 20, marginTop: 10, }}>最後更新日期：{year}-{month < 10 ? '0' + month : month}-{day < 10 ? '0' + day : day}</Text>
                 </View>
-                <View style={[styles.box, { backgroundColor: colors.box}]}>
+                <View style={[styles.box, { backgroundColor: colors.box }]}>
                     <View style={styles.labelContainer}>
                         <View style={styles.label}>
-                            <View style={[{ height: '100%', width: 3, backgroundColor: '#244172', marginRight: 7 }, { backgroundColor: colors.htext}]}></View>
+                            <View style={[{ height: '100%', width: 3, backgroundColor: '#244172', marginRight: 7 }, { backgroundColor: colors.htext }]}></View>
                             <Text style={[styles.labelText, htextStyles]}>
                                 巴菲特報報
                             </Text>
@@ -324,7 +331,7 @@ const HomeScreen = ({ navigation }) => {
                 </View>
                 <Button title="Toggle Theme" onPress={toggleTheme} />
             </ScrollView>
-        </View>
+        </View >
     )
 }
 
