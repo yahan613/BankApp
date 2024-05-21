@@ -15,7 +15,9 @@ import SavingsAccount from "../screens/SavingsAccount";
 import History from "../screens/History";
 const Stack = createNativeStackNavigator();
 
-const HomeScreenNavigator = () => {
+const HomeScreenNavigator = ({navigation}) => {
+    //console.log("gGG", route);
+    //const {Balance} = route.params;
     return (
         <Stack.Navigator initialRouteName="HomeScreen">
             <Stack.Screen

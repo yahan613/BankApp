@@ -60,13 +60,12 @@ const LoginScreen = ({ navigation }) => {
                 data = doc.data();
                 getmail = data.mail
                 ParaBalance = data.Balance
-                console.log("ParaBalance is", ParaBalance)
             });
             const userCredential = await signInWithEmailAndPassword(auth, getmail, passwordText);
             const user = userCredential.user;
             dispatch({ type: 'LOGIN', payload: data });
             setTimeout(() => {
-                navigation.navigate('HomeDrawer');
+                navigation.navigate('HomeDrawer',  {ParaBalance} );
             }, 3000);
         } catch (error) {
             // 处理登录失败

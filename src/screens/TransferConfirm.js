@@ -3,9 +3,36 @@ import React from 'react'
 import { geticon } from '../component/img/getIcon';
 import { useState } from 'react';
 import { Platform } from 'react-native';
+import { useSelector } from 'react-redux';
+import { db } from '../../Firebaseinit';
+import { collection, doc, getDocs, query, where } from "@firebase/firestore";
 
 
 const TransferConfirm = ({ navigation, route }) => {
+  //Paramtest
+  /*UserData = useSelector(state => state.auth.UserData.Name);
+  const updataBalance = async () => {
+    try {
+      const ref = collection(db, "User");
+      const q = query(ref, where("Name", "==", UserData));
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        const data = doc.data(),
+        ParaBalance = data.Balance;
+        console.log("LARTTTTTT", ParaBalance)
+        navigation.navigate('HomeScreen');
+      });
+    } catch (err) {
+      console.error("UpdateFailed:", err);
+    }
+  }*/
+
+  const handlePress = () => {
+    //updataBalance();
+    setTimeout(() => {
+      navigation.navigate('HomeScreen');
+    }, 2000); 
+  };
 
   const { transactionDetails } = route.params;
   const [currentDateTime] = useState(new Date());
@@ -23,32 +50,32 @@ const TransferConfirm = ({ navigation, route }) => {
       <View style={{ width: '100%', height: 80, backgroundColor: '#244172', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
         {/*Header of Exchange Screen*/}
         <View style={{ position: 'absolute', left: 20 }}>
-          <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
+          <TouchableOpacity onPress={handlePress}>
             {geticon('Arrow')}
           </TouchableOpacity>
         </View>
         <Text style={{ color: '#fff', fontSize: 20 }}>轉帳</Text>
       </View>
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <ScrollView contentContainerStyle={styles.scrollViewContent} showsVerticalScrollIndicator={false}>
-        <View style={styles.box}>
-          <View style={styles.labelContainer}>
+        <ScrollView contentContainerStyle={styles.scrollViewContent} showsVerticalScrollIndicator={false}>
+          <View style={styles.box}>
+            <View style={styles.labelContainer}>
               {geticon('Circle')}
               <Text style={styles.labelText}>
                 轉帳成功
-              </Text>   
+              </Text>
               <View>
-                <Text style={{margin: 8, color: 'gray'}}>{taipeiTime}</Text>
+                <Text style={{ margin: 8, color: 'gray' }}>{taipeiTime}</Text>
               </View>
+            </View>
+            <View>
+              <Text style={{ ...Platform.select({ android: { fontSize: 18 }, ios: { fontSize: 14 } }), marginBottom: 10, lineHeight: 35 }}>{transactionDetails}</Text>
+            </View>
           </View>
-          <View>
-            <Text style={{...Platform.select({android: {fontSize: 18}, ios: {fontSize: 14}}), marginBottom: 10, lineHeight: 35 }}>{transactionDetails}</Text>
-          </View>   
-      </View>
-      <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')} style={styles.button}>
+          <TouchableOpacity onPress={handlePress} style={styles.button}>
             <Text style={styles.buttonText}>確認</Text>
-        </TouchableOpacity>
-      </ScrollView>
+          </TouchableOpacity>
+        </ScrollView>
       </View>
     </SafeAreaView>
 

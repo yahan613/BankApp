@@ -75,9 +75,9 @@ function resetFlagToZero() {
 }
 
 
-const HomeDrawer = ({ navigation }) => {
-    //const {paraBalance} = route.params;
-    //console.log("Para in HomeDr", paraBalance)
+const HomeDrawer = ({navigation, route}) => {
+    const {Balance} = route.params;
+    //console.log("HomeDrawer")
     //Name
     useEffect(() => {
         if (Bflag === 1) {
@@ -118,6 +118,7 @@ const HomeDrawer = ({ navigation }) => {
             <Drawer.Screen
                 name="帳務總覽"
                 component={MyTab}
+                initialParams={Balance}
                 options={({ navigation }) => ({
                     headerTitleAlign: 'center',
                     headerTitleStyle: {

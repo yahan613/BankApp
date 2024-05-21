@@ -9,7 +9,7 @@ import { Platform } from 'react-native';
 import { lightThemeColors, darkThemeColors } from '../component/Colors';
 import { app } from '../../Firebaseinit'
 import { db } from '../../Firebaseinit'
-import { getFirestore, collection, getDocs, setDoc, doc, updateDoc } from '@firebase/firestore';
+import { getFirestore, collection, getDocs, doc, updateDoc, query, where } from '@firebase/firestore';
 
 let EXCHANGE_DATA = [
     { id: '1', value: 'USA', width: '20%' },
@@ -34,9 +34,18 @@ let EXCHANGE_DATA = [
     { id: '20', value: 'sellout', width: '30%' },
 ];
 //三個數字中間要逗號
-const numberWithCommas = (x) => {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-}
+const numberWithCommas = (x, currency) => {
+    switch (currency) {
+      case "TWD":
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            resolve(100); // 2.5秒后更新值为100
+          }, 2500);
+        });
+      default:
+        return Promise.resolve(x); // 默认情况下返回原始值
+    }
+  };
 
 let money = {
     TWD: 9999999,
@@ -46,11 +55,8 @@ let money = {
     CreditofTheMonth: 40000,
 }
 
-const HomeScreen = ({ navigation }) => {
-    //const {paraBalance} = route.params;
-    //console.log("GGGG", paraBalance)
+const HomeScreen = ({ navigation, route }) => {
     let UserData = []
-    let firstcome = 1;
     UserData = useSelector(state => state.auth.UserData);
     const dispatch = useDispatch();
     const usdRate = useSelector(state => state.rate.usdRate);
@@ -58,7 +64,6 @@ const HomeScreen = ({ navigation }) => {
     const eurRate = useSelector(state => state.rate.eurRate);
     const rmbRate = useSelector(state => state.rate.rmbRate);
     const hkdRate = useSelector(state => state.rate.hkdRate);
-
     EXCHANGE_DATA[2].value = usdRate;
     EXCHANGE_DATA[3].value = (usdRate * 1.02).toFixed(2);
     EXCHANGE_DATA[6].value = jpyRate;
@@ -75,14 +80,8 @@ const HomeScreen = ({ navigation }) => {
     const HeaderFlagAction = (flag) => {
         dispatch({ type: 'SET_HEADER_FLAG', payload: flag });
     };
-    //const balance = useSelector(state => state.trade.balance);
-    //useSelector(state => state.auth.UserData);
-    /*useEffect(() => {
-        // 这里可以放入您希望在每次更新后只读取一次的代码
-        console.log('UserData updated:', UserData);
-        UserData = useSelector(state => state.auth.UserData);
-    }, [UserData]); // 只有当 UserData 发生变化时才执行 useEffect*/
 
+    //匯率
     const fetchData = async () => {
         const docRef1 = await updateDoc(doc(db, "Exchange", "USD"), {
             [`${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`]: {
@@ -116,19 +115,43 @@ const HomeScreen = ({ navigation }) => {
         });
 
     };
-
     fetchData();
 
-
+    let [paraBalance, setParaBalance] = useState('defaultttt');
     useFocusEffect(
         React.useCallback(() => {
             HeaderFlagAction(1);//HomeHeader!!!!
             return () => {
                 HeaderFlagAction(0);//NoHeader!!!!
-                firstcome = 0
             };
         }, [])
     );
+    const updataBalance = React.useCallback(async () => {
+        //UserData = useSelector(state => state.auth.UserData);
+        try {
+            console.log("FIFO2")
+            const ref = collection(db, "User");
+            const q = query(ref, where("Name", "==", UserData.Name));
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach((doc) => {
+                const data = doc.data();
+                paraBalance = data.Balance;
+            });
+        } catch (err) {
+            console.error("UpdateFailed:", err);
+        }
+    }, [UserData, navigation]);
+
+    useFocusEffect(
+        React.useCallback(() => {
+            updataBalance();
+            setTimeout(() => {
+                console.log("Get is ", paraBalance)
+            }, 2000);
+        }, [updataBalance])
+    );
+
+    const [TWDbalance, setTWDBalance] = useState(numberWithCommas("TWD"));
 
     const [showdeposit, setShowdeposit] = React.useState(false);
     const toggleShowdeposit = () => {
@@ -244,12 +267,12 @@ const HomeScreen = ({ navigation }) => {
                     <View style={[styles.line, { backgroundColor: colors.bg }]} />
                     <View style={styles.moneyBox}>
                         <Text style={[styles.text, textStyles]}>臺幣總額：</Text>
-                        <Text style={[styles.numtext, textStyles]}>{!showdeposit ? numberWithCommas(UserData.Balance.twd) : '*******'}</Text>
+                        <Text style={[styles.numtext, textStyles]}>{!showdeposit ? numberWithCommas("TWD") : '*******'}</Text>
                     </View>
                     <View style={[styles.line, { backgroundColor: colors.bg }]} />
                     <View style={styles.moneyBox}>
                         <Text style={[styles.text, textStyles]}>外幣總額：</Text>
-                        <Text style={[styles.numtext, textStyles]}>{!showdeposit ? numberWithCommas(UserData.Balance.for) : '*******'}</Text>
+                        <Text style={[styles.numtext, textStyles]}>{!showdeposit ? numberWithCommas("FOR") : '*******'}</Text>
                     </View>
                 </View>
                 <View style={[styles.box, { backgroundColor: colors.box }]}>
