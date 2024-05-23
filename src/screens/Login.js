@@ -66,7 +66,7 @@ const LoginScreen = ({ navigation }) => {
             dispatch({ type: 'LOGIN', payload: data });
             setTimeout(() => {
                 navigation.navigate('HomeDrawer',  {ParaBalance} );
-            }, 3000);
+            }, 2000);
         } catch (error) {
             // 处理登录失败
             console.error("登录失败:", error);

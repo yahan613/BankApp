@@ -76,7 +76,7 @@ function resetFlagToZero() {
 
 
 const HomeDrawer = ({navigation, route}) => {
-    const {Balance} = route.params;
+    //const {Balance} = route.params;
     //console.log("HomeDrawer")
     //Name
     useEffect(() => {
@@ -118,7 +118,6 @@ const HomeDrawer = ({navigation, route}) => {
             <Drawer.Screen
                 name="帳務總覽"
                 component={MyTab}
-                initialParams={Balance}
                 options={({ navigation }) => ({
                     headerTitleAlign: 'center',
                     headerTitleStyle: {

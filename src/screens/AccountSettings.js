@@ -15,59 +15,62 @@ const AccountSettingsScreen = ({ navigation }) => {
         </View>
         <Text style={{ color: '#fff', fontSize: 20 }}>帳戶設定</Text>
       </View>
-      <ScrollView contentContainerStyle={{ marginTop: 35, width: '85%', ...Platform.select({ios: {height: 810},android: {height: 780}}) }} showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
-      <View style={{ flex: 1, alignItems: 'center' }}>
-      <View style={styles.memberbox}>
-          <View style={{ flexDirection: 'row', marginBottom: 20 }}>
-            <View style={{ backgroundColor: '#244172', width: 3, marginRight: 7 }}></View>
-            <Text style={{ fontSize: 20, color: '#244172' }}>我的帳戶</Text>
-          </View>
-          <View style={{ flexDirection: 'row', alignItems: 'center'}}>
-            <Image
-              source={geticon('userHead')}
-              style={{ width: 60, height: 60, marginLeft: 10 }}
-            />
-            <View style={styles.memberTextbox}>
-              <Text style={{ ...Platform.select({ios: {fontSize: 18},android: {fontSize: 20}}) }}>Amy</Text>
-              {/* navigate to 編輯帳戶 */}
-              <TouchableOpacity onPress={() => navigation.navigate('AccountEdit')} style={{ flexDirection: 'row' }}><Text style={{ ...Platform.select({ios: {fontSize: 14},android: {fontSize: 16}}), color: '#5C94F3', marginRight: 3 }}>編輯個人資料</Text><View style={{marginTop: 5}}>{geticon('Blue_arrow')}</View></TouchableOpacity>
+      <ScrollView contentContainerStyle={{ marginTop: 35, width: '85%', ...Platform.select({ ios: { height: 810 }, android: { height: 780 } }) }} showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
+        <View style={{ flex: 1, alignItems: 'center' }}>
+          <View style={styles.memberbox}>
+            <View style={{ flexDirection: 'row', marginBottom: 20 }}>
+              <View style={{ backgroundColor: '#244172', width: 3, marginRight: 7 }}></View>
+              <Text style={{ fontSize: 20, color: '#244172' }}>我的帳戶</Text>
+            </View>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Image
+                source={geticon('userHead')}
+                style={{ width: 60, height: 60, marginLeft: 10 }}
+              />
+              <View style={styles.memberTextbox}>
+                <Text style={{ ...Platform.select({ ios: { fontSize: 18 }, android: { fontSize: 20 } }) }}>Amy</Text>
+                {/* navigate to 編輯帳戶 */}
+                <TouchableOpacity onPress={() => navigation.navigate('AccountEdit')} style={{ flexDirection: 'row' }}><Text style={{ ...Platform.select({ ios: { fontSize: 14 }, android: { fontSize: 16 } }), color: '#5C94F3', marginRight: 3 }}>編輯個人資料</Text><View style={{ marginTop: 5 }}>{geticon('Blue_arrow')}</View></TouchableOpacity>
+              </View>
             </View>
           </View>
-        </View> 
-        
-        <View style={styles.box}>
-        <View style={{ flexDirection: 'row', marginBottom: 20 }}>
-          <View style={{ backgroundColor: '#244172', width: 3, marginRight: 7 }}></View>
-          <Text style={{ fontSize: 20, color: '#244172' }}>更多功能</Text>
-        </View> 
-        <View style={styles.line} />
-          <View style={styles.labelContainer}>
-            <View style={styles.label}>
-            {/* navigate to 編輯帳戶 */}
-            <TouchableOpacity onPress={() => navigation.navigate('SavingsAccount')} style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                <Text style={{flex: 1, ...Platform.select({ios: {fontSize: 14},android: {fontSize: 16}}) }}>我的存款帳戶</Text>
-                {geticon('Arrow_forward_ios')}
-            </TouchableOpacity>
+
+          <View style={styles.box}>
+            <View style={{ flexDirection: 'row', marginBottom: 20 }}>
+              <View style={{ backgroundColor: '#244172', width: 3, marginRight: 7 }}></View>
+              <Text style={{ fontSize: 20, color: '#244172' }}>更多功能</Text>
             </View>
-          </View>
-          <View style={styles.labelContainer}>
-            <View style={styles.label}>
-            <TouchableOpacity onPress={() => navigation.navigate('History')} style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                <Text style={{flex: 1, ...Platform.select({ios: {fontSize: 14},android: {fontSize: 16}}) }}>交易紀錄查詢</Text>
-                {geticon('Arrow_forward_ios')}
-            </TouchableOpacity>
+            <View style={styles.line} />
+            <View style={styles.labelContainer}>
+              <View style={styles.label}>
+                {/* navigate to 編輯帳戶 */}
+                <TouchableOpacity onPress={() => navigation.navigate('SavingsAccount')} style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <Text style={{ flex: 1, ...Platform.select({ ios: { fontSize: 14 }, android: { fontSize: 16 } }) }}>我的存款帳戶</Text>
+                  {geticon('Arrow_forward_ios')}
+                </TouchableOpacity>
+              </View>
             </View>
-          </View>
-          <View style={styles.labelContainer}>
-            <View style={styles.label}>
-            <TouchableOpacity style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                <Text style={{flex: 1, ...Platform.select({ios: {fontSize: 14},android: {fontSize: 16}}) }}>使用者代號/密碼重設</Text>
-                {geticon('Arrow_forward_ios')}
-            </TouchableOpacity>
+            <View style={styles.labelContainer}>
+              <View style={styles.label}>
+                <TouchableOpacity onPress={() => navigation.navigate('History')} style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <Text style={{ flex: 1, ...Platform.select({ ios: { fontSize: 14 }, android: { fontSize: 16 } }) }}>交易紀錄查詢</Text>
+                  {geticon('Arrow_forward_ios')}
+                </TouchableOpacity>
+              </View>
             </View>
-          </View>
-         
-          {/* not yet merged
+            <View style={styles.labelContainer}>
+              <View style={styles.label}>
+                <TouchableOpacity
+                  style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}
+                  onPress={() => navigation.navigate('ResetPassword')}
+                >
+                  <Text style={{ flex: 1, ...Platform.select({ ios: { fontSize: 14 }, android: { fontSize: 16 } }) }}>使用者代號/密碼重設</Text>
+                  {geticon('Arrow_forward_ios')}
+                </TouchableOpacity>
+              </View>
+            </View>
+
+            {/* not yet merged
           
           <TouchableOpacity
             style={styles.button}
@@ -88,12 +91,12 @@ const AccountSettingsScreen = ({ navigation }) => {
           </TouchableOpacity>
           */}
 
+          </View>
+
         </View>
-        
-      </View>
 
       </ScrollView>
-    </SafeAreaView>
+    </SafeAreaView >
 
   )
 }
@@ -114,9 +117,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#244172',
   },
   memberbox: {
-    ...Platform.select({ios: {width: 350},android: {width: 340}}),
+    ...Platform.select({ ios: { width: 350 }, android: { width: 340 } }),
     height: 150,
-    backgroundColor: '#fff',  
+    backgroundColor: '#fff',
     borderRadius: 5,
     marginBottom: 30,
     flexDirection: 'column',
@@ -138,17 +141,17 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   label: {
-      flexDirection: 'row',
-      alignItems: 'center'
+    flexDirection: 'row',
+    alignItems: 'center'
   },
   labelContainer: {
-      marginTop: 8,
-      marginBottom: 8,
-      flexDirection: 'row',
+    marginTop: 8,
+    marginBottom: 8,
+    flexDirection: 'row',
   },
   labelText: {
-      fontSize: 16,
-      color: '#000000',
+    fontSize: 16,
+    color: '#000000',
   },
   line: {
     margin: 8,
