@@ -12,8 +12,8 @@ import { db } from '../../Firebaseinit';
 const Transfer = ({ navigation }) => {
   const dispatch = useDispatch();
 
-  const [selectedValue, setSelectedValue] = useState(null);
-  const [selectedValue2, setSelectedValue2] = useState(null);
+  const [selectedValue, setSelectedValue] = useState('活期儲蓄存款  0081234567890');
+  const [selectedValue2, setSelectedValue2] = useState('(100) 巴菲特銀行');
   const [AccountText, onChangeAccount] = React.useState(''); //輸入帳號
   const [MoneyText, onChangeMoney] = React.useState(''); //輸入金額
   const [NoteText, onChangeNote] = React.useState(''); //輸入備註
@@ -113,6 +113,7 @@ const Transfer = ({ navigation }) => {
                   label: '請選擇',
                   value: null,
                 }}
+                value={selectedValue} // Set default value
                 onValueChange={(value) => setSelectedValue(value)}
                 items={[
                   { label: '活期儲蓄存款  0081234567890', value: '活期儲蓄存款  0081234567890' },
@@ -132,6 +133,7 @@ const Transfer = ({ navigation }) => {
                   label: '請選擇',
                   value: null,
                 }}
+                value={selectedValue2} // Set default value
                 onValueChange={(value) => setSelectedValue2(value)}
                 items={[
                   { label: '(100) 巴菲特銀行', value: '(100) 巴菲特銀行' },
@@ -152,6 +154,7 @@ const Transfer = ({ navigation }) => {
                 style={styles.select2}
                 onChangeText={text => onChangeAccount(text)}
                 value={AccountText}
+                placeholder='請輸入轉入帳號代碼'
               />
               <TouchableOpacity style={{ width: 100, right: 35, zIndex: 2 }}>{geticon('Transfer_Scan')}</TouchableOpacity>
             </View>
@@ -167,6 +170,7 @@ const Transfer = ({ navigation }) => {
                 onChangeText={text => onChangeMoney(text)}
                 value={MoneyText}
                 keyboardType="numeric"
+                placeholder='請輸入轉出金額'
               />
             </View>
           </View>
@@ -177,6 +181,7 @@ const Transfer = ({ navigation }) => {
                 style={styles.note}
                 onChangeText={text => onChangeNote(text)}
                 value={NoteText}
+                placeholder='20字內'
               />
             </View>
           </View>
@@ -191,7 +196,6 @@ const Transfer = ({ navigation }) => {
         </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
-
 
   )
 }
@@ -286,7 +290,6 @@ const styles = StyleSheet.create({
       paddingHorizontal: 10,
       paddingVertical: 8,
       borderWidth: 0.5,
-      borderColor: 'purple',
       borderRadius: 8,
       color: 'black',
       paddingRight: 30,

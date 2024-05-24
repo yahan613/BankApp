@@ -8,6 +8,8 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 import { Platform } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import { getFirestore, collection, getDocs, setDoc, doc, updateDoc } from '@firebase/firestore';
+import { db } from '../../Firebaseinit';
 
 
 //即時換匯
@@ -33,7 +35,12 @@ const accountItems = [
 //main!!!!!
 const ExchangeScreen = ({ navigation }) => {
 
-  const balance = useSelector(state => state.trade.balance);
+  UserData = useSelector(state => state.auth.UserData);
+  const userName = UserData.Name
+  const cre = UserData.Balance.credit
+  const ori_twd = UserData.Balance.twd
+  const ori_for = UserData.Balance.for
+
   const numberWithCommas = (x) => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
@@ -115,6 +122,7 @@ const ExchangeScreen = ({ navigation }) => {
   const [fromAccount, setFromAccount] = useState("活期儲蓄存款  0081234567890");
   const [toAccount, setToAccount] = useState("外匯存款  0081234567891");
 
+  /*
   const FORtransactionAction = (money) => {
     dispatch({ type: 'SET_FOR_TR', payload: { money: money } });
   };
@@ -129,7 +137,59 @@ const ExchangeScreen = ({ navigation }) => {
     
     dispatch({ type: 'SET_TWD_TRA', payload: { money: money } });
   };
+  */
 
+  const upDateFireBaseOut = async (money, acctype) => {
+    console.log("money is ", money)
+    console.log("acc is ",  ori_for - money,)
+    switch(acctype){
+      case 'twd':
+        await updateDoc(doc(db, "User", userName), {
+          Balance:{
+            for: ori_for,
+            twd: ori_twd - money,
+            credit: cre,
+          }
+        });
+        break;
+      case 'for':
+        await updateDoc(doc(db, "User", userName), {
+          Balance: {
+            for: ori_for - money,
+            twd: ori_twd,
+            credit: cre,
+          }
+        });
+        break;
+    }
+  };
+
+  const upDateFireBaseIn = async (money, acctype) => {
+    console.log("money is ", money)
+    console.log("acc is ",  ori_for + money,)
+    switch(acctype){
+      case 'twd':
+        await updateDoc(doc(db, "User", userName), {
+          Balance:{
+            for: ori_for,
+            twd: ori_twd + money,
+            credit: cre,
+          }
+        });
+        break;
+      case 'for':
+        await updateDoc(doc(db, "User", userName), {
+          Balance: {
+            for: ori_for + money,
+            twd: ori_twd,
+            credit: cre,
+          }
+        });
+        break;
+    }
+  };
+
+  /*
   const callTrade = (v, m) => {
     switch (v) {
       case '外匯存款  0081234567891':
@@ -142,6 +202,9 @@ const ExchangeScreen = ({ navigation }) => {
         break;
     }
   }
+  */
+
+  /*
   const callTradeIn = (v, m) => {
     switch (v) {
       case '外匯存款  0081234567891':
@@ -149,6 +212,32 @@ const ExchangeScreen = ({ navigation }) => {
         break;
       case '活期儲蓄存款  0081234567890':
         TWDtransactionActionA(m);
+        break;
+      default:
+        break;
+    }
+  }
+  */
+
+  const callTrade = (v, m) => {
+    switch (v) {
+      case '外匯存款  0081234567891':
+        upDateFireBaseOut(m, 'for'); //要轉多少，轉哪個帳戶的錢(活儲或外匯)
+        break;
+      case '活期儲蓄存款  0081234567890':
+        upDateFireBaseOut(m, 'twd');
+        break;
+      default:
+        break;
+    }
+  }
+  const callTradeIn = (v, m) => {
+    switch (v) {
+      case '外匯存款  0081234567891':
+        upDateFireBaseIn(m, 'for'); //要轉多少，轉哪個帳戶的錢(活儲或外匯)
+        break;
+      case '活期儲蓄存款  0081234567890':
+        upDateFireBaseIn(m, 'twd');
         break;
       default:
         break;
@@ -403,7 +492,7 @@ const ExchangeScreen = ({ navigation }) => {
                 value={fromAccount}
                 onValueChange={(value) => setFromAccount(value)}
               />
-              <Text style={{...Platform.select({ios:{marginTop: 5},android:{marginLeft: 15, marginBottom: 15}}), color: '#929191'}}>可用餘額 : {fromAccount==="活期儲蓄存款  0081234567890"?numberWithCommas(balance.twd):fromAccount==="外匯存款  0081234567891"?numberWithCommas(balance.for): ""}</Text>
+              <Text style={{...Platform.select({ios:{marginTop: 5},android:{marginLeft: 15, marginBottom: 15}}), color: '#929191'}}>可用餘額 : {fromAccount==="活期儲蓄存款  0081234567890"?numberWithCommas(UserData.Balance.twd):fromAccount==="外匯存款  0081234567891"?numberWithCommas(UserData.Balance.for): ""}</Text>
               </View>
               <View style={styles.labelContainer}>
                 <Text style={styles.label}>
@@ -417,14 +506,14 @@ const ExchangeScreen = ({ navigation }) => {
                 value={toAccount}
                 onValueChange={(value) => setToAccount(value)}
               />
-              <Text style={{...Platform.select({ios:{marginTop: 5},android:{marginLeft: 15}}), color: '#929191'}}>可用餘額 : {toAccount==="活期儲蓄存款  0081234567890"?numberWithCommas(balance.twd):toAccount==="外匯存款  0081234567891"?numberWithCommas(balance.for): ""}</Text>   
+              <Text style={{...Platform.select({ios:{marginTop: 5},android:{marginLeft: 15}}), color: '#929191'}}>可用餘額 : {toAccount==="活期儲蓄存款  0081234567890"?numberWithCommas(UserData.Balance.twd):toAccount==="外匯存款  0081234567891"?numberWithCommas(UserData.Balance.for): ""}</Text>   
               </View>
 
               
             </View>
             <TouchableOpacity onPress={() => {
-              callTrade(fromAccount, fromAmount)
-              callTradeIn(toAccount, toAmount)
+              callTrade(fromAccount, parseInt(fromAmount))
+              callTradeIn(toAccount, parseInt(toAmount))
               handleConfirm()
               }} style={styles.button}>
               <Text style={styles.buttonText}>確認</Text>
@@ -532,7 +621,7 @@ const ExchangeScreen = ({ navigation }) => {
                 value={fromAccount}
                 onValueChange={(value) => setFromAccount(value)}
               />
-              <Text style={{...Platform.select({ios:{marginTop: 5},android:{marginLeft: 15, marginBottom: 15}}), color: '#929191'}}>可用餘額 : {fromAccount==="活期儲蓄存款  0081234567890"?numberWithCommas(balance.twd):fromAccount==="外匯存款  0081234567891"?numberWithCommas(balance.for): ""}</Text>
+              <Text style={{...Platform.select({ios:{marginTop: 5},android:{marginLeft: 15, marginBottom: 15}}), color: '#929191'}}>可用餘額 : {fromAccount==="活期儲蓄存款  0081234567890"?numberWithCommas(UserData.Balance.twd):fromAccount==="外匯存款  0081234567891"?numberWithCommas(UserData.Balance.for): ""}</Text>
               </View>
               <View style={styles.labelContainer}>
                 <Text style={styles.label}>
@@ -546,7 +635,7 @@ const ExchangeScreen = ({ navigation }) => {
                 value={toAccount}
                 onValueChange={(value) => setToAccount(value)}
               />
-              <Text style={{...Platform.select({ios:{marginTop: 5},android:{marginLeft: 15}}), color: '#929191'}}>可用餘額 : {toAccount==="活期儲蓄存款  0081234567890"?numberWithCommas(balance.twd):toAccount==="外匯存款  0081234567891"?numberWithCommas(balance.for): ""}</Text>
+              <Text style={{...Platform.select({ios:{marginTop: 5},android:{marginLeft: 15}}), color: '#929191'}}>可用餘額 : {toAccount==="活期儲蓄存款  0081234567890"?numberWithCommas(UserData.Balance.twd):toAccount==="外匯存款  0081234567891"?numberWithCommas(UserData.Balance.for): ""}</Text>
               </View>
               <View style={styles.line} />
               <View style={styles.labelContainer}>

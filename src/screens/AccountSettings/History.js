@@ -1,5 +1,5 @@
 import { StyleSheet, Text, TextInput, View, TouchableOpacity, SafeAreaView, ScrollView, Platform } from 'react-native';
-import { geticon } from '../component/img/getIcon';
+import { geticon } from '../../component/img/getIcon';
 import React, { useState } from 'react';
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
 
@@ -32,7 +32,7 @@ const HistoryScreen = ({ navigation }) => {
       <View style={{ width: '100%', height: 80, backgroundColor: '#244172', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
         {/*Header of Screen*/}
         <View style={{ position: 'absolute', left: 20 }}>
-          <TouchableOpacity onPress={() => navigation.navigate('AccountSettings')}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
             {geticon('Arrow')}
           </TouchableOpacity>
         </View>

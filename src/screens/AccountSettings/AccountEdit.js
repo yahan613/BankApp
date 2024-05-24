@@ -1,5 +1,5 @@
 import { StyleSheet, Text, TextInput, View, TouchableOpacity, SafeAreaView, ScrollView, Platform } from 'react-native';
-import { geticon } from '../component/img/getIcon';
+import { geticon } from '../../component/img/getIcon';
 import React, { useEffect, useState } from 'react';
 
 const AccountEditScreen = ({ navigation }) => {
@@ -9,7 +9,7 @@ const AccountEditScreen = ({ navigation }) => {
       <View style={{ width: '100%', height: 80, backgroundColor: '#244172', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
         {/*Header of Screen*/}
         <View style={{ position: 'absolute', left: 20 }}>
-          <TouchableOpacity onPress={() => navigation.navigate('AccountSettings')}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
             {geticon('Arrow')}
           </TouchableOpacity>
         </View>
@@ -101,7 +101,7 @@ const AccountEditScreen = ({ navigation }) => {
               style={styles.button}
               onPress={() => {
                 {/* saveData() */}
-                navigation.navigate('AccountSettings')
+                navigation.goBack()
               }}>
               <Text style={styles.buttonText}>儲存</Text>
             </TouchableOpacity>

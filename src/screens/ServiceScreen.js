@@ -40,7 +40,7 @@ const Service = () => {
             style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}
             onPress={() => toggleExpand(index)}
           >
-            <Text style={{ flex: 1, ...Platform.select({ ios: { fontSize: 14 }, android: { fontSize: 16 } }) }}>
+            <Text style={{ flex: 1, ...Platform.select({ ios: { fontSize: 14, marginBottom: 8 }, android: { fontSize: 16, marginBottom: 3 } }) }}>
               <Text style={{ color: '#5C94F3' }}>Q{index + 1}. </Text>{item.question}
             </Text>
             <Animated.View style={{ transform: [{ rotate: expandedIndex === index ? rotate : '0deg' }] }}>
@@ -66,7 +66,7 @@ const Service = () => {
         contentContainerStyle={{
           marginTop: 35,
           width: '100%',
-          ...Platform.select({ ios: { height: 810 }, android: { height: 830 } }),
+          ...Platform.select({ ios: { height: 900 }, android: { height: 840 } }),
           alignSelf: 'center',
         }}
         showsHorizontalScrollIndicator={false}
@@ -103,56 +103,56 @@ const Service = () => {
               onPress={() => setSelectedTopic('account_management')}
             >
               {geticon("Account")}
-              <Text style={{ fontSize: 13 }}>帳戶管理</Text>
+              <Text style={{ ...Platform.select({ ios: { fontSize: 11 }, android: { fontSize: 13 } }) }}>帳戶管理</Text>
             </TouchableOpacity>
             <TouchableOpacity 
               style={[styles.topic, selectedTopic === 'payment' && styles.selectedTopic]} 
               onPress={() => setSelectedTopic('payment')}
             >
               {geticon("Transfer")}
-              <Text style={{ fontSize: 13 }}>收付相關</Text>
+              <Text style={{ ...Platform.select({ ios: { fontSize: 11 }, android: { fontSize: 13 } }) }}>收付相關</Text>
             </TouchableOpacity>
             <TouchableOpacity 
               style={[styles.topic, selectedTopic === 'loan' && styles.selectedTopic]} 
               onPress={() => setSelectedTopic('loan')}
             >
               {geticon("Loan")}
-              <Text style={{ fontSize: 13 }}>貸款相關</Text>
+              <Text style={{ ...Platform.select({ ios: { fontSize: 11 }, android: { fontSize: 13 } }) }}>貸款相關</Text>
             </TouchableOpacity>
             <TouchableOpacity 
               style={[styles.topic, selectedTopic === 'foreign_currency' && styles.selectedTopic]} 
               onPress={() => setSelectedTopic('foreign_currency')}
             >
               {geticon("Foreign_currency")}
-              <Text style={{ fontSize: 13 }}>外幣交易</Text>
+              <Text style={{ ...Platform.select({ ios: { fontSize: 11 }, android: { fontSize: 13 } }) }}>外幣交易</Text>
             </TouchableOpacity>
             <TouchableOpacity 
               style={[styles.topic, selectedTopic === 'credit_card' && styles.selectedTopic]} 
               onPress={() => setSelectedTopic('credit_card')}
             >
               {geticon("Credit_card")}
-              <Text style={{ fontSize: 13 }}>信用卡</Text>
+              <Text style={{ ...Platform.select({ ios: { fontSize: 11 }, android: { fontSize: 13 } }) }}>信用卡</Text>
             </TouchableOpacity>
             <TouchableOpacity 
               style={[styles.topic, selectedTopic === 'investment' && styles.selectedTopic]} 
               onPress={() => setSelectedTopic('investment')}
             >
-              {getBTicon("Investfill")}
-              <Text style={{ fontSize: 13 }}>投資理財</Text>
+              {geticon("Up_line")}
+              <Text style={{ ...Platform.select({ ios: { fontSize: 11 }, android: { fontSize: 13 } }) }}>投資理財</Text>
             </TouchableOpacity>
             <TouchableOpacity 
               style={[styles.topic, selectedTopic === 'promotions' && styles.selectedTopic]} 
               onPress={() => setSelectedTopic('promotions')}
             >
-              {getBTicon("Discountfill")}
-              <Text style={{ fontSize: 13 }}>優惠政策</Text>
+              {geticon("Dis")}
+              <Text style={{ ...Platform.select({ ios: { fontSize: 11 }, android: { fontSize: 13 } }) }}>優惠政策</Text>
             </TouchableOpacity>
             <TouchableOpacity 
               style={[styles.topic, selectedTopic === 'faq' && styles.selectedTopic]} 
               onPress={() => setSelectedTopic('faq')}
             >
               {geticon("Contact_support")}
-              <Text style={{ fontSize: 13 }}>常見問題</Text>
+              <Text style={{ ...Platform.select({ ios: { fontSize: 11 }, android: { fontSize: 13 } }) }}>常見問題</Text>
             </TouchableOpacity>
             </ScrollView>
 
@@ -272,7 +272,7 @@ const styles = StyleSheet.create({
     padding: 8
   },
   topic: {
-    width: 75,
+    ...Platform.select({ ios: { width: 85 }, android: { width: 75 } }),
     flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'center',

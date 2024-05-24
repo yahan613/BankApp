@@ -1,15 +1,25 @@
 import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, ScrollView, Platform } from 'react-native';
-import { geticon } from '../component/img/getIcon';
-import React, { useEffect, useState } from 'react';
+import { geticon } from '../../component/img/getIcon';
+import { useSelector} from 'react-redux';
+import React, { useState } from 'react';
 
 const SavingsAccountScreen = ({ navigation }) => {
+
+  
+  let UserData = []
+  UserData = useSelector(state => state.auth.UserData);
+  
+  const numberWithCommas = (x) => {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.topBackground} />
       <View style={{ width: '100%', height: 80, backgroundColor: '#244172', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
         {/*Header of Screen*/}
         <View style={{ position: 'absolute', left: 20 }}>
-          <TouchableOpacity onPress={() => navigation.navigate('AccountSettings')}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
             {geticon('Arrow')}
           </TouchableOpacity>
         </View>
@@ -25,16 +35,16 @@ const SavingsAccountScreen = ({ navigation }) => {
             <View style={styles.box}>
                 <Text>活期儲蓄存款  0081234567890</Text>
                 <View style={styles.line} />  
-                <Text style={{marginLeft: 10, marginBottom: 5, color: '#929191'}}>帳戶餘額 : </Text>
-                <Text style={{marginLeft: 10, marginBottom: 5, color: '#929191'}}>可用餘額 : </Text>
+                <Text style={{marginLeft: 10, marginBottom: 5, color: '#929191'}}>{"帳戶餘額 :" + numberWithCommas(UserData.Balance.twd)}</Text>
+                <Text style={{marginLeft: 10, marginBottom: 5, color: '#929191'}}>{"可用餘額 :" +  numberWithCommas(UserData.Balance.twd)}</Text>
                 
             </View>
             {/* 外幣 */}
             <View style={styles.box}>
                 <Text>外匯存款  0081234567891</Text>
                 <View style={styles.line} />  
-                <Text style={{marginLeft: 10, marginBottom: 5, color: '#929191'}}>帳戶餘額 : </Text>
-                <Text style={{marginLeft: 10, marginBottom: 5, color: '#929191'}}>可用餘額 : </Text>
+                <Text style={{marginLeft: 10, marginBottom: 5, color: '#929191'}}>{"帳戶餘額 :" + numberWithCommas(UserData.Balance.for)}</Text>
+                <Text style={{marginLeft: 10, marginBottom: 5, color: '#929191'}}>{"可用餘額 :" +  numberWithCommas(UserData.Balance.for)}</Text>
                 
             </View>
 

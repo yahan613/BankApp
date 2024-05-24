@@ -1,5 +1,5 @@
 import { StyleSheet, Text, Image, View, TouchableOpacity, SafeAreaView, ScrollView, Platform } from 'react-native';
-import { geticon } from '../component/img/getIcon';
+import { geticon } from '../../component/img/getIcon';
 import React, { useEffect, useState } from 'react';
 
 const AccountSettingsScreen = ({ navigation }) => {
@@ -66,27 +66,14 @@ const AccountSettingsScreen = ({ navigation }) => {
             </TouchableOpacity>
             </View>
           </View>
-         
-          {/* not yet merged
-          
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => { navigation.navigate("PersonalInfo") }}
-          >
-            <Text>編輯個人資料</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.button}
-          >
-            <Text>安全性設定</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => { navigation.navigate("ResetPassword")}}
-          >
-            <Text>重置密碼</Text>
-          </TouchableOpacity>
-          */}
+          <View style={styles.labelContainer}>
+            <View style={styles.label}>
+            <TouchableOpacity style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                <Text style={{flex: 1, ...Platform.select({ios: {fontSize: 14},android: {fontSize: 16}}) }}>安全性設定</Text>
+                {geticon('Arrow_forward_ios')}
+            </TouchableOpacity>
+            </View>
+          </View>
 
         </View>
         

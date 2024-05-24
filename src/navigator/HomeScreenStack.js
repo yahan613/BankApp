@@ -9,10 +9,7 @@ import Withdraw from "../screens/WithdrawScreen";
 import Payment from "../screens/PaymentScreen";
 import ExchangeScreen from "../screens/Exchange";
 import ExchangeConfirm from "../screens/ExchangeConfirm";
-import AccountEdit from "../screens/AccountEdit";
-import AccountSettings from "../screens/AccountSettings";
-import SavingsAccount from "../screens/SavingsAccount";
-import History from "../screens/History";
+
 const Stack = createNativeStackNavigator();
 
 const HomeScreenNavigator = () => {
@@ -62,35 +59,6 @@ const HomeScreenNavigator = () => {
             <Stack.Screen 
                 name="TransferConfirm" 
                 component={TransferConfirm} 
-                options={{
-                    headerShown: false,
-                }}
-            />
-            {/* 帳戶管理相關 */}
-            <Stack.Screen 
-                name="AccountSettings" 
-                component={AccountSettings} 
-                options={{
-                    headerShown: false,
-                }}
-            />
-            <Stack.Screen 
-                name="AccountEdit" 
-                component={AccountEdit} 
-                options={{
-                    headerShown: false,
-                }}
-            />
-            <Stack.Screen 
-                name="SavingsAccount" 
-                component={SavingsAccount} 
-                options={{
-                    headerShown: false,
-                }}
-            />
-            <Stack.Screen 
-                name="History" 
-                component={History} 
                 options={{
                     headerShown: false,
                 }}

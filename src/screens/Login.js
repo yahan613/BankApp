@@ -195,7 +195,8 @@ const LoginScreen = ({ navigation }) => {
                             backgroundColor: '#fff',
                             marginRight: 15,
                             borderRadius: 5,
-                            borderWidth: 0.5,
+                            borderWidth: 1,
+                            borderColor: '#D9D9D9',
                         }}
                         onChangeText={text => onChangeVerification(text)}
                         value={VerificaitonText}
@@ -279,7 +280,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         marginBottom: 15,
         borderRadius: 5,
-        borderWidth: 0.5,
+        borderWidth: 1,
+        borderColor: '#D9D9D9',
         flexDirection: 'row',
         alignItems: 'center',
     },

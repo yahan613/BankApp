@@ -9,10 +9,14 @@ import HomeScreen from '../screens/HomeScreen';
 import MyTab from './ButtomTab';
 import Payment from '../screens/PaymentScreen';
 import Transfer from '../screens/TransferScreen';
-import AccountSettingsScreen from '../screens/AccountSettings';
+import AccountSettingsScreen from '../screens/AccountSettings/AccountSettings';
 import AccSettingNavigator from './AccountSettingStack';
 import ExchangeScreen from '../screens/Exchange';
 import Withdraw from '../screens/WithdrawScreen';
+import CreditCard from '../screens/CreditCard';
+import FinMan from '../screens/FinManScreen';
+import Loan from '../screens/LoanScreen';
+import Discount from '../screens/DiscountScreen';
 
 const Drawer = createDrawerNavigator();
 let Bflag = 0;
@@ -64,10 +68,16 @@ const menuItems = [
     { name: "繳費服務", component: Payment, icon: 'Bill' },
     { name: "台幣服務", component: AccountSettingsScreen, icon: 'Twd' },
     { name: "外幣服務", component: ExchangeScreen, icon: 'Foreign_currency' },
-    { name: "信用卡服務", component: AccountSettingsScreen, icon: 'Credit_card' },
+    { name: "信用卡服務", component: CreditCard, icon: 'Credit_card' },
     { name: "理財服務", component: AccountSettingsScreen, icon: 'FM' },
     { name: "貸款服務", component: AccountSettingsScreen, icon: 'Loan' },
     { name: "優惠服務", component: AccountSettingsScreen, icon: 'Discount' },
+    /*
+    沒有返回鍵
+    { name: "理財服務", component: FinMan, icon: 'FM' },
+    { name: "貸款服務", component: Loan, icon: 'Loan' },
+    { name: "優惠服務", component: Discount, icon: 'Discount' },
+    */
 ];
 
 function resetFlagToZero() {
