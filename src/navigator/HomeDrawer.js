@@ -85,9 +85,9 @@ function resetFlagToZero() {
 }
 
 
-const HomeDrawer = ({ navigation }) => {
-    //const {paraBalance} = route.params;
-    //console.log("Para in HomeDr", paraBalance)
+const HomeDrawer = ({navigation, route}) => {
+    //const {Balance} = route.params;
+    //console.log("HomeDrawer")
     //Name
     useEffect(() => {
         if (Bflag === 1) {

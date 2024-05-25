@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image, FlatList, Button, Switch } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image, FlatList, Button, ActivityIndicator } from 'react-native'
 import { geticon } from '../component/img/getIcon';
 import { getNewsPic } from '../component/img/getnews';
 import React, { useState, useEffect } from 'react';
@@ -9,7 +9,7 @@ import { Platform } from 'react-native';
 import { lightThemeColors, darkThemeColors } from '../component/Colors';
 import { app } from '../../Firebaseinit'
 import { db } from '../../Firebaseinit'
-import { getFirestore, collection, getDocs, setDoc, doc, updateDoc } from '@firebase/firestore';
+import { getFirestore, collection, getDocs, doc, updateDoc, query, where } from '@firebase/firestore';
 
 let EXCHANGE_DATA = [
     { id: '1', value: 'USA', width: '20%' },
@@ -33,10 +33,7 @@ let EXCHANGE_DATA = [
     { id: '19', value: 'Buyin', width: '20%' },
     { id: '20', value: 'sellout', width: '30%' },
 ];
-//三個數字中間要逗號
-const numberWithCommas = (x) => {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-}
+
 
 let money = {
     TWD: 9999999,
@@ -47,10 +44,7 @@ let money = {
 }
 
 const HomeScreen = ({ navigation }) => {
-    //const {paraBalance} = route.params;
-    //console.log("GGGG", paraBalance)
     let UserData = []
-    let firstcome = 1;
     UserData = useSelector(state => state.auth.UserData);
     const dispatch = useDispatch();
     const usdRate = useSelector(state => state.rate.usdRate);
@@ -58,7 +52,6 @@ const HomeScreen = ({ navigation }) => {
     const eurRate = useSelector(state => state.rate.eurRate);
     const rmbRate = useSelector(state => state.rate.rmbRate);
     const hkdRate = useSelector(state => state.rate.hkdRate);
-
     EXCHANGE_DATA[2].value = usdRate;
     EXCHANGE_DATA[3].value = (usdRate * 1.02).toFixed(2);
     EXCHANGE_DATA[6].value = jpyRate;
@@ -75,14 +68,8 @@ const HomeScreen = ({ navigation }) => {
     const HeaderFlagAction = (flag) => {
         dispatch({ type: 'SET_HEADER_FLAG', payload: flag });
     };
-    //const balance = useSelector(state => state.trade.balance);
-    //useSelector(state => state.auth.UserData);
-    /*useEffect(() => {
-        // 这里可以放入您希望在每次更新后只读取一次的代码
-        console.log('UserData updated:', UserData);
-        UserData = useSelector(state => state.auth.UserData);
-    }, [UserData]); // 只有当 UserData 发生变化时才执行 useEffect*/
 
+    //匯率
     const fetchData = async () => {
         const docRef1 = await updateDoc(doc(db, "Exchange", "USD"), {
             [`${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`]: {
@@ -116,19 +103,67 @@ const HomeScreen = ({ navigation }) => {
         });
 
     };
-
     fetchData();
 
-
+    let [paraBalance, setParaBalance] = useState('defaultttt');
+    let [paraTWD, setParaTWD] = useState('defaultttt');
+    let [paraFOR, setParaFOR] = useState('defaultttt');
+    let [paraCRE, setParaCRE] = useState('defaultttt');
     useFocusEffect(
         React.useCallback(() => {
             HeaderFlagAction(1);//HomeHeader!!!!
             return () => {
                 HeaderFlagAction(0);//NoHeader!!!!
-                firstcome = 0
             };
         }, [])
     );
+    const updataBalance = React.useCallback(async () => {
+        //UserData = useSelector(state => state.auth.UserData);
+        try {
+            console.log("FIFO2")
+            const ref = collection(db, "User");
+            const q = query(ref, where("Name", "==", UserData.Name));
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach((doc) => {
+                const data = doc.data();
+                paraBalance = data.Balance;
+                setParaTWD(paraBalance.twd);
+                setParaCRE(paraBalance.credit);
+                setParaFOR(paraBalance.for);
+            });
+        } catch (err) {
+            console.error("UpdateFailed:", err);
+        }
+    }, [UserData, navigation]);
+
+    const [loading, setLoading] = useState(true);
+    useFocusEffect(
+        React.useCallback(() => {
+            updataBalance();
+            const timer = setTimeout(() => {
+                setLoading(false);
+            }, 3500); // 3秒的加载时间
+            return () => clearTimeout(timer);//不focus就重設時間
+        }, [updataBalance])
+    )
+
+    //獲取當下餘額
+    const numberWithCommas = (currency) => {
+        switch (currency) {
+            case "TWD":
+                return paraTWD.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            case "CRE":
+                return paraCRE.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            case "FOR":
+                return paraFOR.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            case "CREBalance":
+                return (100000 - paraCRE).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            case "CREPay":
+                return paraCRE.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+    };
+
+    const [TWDbalance, setTWDBalance] = useState(numberWithCommas("TWD"));
 
     const [showdeposit, setShowdeposit] = React.useState(false);
     const toggleShowdeposit = () => {
@@ -170,7 +205,16 @@ const HomeScreen = ({ navigation }) => {
     const htextStyles = {
         color: colors.htext,
     };
-
+    if (loading) {
+        return (
+            <View style={styles.loadingScreen}>
+                <ActivityIndicator
+                    color="#244172"
+                    size="large"
+                />
+            </View>
+        ) // 显示白色加载画面
+    }
     return (
         <View style={[styles.container, { backgroundColor: colors.bg }]}>
             <View style={[styles.header, { backgroundColor: colors.header }]}>
@@ -244,12 +288,12 @@ const HomeScreen = ({ navigation }) => {
                     <View style={[styles.line, { backgroundColor: colors.bg }]} />
                     <View style={styles.moneyBox}>
                         <Text style={[styles.text, textStyles]}>臺幣總額：</Text>
-                        <Text style={[styles.numtext, textStyles]}>{!showdeposit ? numberWithCommas(UserData.Balance.twd) : '*******'}</Text>
+                        <Text style={[styles.numtext, textStyles]}>{!showdeposit ? numberWithCommas("TWD") : '*******'}</Text>
                     </View>
                     <View style={[styles.line, { backgroundColor: colors.bg }]} />
                     <View style={styles.moneyBox}>
                         <Text style={[styles.text, textStyles]}>外幣總額：</Text>
-                        <Text style={[styles.numtext, textStyles]}>{!showdeposit ? numberWithCommas(UserData.Balance.for) : '*******'}</Text>
+                        <Text style={[styles.numtext, textStyles]}>{!showdeposit ? numberWithCommas("FOR") : '*******'}</Text>
                     </View>
                 </View>
                 <View style={[styles.box, { backgroundColor: colors.box }]}>
@@ -267,10 +311,10 @@ const HomeScreen = ({ navigation }) => {
                     <View style={[styles.line, { backgroundColor: colors.bg }]} />
                     <View style={styles.moneyBox}>
                         <Text style={[styles.text, textStyles]}>刷卡明細：</Text>
-                        <Text style={[styles.numtext, textStyles]}>{!showcredit ? numberWithCommas(UserData.Balance.credit) : '*****'}</Text>
+                        <Text style={[styles.numtext, textStyles]}>{!showcredit ? numberWithCommas("CRE") : '*****'}</Text>
                     </View>
-                    <Text style={{ textAlign: 'right', color: '#5C94F3', marginBottom: 3, marginTop: 3, }}>可用餘額：{numberWithCommas(money.CreditCoda - UserData.Balance.credit)}</Text>
-                    <Text style={{ textAlign: 'right', color: '#5C94F3', marginBottom: 3 }}>本期應繳：{numberWithCommas(UserData.Balance.for)}</Text>
+                    <Text style={{ textAlign: 'right', color: '#5C94F3', marginBottom: 3, marginTop: 3, }}>可用餘額：{numberWithCommas("CREBalance")}</Text>
+                    <Text style={{ textAlign: 'right', color: '#5C94F3', marginBottom: 3 }}>本期應繳：{numberWithCommas("CREPay")}</Text>
                 </View>
                 <View style={[styles.box, { backgroundColor: colors.box }]}>
                     <View style={styles.labelContainer}>
@@ -336,6 +380,12 @@ const HomeScreen = ({ navigation }) => {
 }
 
 const styles = StyleSheet.create({
+    loadingScreen: {
+        flex: 1,
+        backgroundColor: '#D9D9D9', // 白色背景
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     container: {
         flex: 1,
         backgroundColor: '#D9D9D9',

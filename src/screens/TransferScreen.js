@@ -41,7 +41,7 @@ const Transfer = ({ navigation }) => {
 
     let transactionDetails;
     transactionDetails = transactionDetails = `轉出金額 : ${MoneyText} 元\n轉出帳號 :\n${selectedValue} \n轉入帳號 : \n${selectedValue2}\n${AccountText} \n`;
-    navigation.navigate('TransferConfirm', { transactionDetails, });
+    navigation.navigate('TransferConfirm', { transactionDetails });
   };
 
   const upDateFireBase = async (money, acctype) => {

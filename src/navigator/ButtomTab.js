@@ -16,9 +16,9 @@ import { Platform } from 'react-native';
 const Tab = createBottomTabNavigator();
 
 const MyTab = () => {
+    //console.log("MyTab", route)
     const dispatch = useDispatch();
     const tabBarHeight = Platform.OS === 'ios' ? 100 : 70;
-
     return (
         <Tab.Navigator
             screenOptions={{
