@@ -4,7 +4,7 @@ import { geticon } from '../component/img/getIcon';
 import RNPickerSelect from "react-native-picker-select";
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getFirestore, collection, getDocs, setDoc, doc, updateDoc } from '@firebase/firestore';
+import { getFirestore, collection, getDocs, setDoc, doc, updateDoc, query, where } from '@firebase/firestore';
 import { db } from '../../Firebaseinit';
 
 
@@ -38,36 +38,78 @@ const Transfer = ({ navigation }) => {
       Alert.alert('有空白欄位', '請在確認送出前填寫所有欄位。');
       return;
     }
+    else {
+      callTrade(selectedValue, MoneyText)
+    }
 
     let transactionDetails;
     transactionDetails = transactionDetails = `轉出金額 : ${MoneyText} 元\n轉出帳號 :\n${selectedValue} \n轉入帳號 : \n${selectedValue2}\n${AccountText} \n`;
     navigation.navigate('TransferConfirm', { transactionDetails });
   };
 
+  //STEP1 宣告
+  let [paraTransfer, setTransfer] = useState({ value: 'defaultttt', acctype: '', m: 0 , NoChangeValue: 'defaultttt'});
+  
+  //STEP2 後端準備作業(抓當下的資料)
   const upDateFireBase = async (money, acctype) => {
-    console.log("money is ", money)
-    console.log("acc is ",  ori_for - money,)
-    switch(acctype){
-      case 'twd':
-        await updateDoc(doc(db, "User", userName), {
-          Balance:{
-            for: ori_for,
-            twd: ori_twd - money,
-            credit: cre,
-          }
-        });
-        break;
-      case 'for':
-        await updateDoc(doc(db, "User", userName), {
-          Balance: {
-            for: ori_for - money,
-            twd: ori_twd,
-            credit: cre,
-          }
-        });
-        break;
+    try {
+      const ref = collection(db, "User");
+      const q = query(ref, where("Name", "==", UserData.Name));
+      const querySnapshot = await getDocs(q);
+
+      const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+      for (const doc of querySnapshot.docs) {
+        const data = doc.data();
+        paraBalance = data.Balance;
+        await delay(1500);
+        //STEP3 利用STEP1宣告的paraTransfer做轉帳操作
+        switch (acctype) {
+          case 'twd':
+            console.log("STEP3 利用STEP1宣告的paraTransfer做轉帳操作TWD", acctype)
+            setTransfer({ value: paraBalance.twd, acctype: 'twd', m: money, NoChangeValue: paraBalance.for});
+            break;
+          case 'for':
+            console.log("STEP3 利用STEP1宣告的paraTransfer做轉帳操作FOR", acctype)
+            setTransfer({ value: paraBalance.for, acctype: 'for', m: money, NoChangeValue: paraBalance.twd});
+            break;
+        }
+      }
+    } catch (err) {
+      console.error("UpdateFailed:", err);
     }
   };
+
+  //STEP4 透過useEffect更新轉帳後的內容
+  useEffect(() => {
+    // Switch logic moved here
+    const updateBalance = async () => {
+      switch (paraTransfer.acctype) {
+        case 'twd':
+          console.log("STEP4應該是TWD", paraTransfer.acctype)
+          await updateDoc(doc(db, "User", userName), {
+            Balance: {
+              for: paraTransfer.NoChangeValue,
+              twd: paraTransfer.value - paraTransfer.m,
+              credit: cre,
+            }
+          });
+          break;
+        case 'for':
+          console.log("STEP4應該是FOR", paraTransfer.acctype)
+          await updateDoc(doc(db, "User", userName), {
+            Balance: {
+              for: paraTransfer.value - paraTransfer.m,
+              twd: paraTransfer.NoChangeValue,
+              credit: cre,
+            }
+          });
+          break;
+      }
+    };
+    updateBalance();
+  }, [paraTransfer]);
+
 
   const callTrade = (v, m) => {
     switch (v) {
@@ -189,7 +231,6 @@ const Transfer = ({ navigation }) => {
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-            callTrade(selectedValue, MoneyText)
             handleConfirm();
           }}>
           <Text style={styles.buttonText}>確認</Text>

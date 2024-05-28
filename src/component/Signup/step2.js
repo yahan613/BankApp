@@ -69,11 +69,8 @@ const Step2 = () => {
     }, [SIDinput]); 
     
     useEffect(() => {
-        // 在这里执行任何你希望在 VISApininput 变化时执行的操作
         setSusernamefun(Susername);
-        // 你可以在这里调用任何你希望执行的函数或方法
-    }, [Susername]); // 这里是一个依赖数组，只有当数组中的值发生变化时，useEffect 才会执行
-
+    }, [Susername]); 
     return (
         <View>
             <View style={{ fontSize: 20, fontWeight: 'bold', color: '#244172', marginBottom: 20, flexDirection: 'row', justifyContent: 'flex-start', flexDirection: 'row' }}>

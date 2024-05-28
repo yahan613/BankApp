@@ -28,10 +28,7 @@ const TransferConfirm = ({ navigation, route }) => {
   }*/
 
   const handlePress = () => {
-    //updataBalance();
-    setTimeout(() => {
-      navigation.navigate('HomeScreen');
-    }, 2000); 
+    navigation.navigate('HomeScreen'); 
   };
 
   const { transactionDetails } = route.params;
