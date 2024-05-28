@@ -16,23 +16,23 @@ const itemHeight = screenHeight * 0.1;
 
 const ResetPassword3 = () => {
     return (
-        <View>
+        <View style={styles.container}>
             <Image
-                source={geticon('SignUpSuccess')}
-                style={{ width: 65, height: 65, marginRight: 5 }}
+                source={geticon('ResetPassword')}
+                style={{ width: 100, height: 100, marginTop: 15 }}
             />
-            <Text style={{ color: '#244172', fontSize: 22, marginTop: 30 }}>註冊成功</Text>
-            <Text style={{ marginTop: 30, fontSize: 16, }}>現在您已成功註冊使用巴菲特行動銀行。</Text>
-            <Text style={{ marginTop: 30, fontSize: 16, }}>為保障您的帳戶安全，每次登入行動銀行需輸入動態認證碼。您必須確保登入資料、安全問題及答案的安全，切勿透露給他人，以協助我們防止發生欺詐行為。</Text>
-            <Text style={{ marginTop: 100, fontSize: 15, }}>您的使用者名稱是：TW0203beck</Text>
+            <Text style={{ color: '#244172', fontSize: 22, marginTop: 30, alignSelf:'flex-start' }}>更改密碼成功！</Text>
+            <Text style={{ marginTop: 30, fontSize: 16,alignSelf:'flex-start' }}>為保障您的帳戶安全，我們將登出您的帳號，請重新登入。</Text>
         </View>
-
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        alignItems: 'center',
+        flexDirection: 'column',
+        paddingTop: 30
     },
     header: {
         width: '100%',

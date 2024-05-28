@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { geticon } from '../img/getIcon';
 import CheckBox from 'react-native-check-box';
+import AwesomeAlert from 'react-native-awesome-alerts';
 
 
 
@@ -14,17 +15,85 @@ const screenHeight = Dimensions.get('window').height;
 const itemWidth = screenWidth * 0.8;
 const itemHeight = screenHeight * 0.1;
 
-const ResetPassword1 = () => {
+//Alert
+
+/*const handleCloseAlert2 = () => {
+    setShowAlert2(false);
+};*/
+//const [showAlert2, setShowAlert2] = React.useState(false);
+
+const ResetPassword2 = () => {
+    const [showOriPassword, setShowOriPassword] = React.useState(false);
+    const toggleShowPassword = () => {
+        setShowOriPassword(!showOriPassword);
+    };
+    const [showNewPassword, setShowNewPassword] = React.useState(false);
+    const toggleShowPassword2 = () => {
+        setShowNewPassword(!showNewPassword);
+    };
+    const [showSurePassword, setShowSurePassword] = React.useState(false);
+    const toggleShowPassword3 = () => {
+        setShowSurePassword(!showSurePassword);
+    };
+
+    const [OldP, setOldP] = useState('');//舊密碼
+    const [NewP, setNewP] = useState('');//新密碼
+    const [SureP, setSureP] = useState('');//確認新密碼
     return (
-        <View>
-            <Image
-                source={geticon('SignUpSuccess')}
-                style={{ width: 65, height: 65, marginRight: 5 }}
-            />
-            <Text style={{ color: '#244172', fontSize: 22, marginTop: 30 }}>註冊成功</Text>
-            <Text style={{ marginTop: 30, fontSize: 16, }}>現在您已成功註冊使用巴菲特行動銀行。</Text>
-            <Text style={{ marginTop: 30, fontSize: 16, }}>為保障您的帳戶安全，每次登入行動銀行需輸入動態認證碼。您必須確保登入資料、安全問題及答案的安全，切勿透露給他人，以協助我們防止發生欺詐行為。</Text>
-            <Text style={{ marginTop: 100, fontSize: 15, }}>您的使用者名稱是：TW0203beck</Text>
+        <View style={styles.container}>
+            <View style={{ width: 200, height: 10 }}>
+                <AwesomeAlert
+                    show={true}
+                    title="確認密碼輸入錯誤"
+                    message="請重新輸入"
+                    showConfirmButton={true}
+                    confirmText="重試"
+                    confirmButtonColor="#5C94F3"
+                    onConfirmPressed={false}
+                />
+            </View>
+            <View style={styles.selectbox}>
+                <Text style={{ color: '#929191', marginBottom: 10, fontSize: 15, }}>請輸入您的舊有密碼。</Text>
+                <View style={styles.input}>
+                    <TextInput
+                        style={{ width: '88%', height: '99%' }}
+                        value={OldP}
+                        onChangeText={text => setOldP(text)}
+                        secureTextEntry={!showOriPassword}
+                    />
+                    <TouchableOpacity style={styles.visible} onPress={toggleShowPassword}>
+                        {geticon(showOriPassword ? "Eye" : "Noeye")}
+                    </TouchableOpacity>
+                </View>
+
+                <Text style={{ color: '#929191', marginBottom: 10, fontSize: 15, }}>請輸入您要的新密碼。</Text>
+                <View style={styles.input}>
+                    <TextInput
+                        style={{ width: '88%', height: '99%' }}
+                        value={NewP}
+                        onChangeText={text => setNewP(text)}
+                        secureTextEntry={!showNewPassword}
+                    />
+                    <TouchableOpacity style={styles.visible} onPress={toggleShowPassword2}>
+                        {geticon(showOriPassword ? "Eye" : "Noeye")}
+                    </TouchableOpacity>
+                </View>
+
+                <Text style={{ color: '#929191', marginBottom: 10, fontSize: 15, }}>請確認您的新密碼。</Text>
+                <View style={styles.input}>
+                    <TextInput
+                        style={{ width: '88%', height: '99%' }}
+                        value={SureP}
+                        onChangeText={text => setSureP(text)}
+                        secureTextEntry={!showSurePassword}
+                    />
+                    <TouchableOpacity style={styles.visible} onPress={toggleShowPassword3}>
+                        {geticon(showOriPassword ? "Eye" : "Noeye")}
+                    </TouchableOpacity>
+                </View>
+
+            </View>
+
         </View>
 
     );
@@ -33,6 +102,7 @@ const ResetPassword1 = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        paddingTop: 50,
     },
     header: {
         width: '100%',
@@ -66,27 +136,7 @@ const styles = StyleSheet.create({
         height: 35,
         width: '100%'
     },
-    outerCircle: {
-        width: 20,
-        height: 20,
-        borderRadius: 25,
-        borderWidth: 1,
-        borderColor: '#929191',
-    },
-    innerCircle: {
-        width: 15,
-        height: 15,
-        borderRadius: 15,
-        backgroundColor: '#244172',
-        position: 'absolute',
-    },
-    noinnerCircle: {
-        width: 15,
-        height: 15,
-        borderRadius: 15,
-        backgroundColor: '#E3E3E3',
-        position: 'absolute',
-    },
+
     input: {
         borderWidth: 1,
         borderColor: 'gray',
@@ -106,4 +156,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default ResetPassword1;
+export default ResetPassword2;
