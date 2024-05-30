@@ -4,11 +4,6 @@ import { useNavigation } from '@react-navigation/native';
 import { geticon } from '../img/getIcon';
 import CheckBox from 'react-native-check-box';
 
-
-
-
-
-
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 const itemWidth = screenWidth * 0.8;

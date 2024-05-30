@@ -124,6 +124,7 @@ const counterReducer = (state = { count: 0 }, action) => {
 };
 
 const authReducer = (state = initialState, action) => {
+    console.log("I WANNA KNOW", action);
     switch (action.type) {
         case 'LOGIN':
             return {

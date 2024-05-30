@@ -12,7 +12,12 @@ import { Counter, counterReducer, store } from './src/Store/Redux_Function';
 import { GetSelectedRates } from './src/component/Exchange/getExchange';
 import ExchangeConfirm from './src/screens/ExchangeConfirm';
 import { app } from './Firebaseinit';
+<<<<<<< HEAD
 
+=======
+import ResetPassword from './src/screens/AccountSettings/ResetPasswordScreen';
+import FinMan from './src/screens/FinManScreen';
+>>>>>>> c30a77e7c5ac8d8416ae2ca90504abef27196204
 
 //<ExchangeConfirm />AppRegistry.registerComponent('mid_16_BuffetAPP', () => App);
 //https://reactnative.dev/docs/appregistry

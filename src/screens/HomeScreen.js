@@ -236,7 +236,8 @@ const HomeScreen = ({ navigation }) => {
                         style={styles.functionbox}
                         onPress={() => {
                             firstcome = 0;
-                            navigation.navigate('Withdraw');
+                            let para = 'value';
+                            navigation.navigate('Withdraw', {para});
                         }}
                     >
                         {/*

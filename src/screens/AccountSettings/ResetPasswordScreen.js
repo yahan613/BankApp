@@ -119,6 +119,7 @@ const ResetPassword = ({ navigation }) => {
                     }
                     if (newStepPage === 4) {
                       navigation.goBack();
+                      navigation.goBack();
                       return 1; // Reset stepPage to 1
                     }
                     return newStepPage;
