@@ -35,18 +35,29 @@ const accountItems = [
 //main!!!!!
 const ExchangeScreen = ({ navigation }) => {
 
-  UserData = useSelector(state => state.auth.UserData);
-  const userName = UserData.Name
-  const cre = UserData.Balance.credit
-  const ori_twd = UserData.Balance.twd
-  const ori_for = UserData.Balance.for
+  const dispatch = useDispatch();
+  const UserData = useSelector(state => state.auth.UserData);
+  const userName = UserData.Name;
+  const [cre, setCre] = useState(UserData.Balance.credit);
+  const [ori_twd, setOriTwd] = useState(UserData.Balance.twd);
+  const [ori_for, setOriFor] = useState(UserData.Balance.for);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const userDoc = await getDocs(doc(db, "User", userName));
+      const data = userDoc.data();
+      setCre(data.Balance.credit);
+      setOriTwd(data.Balance.twd);
+      setOriFor(data.Balance.for);
+    };
+
+    fetchUserData();
+  }, []);
 
   const numberWithCommas = (x) => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
   
-  const dispatch = useDispatch();
-
   const usdRate = useSelector(state => state.rate.usdRate);
   const jpyRate = useSelector(state => state.rate.jpyRate);
   const eurRate = useSelector(state => state.rate.eurRate);
@@ -122,127 +133,53 @@ const ExchangeScreen = ({ navigation }) => {
   const [fromAccount, setFromAccount] = useState("活期儲蓄存款  0081234567890");
   const [toAccount, setToAccount] = useState("外匯存款  0081234567891");
 
-  /*
-  const FORtransactionAction = (money) => {
-    dispatch({ type: 'SET_FOR_TR', payload: { money: money } });
-  };
-  const TWDtransactionAction = (money) => {
-    dispatch({ type: 'SET_TWD_TR', payload: { money: money } });
-  };
-  const FORtransactionActionA = (money) => {
-    
-    dispatch({ type: 'SET_FOR_TRA', payload: { money: money } });
-  };
-  const TWDtransactionActionA = (money) => {
-    
-    dispatch({ type: 'SET_TWD_TRA', payload: { money: money } });
-  };
-  */
-
-  const upDateFireBaseOut = async (money, acctype) => {
-    console.log("money is ", money)
-    console.log("acc is ",  ori_for - money,)
+  
+  const upDateFireBaseIn = async (moneyI, moneyO, acctype) => {
+    console.log("入:", moneyI)
+    console.log("出:", moneyO)
     switch(acctype){
       case 'twd':
         await updateDoc(doc(db, "User", userName), {
           Balance:{
-            for: ori_for,
-            twd: ori_twd - money,
+            for: ori_for - moneyO,
+            twd: ori_twd + moneyI,
             credit: cre,
           }
         });
+        setOriTwd(ori_twd + moneyI); // Update local state
+        setOriFor(ori_for - moneyO);
+        console.log("台入餘:",  ori_twd + moneyI)
+        console.log("外扣餘:",  ori_for - moneyO)
         break;
       case 'for':
         await updateDoc(doc(db, "User", userName), {
           Balance: {
-            for: ori_for - money,
-            twd: ori_twd,
+            for: ori_for + moneyI,
+            twd: ori_twd - moneyO,
             credit: cre,
           }
         });
+        setOriFor(ori_for + moneyI); // Update local state
+        setOriTwd(ori_twd - moneyO);
+        console.log("外入餘:",  ori_for + moneyI)
+        console.log("台扣餘:",  ori_twd - moneyO)
         break;
     }
   };
-
-  const upDateFireBaseIn = async (money, acctype) => {
-    console.log("money is ", money)
-    console.log("acc is ",  ori_for + money,)
-    switch(acctype){
-      case 'twd':
-        await updateDoc(doc(db, "User", userName), {
-          Balance:{
-            for: ori_for,
-            twd: ori_twd + money,
-            credit: cre,
-          }
-        });
+  
+  const callTradeIn = async (tv, tm, fv, fm) => {
+    console.log("執行 callTradeIn 函數...");
+    switch (tv) {
+      case '外匯存款  0081234567891':
+        await upDateFireBaseIn(tm, fm, 'for');
         break;
-      case 'for':
-        await updateDoc(doc(db, "User", userName), {
-          Balance: {
-            for: ori_for + money,
-            twd: ori_twd,
-            credit: cre,
-          }
-        });
+      case '活期儲蓄存款  0081234567890':
+        await upDateFireBaseIn(tm, fm, 'twd');
+        break;
+      default:
         break;
     }
   };
-
-  /*
-  const callTrade = (v, m) => {
-    switch (v) {
-      case '外匯存款  0081234567891':
-        FORtransactionAction(m);
-        break;
-      case '活期儲蓄存款  0081234567890':
-        TWDtransactionAction(m);
-        break;
-      default:
-        break;
-    }
-  }
-  */
-
-  /*
-  const callTradeIn = (v, m) => {
-    switch (v) {
-      case '外匯存款  0081234567891':
-        FORtransactionActionA(m);
-        break;
-      case '活期儲蓄存款  0081234567890':
-        TWDtransactionActionA(m);
-        break;
-      default:
-        break;
-    }
-  }
-  */
-
-  const callTrade = (v, m) => {
-    switch (v) {
-      case '外匯存款  0081234567891':
-        upDateFireBaseOut(m, 'for'); //要轉多少，轉哪個帳戶的錢(活儲或外匯)
-        break;
-      case '活期儲蓄存款  0081234567890':
-        upDateFireBaseOut(m, 'twd');
-        break;
-      default:
-        break;
-    }
-  }
-  const callTradeIn = (v, m) => {
-    switch (v) {
-      case '外匯存款  0081234567891':
-        upDateFireBaseIn(m, 'for'); //要轉多少，轉哪個帳戶的錢(活儲或外匯)
-        break;
-      case '活期儲蓄存款  0081234567890':
-        upDateFireBaseIn(m, 'twd');
-        break;
-      default:
-        break;
-    }
-  }
 
   const handleFromAmountChange = (amount) => {
     setFromAmount(amount);
@@ -308,7 +245,7 @@ const ExchangeScreen = ({ navigation }) => {
   };
 
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
 
     let transactionDetails;
     if (selectedSegment === 0) {
@@ -369,8 +306,20 @@ const ExchangeScreen = ({ navigation }) => {
     setSelectedOption(option);
   };
 
+  const handleTrade = async () => {
+    try {
+      await callTradeIn(toAccount, parseInt(toAmount), fromAccount, parseInt(fromAmount));
+      handleConfirm();
+    } catch (error) {
+      console.error('Error during trade:', error);
+      // 可以添加处理错误的代码，比如显示错误信息给用户
+    }
+    console.log('交易完成ori_twd:' + ori_twd )
+    console.log('交易完成ori_for:' + ori_for )
+  };
+
   return (
-    
+
     <SafeAreaView style={styles.container}>
       <View style={styles.topBackground} />
       <View style={{ width: '100%', height: 80, backgroundColor: '#244172', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
@@ -391,7 +340,7 @@ const ExchangeScreen = ({ navigation }) => {
       />
 
       <ScrollView contentContainerStyle={styles.scrollViewContent} showsVerticalScrollIndicator={false}>
-
+      
         {selectedSegment === 0 && (
           <View>
             <View style={styles.box}>
@@ -511,10 +460,10 @@ const ExchangeScreen = ({ navigation }) => {
 
               
             </View>
-            <TouchableOpacity onPress={() => {
-              callTrade(fromAccount, parseInt(fromAmount))
-              callTradeIn(toAccount, parseInt(toAmount))
-              handleConfirm()
+            <TouchableOpacity onPress={async () => {
+              console.log('ori_twd:' + ori_twd )
+              console.log('ori_for:' + ori_for )
+              handleTrade()
               }} style={styles.button}>
               <Text style={styles.buttonText}>確認</Text>
             </TouchableOpacity>

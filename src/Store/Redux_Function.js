@@ -72,8 +72,8 @@ const transactionReducer = (state = initialState, action) => {
                 ...state,
                 UserData: {
                     Balance: {
-                        ...state,
-                        for: state.UserData.Balance.for - parseInt(action.payload.money, 10)
+                        ...state.balance,
+                        for: state.balance.for - parseInt(action.payload.money, 10)
                     }
                 },
             };
@@ -83,8 +83,8 @@ const transactionReducer = (state = initialState, action) => {
                 ...state,
                 UserData: {
                     Balance: {
-                        ...state,
-                        for: state.UserData.Balance.twd - parseInt(action.payload.money, 10)
+                        ...state.balance,
+                        for: state.balance.twd - parseInt(action.payload.money, 10)
                     }
                 },
             };

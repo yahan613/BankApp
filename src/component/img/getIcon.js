@@ -106,6 +106,14 @@ export const geticon = (imagePath) => {
             return(require("./accept.png"))
         case "BuffetCard" :
             return(require("./Buffet_Card.png"))
+        case "Color_transfer":
+            return(require("./money-exchange.png"))
+        case "Color_withdraw":
+            return(require("./payment.png"))
+        case "Color_payment":
+            return(require("./bill.png"))
+        case "Color_exchange":
+            return(require("./exchange.png"))
         default:
             return null;
     }

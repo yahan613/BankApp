@@ -11,6 +11,7 @@ import Payment from '../screens/PaymentScreen';
 import Transfer from '../screens/TransferScreen';
 import AccountSettingsScreen from '../screens/AccountSettings/AccountSettings';
 import AccSettingNavigator from './AccountSettingStack';
+import TWDService from '../screens/TWDService';
 import ExchangeScreen from '../screens/Exchange';
 import Withdraw from '../screens/WithdrawScreen';
 import CreditCard from '../screens/CreditCard';
@@ -66,7 +67,7 @@ const menuItems = [
     { name: "轉帳服務", component: Transfer, icon: 'Transfer' },
     { name: "提款服務", component: Withdraw, icon: 'Withdraw' },
     { name: "繳費服務", component: Payment, icon: 'Bill' },
-    { name: "台幣服務", component: AccountSettingsScreen, icon: 'Twd' },
+    { name: "台幣服務", component: TWDService, icon: 'Twd' },
     { name: "外幣服務", component: ExchangeScreen, icon: 'Foreign_currency' },
     { name: "信用卡服務", component: CreditCard, icon: 'Credit_card' },
     { name: "理財服務", component: AccountSettingsScreen, icon: 'FM' },

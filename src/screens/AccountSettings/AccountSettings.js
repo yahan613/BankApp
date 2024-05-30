@@ -41,45 +41,47 @@ const AccountSettingsScreen = ({ navigation }) => {
               <Text style={{ fontSize: 20, color: '#244172' }}>更多功能</Text>
             </View>
             <View style={styles.line} />
-            <View style={styles.labelContainer}>
-              <View style={styles.label}>
-                {/* navigate to 編輯帳戶 */}
-                <TouchableOpacity onPress={() => navigation.navigate('SavingsAccount')} style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <Text style={{ flex: 1, ...Platform.select({ ios: { fontSize: 14 }, android: { fontSize: 16 } }) }}>我的存款帳戶</Text>
-                  {geticon('Arrow_forward_ios')}
-                </TouchableOpacity>
+              <View style={styles.labelContainer}>
+                <View style={styles.label}>
+                  {/* navigate to 編輯帳戶 */}
+                  <TouchableOpacity onPress={() => navigation.navigate('SavingsAccount')} style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Text style={{ flex: 1, ...Platform.select({ ios: { fontSize: 14 }, android: { fontSize: 16 } }) }}>我的存款帳戶</Text>
+                    {geticon('Arrow_forward_ios')}
+                  </TouchableOpacity>
+                </View>
               </View>
-            </View>
-            <View style={styles.labelContainer}>
-              <View style={styles.label}>
-                <TouchableOpacity onPress={() => navigation.navigate('History')} style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <Text style={{ flex: 1, ...Platform.select({ ios: { fontSize: 14 }, android: { fontSize: 16 } }) }}>交易紀錄查詢</Text>
-                  {geticon('Arrow_forward_ios')}
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-          <View style={styles.labelContainer}>
-            <View style={styles.label}>
-            <TouchableOpacity style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                <Text style={{flex: 1, ...Platform.select({ios: {fontSize: 14},android: {fontSize: 16}}) }}>安全性設定</Text>
-                {geticon('Arrow_forward_ios')}
-            </TouchableOpacity>
-            </View>
-          </View>
-            <View style={styles.labelContainer}>
-              <View style={styles.label}>
-                <TouchableOpacity
-                  style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}
-                  onPress={() => navigation.navigate('ResetPassword')}
+              <View style={styles.labelContainer}>
+                <View style={styles.label}>
+                  <TouchableOpacity onPress={() => navigation.navigate('History')} style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Text style={{ flex: 1, ...Platform.select({ ios: { fontSize: 14 }, android: { fontSize: 16 } }) }}>交易紀錄查詢</Text>
+                    {geticon('Arrow_forward_ios')}
+                  </TouchableOpacity>
+                </View>
+              </View> 
+              <View style={styles.labelContainer}>
+                <View style={styles.label}>
+                  <TouchableOpacity
+                    style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}
+                    onPress={() => navigation.navigate('ResetPassword')}
+                  >
+                    <Text style={{ flex: 1, ...Platform.select({ ios: { fontSize: 14 }, android: { fontSize: 16 } }) }}>使用者代號/密碼重設</Text>
+                    {geticon('Arrow_forward_ios')}
+                  </TouchableOpacity>
+                </View>
+              </View> 
+              <View style={styles.labelContainer}>
+                <View style={styles.label}>
+                <TouchableOpacity 
+                  style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}
+                  onPress={() => navigation.navigate('Safety')}
                 >
-                  <Text style={{ flex: 1, ...Platform.select({ ios: { fontSize: 14 }, android: { fontSize: 16 } }) }}>使用者代號/密碼重設</Text>
-                  {geticon('Arrow_forward_ios')}
+                    <Text style={{flex: 1, ...Platform.select({ios: {fontSize: 14},android: {fontSize: 16}}) }}>安全性設定</Text>
+                    {geticon('Arrow_forward_ios')}
                 </TouchableOpacity>
-              </View>
-            </View>      
-
-        </View>
+                </View>
+              </View>     
+            </View>
+          </View>
       </ScrollView>
     </SafeAreaView>
 
