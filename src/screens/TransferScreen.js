@@ -205,14 +205,14 @@ const Transfer = ({ navigation }) => {
             <Text style={{ color: '#5C94F3', borderWidth: 1, borderRadius: 8, borderColor: '#D9D9D9', paddingTop: 3, paddingBottom: 3, paddingRight: 10, paddingLeft: 10 }}>選擇常用/約定</Text>
           </TouchableOpacity>
           <View style={styles.selectBox}>
-            <Text style={styles.selectlabel}>轉入金額</Text>
+            <Text style={styles.selectlabel}>轉出金額</Text>
             <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-between', alignItems: 'center' }}>
               <TextInput
                 style={styles.select2}
                 onChangeText={text => onChangeMoney(text)}
                 value={MoneyText}
                 keyboardType="numeric"
-                placeholder='請輸入轉出金額'
+                placeholder='請輸出轉出金額'
               />
             </View>
           </View>

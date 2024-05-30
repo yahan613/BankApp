@@ -8,7 +8,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 import { Platform } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { getFirestore, collection, getDocs, setDoc, doc, updateDoc } from '@firebase/firestore';
+import { getFirestore, collection, getDocs, setDoc, doc, updateDoc, query, where } from '@firebase/firestore';
 import { db } from '../../Firebaseinit';
 
 
@@ -36,23 +36,6 @@ const accountItems = [
 const ExchangeScreen = ({ navigation }) => {
 
   const dispatch = useDispatch();
-  const UserData = useSelector(state => state.auth.UserData);
-  const userName = UserData.Name;
-  const [cre, setCre] = useState(UserData.Balance.credit);
-  const [ori_twd, setOriTwd] = useState(UserData.Balance.twd);
-  const [ori_for, setOriFor] = useState(UserData.Balance.for);
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      const userDoc = await getDocs(doc(db, "User", userName));
-      const data = userDoc.data();
-      setCre(data.Balance.credit);
-      setOriTwd(data.Balance.twd);
-      setOriFor(data.Balance.for);
-    };
-
-    fetchUserData();
-  }, []);
 
   const numberWithCommas = (x) => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -133,41 +116,78 @@ const ExchangeScreen = ({ navigation }) => {
   const [fromAccount, setFromAccount] = useState("活期儲蓄存款  0081234567890");
   const [toAccount, setToAccount] = useState("外匯存款  0081234567891");
 
+  let UserData = useSelector(state => state.auth.UserData);
+  const userName = UserData.Name
+  const cre = UserData.Balance.credit
+  const ori_twd = UserData.Balance.twd
+  const ori_for = UserData.Balance.for
+
+  //STEP1 宣告
+  let [paraTransfer, setTransfer] = useState({ Ivalue: 'defaultttt', Iacctype: '', Im: 0 , Ovalue: 'defaultttt', Oacctype: '', Om: 0 });
   
-  const upDateFireBaseIn = async (moneyI, moneyO, acctype) => {
+  //STEP2 後端準備作業(抓當下的資料)
+  const upDateFireBaseIn = async (moneyI, moneyO, Iacctype) => {
     console.log("入:", moneyI)
     console.log("出:", moneyO)
-    switch(acctype){
-      case 'twd':
-        await updateDoc(doc(db, "User", userName), {
-          Balance:{
-            for: ori_for - moneyO,
-            twd: ori_twd + moneyI,
-            credit: cre,
-          }
-        });
-        setOriTwd(ori_twd + moneyI); // Update local state
-        setOriFor(ori_for - moneyO);
-        console.log("台入餘:",  ori_twd + moneyI)
-        console.log("外扣餘:",  ori_for - moneyO)
-        break;
-      case 'for':
-        await updateDoc(doc(db, "User", userName), {
-          Balance: {
-            for: ori_for + moneyI,
-            twd: ori_twd - moneyO,
-            credit: cre,
-          }
-        });
-        setOriFor(ori_for + moneyI); // Update local state
-        setOriTwd(ori_twd - moneyO);
-        console.log("外入餘:",  ori_for + moneyI)
-        console.log("台扣餘:",  ori_twd - moneyO)
-        break;
+    try {
+      const ref = collection(db, "User");
+      const q = query(ref, where("Name", "==", UserData.Name));
+      const querySnapshot = await getDocs(q);
+
+      const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+      for (const doc of querySnapshot.docs) {
+        const data = doc.data();
+        paraBalance = data.Balance;
+        await delay(1500);
+        //STEP3 利用STEP1宣告的paraTransfer做轉帳操作
+        switch (Iacctype) {
+          case 'twd':
+            console.log("STEP3 利用STEP1宣告的paraTransfer轉入幣別TWD", Iacctype)
+            setTransfer({ Ivalue: paraBalance.twd, Iacctype: 'twd', Im: moneyI, Ovalue: paraBalance.for, Oacctype: 'for',OIm: moneyO, });
+            break;
+          case 'for':
+            console.log("STEP3 利用STEP1宣告的paraTransfer轉入幣別FOR", Iacctype)
+            setTransfer({ Ivalue: paraBalance.for, Iacctype: 'for', Im: moneyI, Ovalue: paraBalance.twd, Oacctype: 'twd', Om: moneyO, });
+            break;
+        }
+      }
+    } catch (err) {
+      console.error("UpdateFailed:", err);
     }
   };
+
+  //STEP4 透過useEffect更新轉帳後的內容
+  useEffect(() => {
+    // Switch logic moved here
+    const updateBalance = async () => {
+      switch (paraTransfer.Iacctype) { //
+        case 'twd':
+          console.log("STEP4應該轉入帳號TWD", paraTransfer.Iacctype)
+          await updateDoc(doc(db, "User", userName), {
+            Balance: {
+              for: paraTransfer.Ovalue - paraTransfer.Om,
+              twd: paraTransfer.Ivalue + paraTransfer.Im,
+              credit: cre,
+            }
+          });
+          break;
+        case 'for':
+          console.log("STEP4應該轉入帳號FOR", paraTransfer.Iacctype)
+          await updateDoc(doc(db, "User", userName), {
+            Balance: {
+              for: paraTransfer.Ivalue + paraTransfer.Im,
+              twd: paraTransfer.Ovalue - paraTransfer.Om,
+              credit: cre,
+            }
+          });
+          break;
+      }
+    };
+    updateBalance();
+  }, [paraTransfer]);
   
-  const callTradeIn = async (tv, tm, fv, fm) => {
+  const callTradeIn = async (tv, tm, fm) => {
     console.log("執行 callTradeIn 函數...");
     switch (tv) {
       case '外匯存款  0081234567891':
@@ -308,14 +328,14 @@ const ExchangeScreen = ({ navigation }) => {
 
   const handleTrade = async () => {
     try {
-      await callTradeIn(toAccount, parseInt(toAmount), fromAccount, parseInt(fromAmount));
+      await callTradeIn(toAccount, parseInt(toAmount), parseInt(fromAmount));
       handleConfirm();
     } catch (error) {
       console.error('Error during trade:', error);
       // 可以添加处理错误的代码，比如显示错误信息给用户
     }
-    console.log('交易完成ori_twd:' + ori_twd )
-    console.log('交易完成ori_for:' + ori_for )
+    console.log('交易完成:' + paraTransfer.Ovalue )
+    console.log('交易完成:' + paraTransfer.Ivalue )
   };
 
   return (
@@ -461,8 +481,6 @@ const ExchangeScreen = ({ navigation }) => {
               
             </View>
             <TouchableOpacity onPress={async () => {
-              console.log('ori_twd:' + ori_twd )
-              console.log('ori_for:' + ori_for )
               handleTrade()
               }} style={styles.button}>
               <Text style={styles.buttonText}>確認</Text>
