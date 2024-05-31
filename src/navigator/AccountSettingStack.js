@@ -7,6 +7,7 @@ import AccountEdit from "../screens/AccountSettings/AccountEdit";
 import SavingsAccount from "../screens/AccountSettings/SavingsAccount"
 import History from "../screens/AccountSettings/History"
 import ResetPassword from "../screens/AccountSettings/ResetPasswordScreen";
+import Safety from "../screens/AccountSettings/Safety"
 
 const Stack = createNativeStackNavigator();
 
@@ -42,6 +43,13 @@ const AccSettingNavigator = () => {
             <Stack.Screen
                 name="ResetPassword"
                 component={ResetPassword}
+                options={{
+                    headerShown: false,
+                }}
+            />
+            <Stack.Screen
+                name="Safety"
+                component={Safety}
                 options={{
                     headerShown: false,
                 }}

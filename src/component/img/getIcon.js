@@ -103,7 +103,17 @@ export const geticon = (imagePath) => {
         case "LeftMore":
             return (<LeftBar />)
         case "SignUpSuccess":
-            return (require("./accept.png"))
+            return(require("./accept.png"))
+        case "BuffetCard" :
+            return(require("./Buffet_Card.png"))
+        case "Color_transfer":
+            return(require("./money-exchange.png"))
+        case "Color_withdraw":
+            return(require("./payment.png"))
+        case "Color_payment":
+            return(require("./bill.png"))
+        case "Color_exchange":
+            return(require("./exchange.png"))
         case "BuffetCard":
             return (require("./Buffet_Card.png"))
         case "ResetPassword":

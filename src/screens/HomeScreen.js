@@ -224,9 +224,11 @@ const HomeScreen = ({ navigation }) => {
                         onPress={() => navigation.navigate('Transfer')}
                     >
                         <View>
-                            {geticon("Transfer")}
+                            <Image
+                                source={geticon("Color_transfer")}  style={{width: 25, height: 25}}
+                            />
                         </View>
-                        <Text style={[{ fontSize: 12 }, textStyles]}>
+                        <Text style={{ fontSize: 12, color: '#244172' }}>
                             轉帳
                         </Text>
                     </TouchableOpacity>
@@ -238,10 +240,17 @@ const HomeScreen = ({ navigation }) => {
                             navigation.navigate('Withdraw', {para});
                         }}
                     >
+                        {/*
                         <View>
                             {geticon("Withdraw")}
                         </View>
-                        <Text style={[{ fontSize: 12 }, textStyles]}>
+                        */}
+                        <View>
+                            <Image
+                                source={geticon("Color_withdraw")}  style={{width: 25, height: 25}}
+                            />
+                        </View>
+                        <Text style={{ fontSize: 12, color: '#244172' }}>
                             提款
                         </Text>
                     </TouchableOpacity>
@@ -249,10 +258,17 @@ const HomeScreen = ({ navigation }) => {
                         style={styles.functionbox}
                         onPress={() => navigation.navigate('Payment')}
                     >
+                        {/*
                         <View>
                             {geticon("Bill")}
                         </View>
-                        <Text style={[{ fontSize: 12 }, textStyles]}>
+                        */}
+                        <View>
+                            <Image
+                                source={geticon("Color_payment")}  style={{width: 25, height: 25}}
+                            />
+                        </View>
+                        <Text style={{ fontSize: 12, color: '#244172' }}>
                             繳費
                         </Text>
                     </TouchableOpacity>
@@ -260,10 +276,17 @@ const HomeScreen = ({ navigation }) => {
                         style={styles.functionbox}
                         onPress={() => navigation.navigate('Exchange')}
                     >
+                        {/* 
                         <View>
                             {geticon("Foreign_currency")}
                         </View>
-                        <Text style={[{ fontSize: 12 }, textStyles]}>
+                        */}
+                        <View>
+                            <Image
+                                source={geticon("Color_exchange")}  style={{width: 25, height: 25}}
+                            />
+                        </View>
+                        <Text style={{ fontSize: 12, color: '#244172' }}>
                             外幣
                         </Text>
                     </TouchableOpacity>
@@ -374,7 +397,7 @@ const HomeScreen = ({ navigation }) => {
                         </TouchableOpacity>
                     </View>
                 </View>
-                <Button title="Toggle Theme" onPress={toggleTheme} />
+                {/* <Button title="Toggle Theme" onPress={toggleTheme} /> */}
             </ScrollView>
         </View >
     )
@@ -430,10 +453,10 @@ const styles = StyleSheet.create({
         width: '85%',
         ...Platform.select({
             ios: {
-                height: 1700,
+                height: 1650,
             },
             android: {
-                height: 1560,
+                height: 1500,
             }
         }),
         marginTop: 40,

@@ -8,7 +8,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 import { Platform } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { getFirestore, collection, getDocs, setDoc, doc, updateDoc } from '@firebase/firestore';
+import { getFirestore, collection, getDocs, setDoc, doc, updateDoc, query, where } from '@firebase/firestore';
 import { db } from '../../Firebaseinit';
 
 
@@ -35,18 +35,12 @@ const accountItems = [
 //main!!!!!
 const ExchangeScreen = ({ navigation }) => {
 
-  UserData = useSelector(state => state.auth.UserData);
-  const userName = UserData.Name
-  const cre = UserData.Balance.credit
-  const ori_twd = UserData.Balance.twd
-  const ori_for = UserData.Balance.for
+  const dispatch = useDispatch();
 
   const numberWithCommas = (x) => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
   
-  const dispatch = useDispatch();
-
   const usdRate = useSelector(state => state.rate.usdRate);
   const jpyRate = useSelector(state => state.rate.jpyRate);
   const eurRate = useSelector(state => state.rate.eurRate);
@@ -122,127 +116,90 @@ const ExchangeScreen = ({ navigation }) => {
   const [fromAccount, setFromAccount] = useState("活期儲蓄存款  0081234567890");
   const [toAccount, setToAccount] = useState("外匯存款  0081234567891");
 
-  /*
-  const FORtransactionAction = (money) => {
-    dispatch({ type: 'SET_FOR_TR', payload: { money: money } });
-  };
-  const TWDtransactionAction = (money) => {
-    dispatch({ type: 'SET_TWD_TR', payload: { money: money } });
-  };
-  const FORtransactionActionA = (money) => {
-    
-    dispatch({ type: 'SET_FOR_TRA', payload: { money: money } });
-  };
-  const TWDtransactionActionA = (money) => {
-    
-    dispatch({ type: 'SET_TWD_TRA', payload: { money: money } });
-  };
-  */
+  let UserData = useSelector(state => state.auth.UserData);
+  const userName = UserData.Name
+  const cre = UserData.Balance.credit
+  const ori_twd = UserData.Balance.twd
+  const ori_for = UserData.Balance.for
 
-  const upDateFireBaseOut = async (money, acctype) => {
-    console.log("money is ", money)
-    console.log("acc is ",  ori_for - money,)
-    switch(acctype){
-      case 'twd':
-        await updateDoc(doc(db, "User", userName), {
-          Balance:{
-            for: ori_for,
-            twd: ori_twd - money,
-            credit: cre,
-          }
-        });
-        break;
-      case 'for':
-        await updateDoc(doc(db, "User", userName), {
-          Balance: {
-            for: ori_for - money,
-            twd: ori_twd,
-            credit: cre,
-          }
-        });
-        break;
+  //STEP1 宣告
+  let [paraTransfer, setTransfer] = useState({ Ivalue: 'defaultttt', Iacctype: '', Im: 0 , Ovalue: 'defaultttt', Oacctype: '', Om: 0 });
+  
+  //STEP2 後端準備作業(抓當下的資料)
+  const upDateFireBaseIn = async (moneyI, moneyO, Iacctype) => {
+    console.log("入:", moneyI)
+    console.log("出:", moneyO)
+    try {
+      const ref = collection(db, "User");
+      const q = query(ref, where("Name", "==", UserData.Name));
+      const querySnapshot = await getDocs(q);
+
+      const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+      for (const doc of querySnapshot.docs) {
+        const data = doc.data();
+        paraBalance = data.Balance;
+        await delay(1500);
+        //STEP3 利用STEP1宣告的paraTransfer做轉帳操作
+        switch (Iacctype) {
+          case 'twd':
+            console.log("STEP3 利用STEP1宣告的paraTransfer轉入幣別TWD", Iacctype)
+            setTransfer({ Ivalue: paraBalance.twd, Iacctype: 'twd', Im: moneyI, Ovalue: paraBalance.for, Oacctype: 'for',OIm: moneyO, });
+            break;
+          case 'for':
+            console.log("STEP3 利用STEP1宣告的paraTransfer轉入幣別FOR", Iacctype)
+            setTransfer({ Ivalue: paraBalance.for, Iacctype: 'for', Im: moneyI, Ovalue: paraBalance.twd, Oacctype: 'twd', Om: moneyO, });
+            break;
+        }
+      }
+    } catch (err) {
+      console.error("UpdateFailed:", err);
     }
   };
 
-  const upDateFireBaseIn = async (money, acctype) => {
-    console.log("money is ", money)
-    console.log("acc is ",  ori_for + money,)
-    switch(acctype){
-      case 'twd':
-        await updateDoc(doc(db, "User", userName), {
-          Balance:{
-            for: ori_for,
-            twd: ori_twd + money,
-            credit: cre,
-          }
-        });
-        break;
-      case 'for':
-        await updateDoc(doc(db, "User", userName), {
-          Balance: {
-            for: ori_for + money,
-            twd: ori_twd,
-            credit: cre,
-          }
-        });
-        break;
-    }
-  };
-
-  /*
-  const callTrade = (v, m) => {
-    switch (v) {
+  //STEP4 透過useEffect更新轉帳後的內容
+  useEffect(() => {
+    // Switch logic moved here
+    const updateBalance = async () => {
+      switch (paraTransfer.Iacctype) { //
+        case 'twd':
+          console.log("STEP4應該轉入帳號TWD", paraTransfer.Iacctype)
+          await updateDoc(doc(db, "User", userName), {
+            Balance: {
+              for: paraTransfer.Ovalue - paraTransfer.Om,
+              twd: paraTransfer.Ivalue + paraTransfer.Im,
+              credit: cre,
+            }
+          });
+          break;
+        case 'for':
+          console.log("STEP4應該轉入帳號FOR", paraTransfer.Iacctype)
+          await updateDoc(doc(db, "User", userName), {
+            Balance: {
+              for: paraTransfer.Ivalue + paraTransfer.Im,
+              twd: paraTransfer.Ovalue - paraTransfer.Om,
+              credit: cre,
+            }
+          });
+          break;
+      }
+    };
+    updateBalance();
+  }, [paraTransfer]);
+  
+  const callTradeIn = async (tv, tm, fm) => {
+    console.log("執行 callTradeIn 函數...");
+    switch (tv) {
       case '外匯存款  0081234567891':
-        FORtransactionAction(m);
+        await upDateFireBaseIn(tm, fm, 'for');
         break;
       case '活期儲蓄存款  0081234567890':
-        TWDtransactionAction(m);
+        await upDateFireBaseIn(tm, fm, 'twd');
         break;
       default:
         break;
     }
-  }
-  */
-
-  /*
-  const callTradeIn = (v, m) => {
-    switch (v) {
-      case '外匯存款  0081234567891':
-        FORtransactionActionA(m);
-        break;
-      case '活期儲蓄存款  0081234567890':
-        TWDtransactionActionA(m);
-        break;
-      default:
-        break;
-    }
-  }
-  */
-
-  const callTrade = (v, m) => {
-    switch (v) {
-      case '外匯存款  0081234567891':
-        upDateFireBaseOut(m, 'for'); //要轉多少，轉哪個帳戶的錢(活儲或外匯)
-        break;
-      case '活期儲蓄存款  0081234567890':
-        upDateFireBaseOut(m, 'twd');
-        break;
-      default:
-        break;
-    }
-  }
-  const callTradeIn = (v, m) => {
-    switch (v) {
-      case '外匯存款  0081234567891':
-        upDateFireBaseIn(m, 'for'); //要轉多少，轉哪個帳戶的錢(活儲或外匯)
-        break;
-      case '活期儲蓄存款  0081234567890':
-        upDateFireBaseIn(m, 'twd');
-        break;
-      default:
-        break;
-    }
-  }
+  };
 
   const handleFromAmountChange = (amount) => {
     setFromAmount(amount);
@@ -308,7 +265,7 @@ const ExchangeScreen = ({ navigation }) => {
   };
 
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
 
     let transactionDetails;
     if (selectedSegment === 0) {
@@ -369,8 +326,20 @@ const ExchangeScreen = ({ navigation }) => {
     setSelectedOption(option);
   };
 
+  const handleTrade = async () => {
+    try {
+      await callTradeIn(toAccount, parseInt(toAmount), parseInt(fromAmount));
+      handleConfirm();
+    } catch (error) {
+      console.error('Error during trade:', error);
+      // 可以添加处理错误的代码，比如显示错误信息给用户
+    }
+    console.log('交易完成:' + paraTransfer.Ovalue )
+    console.log('交易完成:' + paraTransfer.Ivalue )
+  };
+
   return (
-    
+
     <SafeAreaView style={styles.container}>
       <View style={styles.topBackground} />
       <View style={{ width: '100%', height: 80, backgroundColor: '#244172', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
@@ -391,7 +360,7 @@ const ExchangeScreen = ({ navigation }) => {
       />
 
       <ScrollView contentContainerStyle={styles.scrollViewContent} showsVerticalScrollIndicator={false}>
-
+      
         {selectedSegment === 0 && (
           <View>
             <View style={styles.box}>
@@ -511,10 +480,8 @@ const ExchangeScreen = ({ navigation }) => {
 
               
             </View>
-            <TouchableOpacity onPress={() => {
-              callTrade(fromAccount, parseInt(fromAmount))
-              callTradeIn(toAccount, parseInt(toAmount))
-              handleConfirm()
+            <TouchableOpacity onPress={async () => {
+              handleTrade()
               }} style={styles.button}>
               <Text style={styles.buttonText}>確認</Text>
             </TouchableOpacity>
