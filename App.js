@@ -10,20 +10,25 @@ import { createStore } from 'redux';
 import { Provider, useSelector, useDispatch } from 'react-redux';
 import { Counter, counterReducer, store } from './src/Store/Redux_Function';
 import { GetSelectedRates } from './src/component/Exchange/getExchange';
-import ExchangeConfirm from './src/screens/ExchangeConfirm';
 import { app } from './Firebaseinit';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 //<ExchangeConfirm />AppRegistry.registerComponent('mid_16_BuffetAPP', () => App);
 //https://reactnative.dev/docs/appregistry
 
+const queryClient = new QueryClient();
+
 export default function App() {
 
   return (
-    <Provider store={store}>
-      <SafeAreaProvider>
-        <LoginStackNavigator />
-      </SafeAreaProvider>
-    </Provider>
+    <QueryClientProvider client={queryClient}>
+      <Provider store={store}>
+        <SafeAreaProvider>
+          <LoginStackNavigator />
+        </SafeAreaProvider>
+      </Provider>
+    </QueryClientProvider>
+
   );
 }
 

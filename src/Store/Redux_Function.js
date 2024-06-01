@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { db } from '../../Firebaseinit';
 import { collection, doc, getDocs, query, where } from "@firebase/firestore";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 
 // Reducer functions

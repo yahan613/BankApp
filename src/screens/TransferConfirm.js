@@ -1,34 +1,20 @@
 import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
 import React from 'react'
 import { geticon } from '../component/img/getIcon';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Platform } from 'react-native';
 import { useSelector } from 'react-redux';
 import { db } from '../../Firebaseinit';
 import { collection, doc, getDocs, query, where } from "@firebase/firestore";
+import LottieView from 'lottie-react-native';
+
 
 
 const TransferConfirm = ({ navigation, route }) => {
-  //Paramtest
-  /*UserData = useSelector(state => state.auth.UserData.Name);
-  const updataBalance = async () => {
-    try {
-      const ref = collection(db, "User");
-      const q = query(ref, where("Name", "==", UserData));
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        const data = doc.data(),
-        ParaBalance = data.Balance;
-        console.log("LARTTTTTT", ParaBalance)
-        navigation.navigate('HomeScreen');
-      });
-    } catch (err) {
-      console.error("UpdateFailed:", err);
-    }
-  }*/
-
   const handlePress = () => {
-    navigation.navigate('HomeScreen'); 
+    navigation.navigate('HomeScreen');
+    setLoading(false);
+    console.log("OK")
   };
 
   const { transactionDetails } = route.params;
@@ -41,6 +27,25 @@ const TransferConfirm = ({ navigation, route }) => {
   };
   const taipeiTime = currentDateTime.toLocaleString('en-US', taipeiTimeOptions);
 
+  //LOADING
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 3500); // 3秒的加载时间
+
+    return () => clearTimeout(timer); // 清除計時器
+  }, []);
+
+
+  if (loading) {
+    return (
+      <View style={styles.loadingScreen}>
+        <LottieView style={{flex:1, width: 200, height: 200}} source={require('../component/img/Lottie_Animation/trade_con2.json')} autoPlay loop />
+      </View>
+    )
+  }
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.topBackground} />
@@ -84,6 +89,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#D9D9D9'
+  },
+  loadingScreen: {
+    flex: 1,
+    backgroundColor: '#D9D9D9', // 白色背景
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   topBackground: {
     position: 'absolute',

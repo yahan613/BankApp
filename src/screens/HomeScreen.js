@@ -10,6 +10,7 @@ import { lightThemeColors, darkThemeColors } from '../component/Colors';
 import { app } from '../../Firebaseinit'
 import { db } from '../../Firebaseinit'
 import { getFirestore, collection, getDocs, doc, updateDoc, query, where } from '@firebase/firestore';
+import LottieView from 'lottie-react-native';
 
 let EXCHANGE_DATA = [
     { id: '1', value: 'USA', width: '20%' },
@@ -174,7 +175,10 @@ const HomeScreen = ({ navigation }) => {
         setShowcredit(!showcredit);
     };
     const renderItem = ({ item, index }) => (
-        <View style={styles.cell}>
+        <TouchableOpacity
+            style={styles.cell}
+            onPress={() => navigation.navigate('ExChart')}
+        >
             {index % 4 !== 0 ? (
                 <Text style={styles.cellText}>
                     {item.value}
@@ -187,7 +191,7 @@ const HomeScreen = ({ navigation }) => {
                     />
                 </View>
             )}
-        </View>
+        </TouchableOpacity>
     );
 
     //失敗theme
@@ -209,10 +213,7 @@ const HomeScreen = ({ navigation }) => {
     if (loading) {
         return (
             <View style={styles.loadingScreen}>
-                <ActivityIndicator
-                    color="#244172"
-                    size="large"
-                />
+                <LottieView style={{ flex: 1, width: 200, height: 200 }} source={require('../component/img/Lottie_Animation/bank_load.json')} autoPlay loop />
             </View>
         ) // 显示白色加载画面
     }
@@ -238,7 +239,7 @@ const HomeScreen = ({ navigation }) => {
                         onPress={() => {
                             firstcome = 0;
                             let para = 'value';
-                            navigation.navigate('Withdraw', {para});
+                            navigation.navigate('Withdraw', { para });
                         }}
                     >
                         {/*
@@ -407,7 +408,7 @@ const HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
     loadingScreen: {
         flex: 1,
-        backgroundColor: '#D9D9D9', // 白色背景
+        backgroundColor: '#fff', // 白色背景
         justifyContent: 'center',
         alignItems: 'center',
     },
