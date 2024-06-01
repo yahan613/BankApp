@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity, SafeAreaView, ScrollView, Platform } from 'react-native';
 import { geticon } from '../component/img/getIcon';
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 const CreditCardScreen = ({ navigation }) => {
   const [selectedCard, setSelectedCard] = useState('BuffetCard');
@@ -13,6 +14,9 @@ const CreditCardScreen = ({ navigation }) => {
       setSelectedCard('AddCard');
     }
   };
+
+  let UserData = useSelector(state => state.auth.UserData);
+  const cre = UserData.Balance.credit
 
   return (
     <SafeAreaView style={styles.container}>
@@ -27,7 +31,7 @@ const CreditCardScreen = ({ navigation }) => {
         <Text style={{ color: '#fff', fontSize: 20 }}>信用卡</Text>
       </View>
       <View style={styles.BottomBackground} />
-      <ScrollView contentContainerStyle={{ marginTop: 35, width: '85%', ...Platform.select({ios: {height: 810},android: {height: 780}}) }} showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
+      <ScrollView contentContainerStyle={{ marginTop: 35, width: '85%' }} showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
         <View style={{ flex: 1, alignItems: 'center' }}>
             <View style={{ flexDirection: 'row', width: 400, marginBottom: 20, alignSelf: 'flex-start', marginLeft: 30 }}>
                 <View style={{ backgroundColor: '#244172', width: 3, marginRight: 7 }}></View>
@@ -94,7 +98,7 @@ const CreditCardScreen = ({ navigation }) => {
                 <View style={styles.line} />
                 <View style={{width: '85%', flexDirection: 'row', justifyContent: 'space-between', marginTop: 10}}>
                   <Text>信用額度</Text>
-                  <Text></Text>
+                  <Text>{cre}</Text>
                 </View>
                 <View style={styles.line} />
                 <View style={{width: '85%', flexDirection: 'row', justifyContent: 'space-between', marginTop: 10}}>

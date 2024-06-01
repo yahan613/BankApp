@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, SafeAreaView, Dimensions, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, Dimensions, TouchableOpacity, TextInput, Platform } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 
@@ -68,7 +68,7 @@ const Step1 = () => {
                 </View>
                 <Text style={{ fontSize: 16 }}>銀行帳戶號碼</Text>
             </View>
-            <View style={{ flexDirection: 'column', marginLeft: 40, height: (bankaccount) ? 260 : 0, overflow: 'hidden' }}>
+            <View style={{ flexDirection: 'column', marginLeft: 40, height: (bankaccount) ? Platform.select({ios: 290, android: 260}) : 0, overflow: 'hidden' }}>
                 <Text style={{ color: '#929191', marginBottom: 10, fontSize: 15 }}>銀行帳戶號碼</Text>
                 <Text style={{ color: '#929191', fontSize: 13 }}>輸入”0”和”您本行帳戶號碼前9碼”</Text>
                 <TextInput
@@ -88,7 +88,7 @@ const Step1 = () => {
                         <TouchableOpacity id="sign-in-button"
                             style={{ width: '33%', backgroundColor: '#5C94F3', marginLeft: -76, height: 33.7, borderRadius: 3, justifyContent: 'center', alignItems: 'center' }}
                         >
-                            <Text style={{ fontSize: 12, color: '#fff' }}>獲取驗證碼</Text>
+                            <Text style={{ ...Platform.select({ios: { fontSize: 10, }, android: { fontSize: 12, }}), color: '#fff' }}>獲取驗證碼</Text>
                         </TouchableOpacity>
                     </View>
                     <View style={{ width: '100%', flexDirection: 'row', height: 40, alignItems: 'center', borderColor: 'gray', }}>
@@ -101,7 +101,7 @@ const Step1 = () => {
                         <TouchableOpacity
                             style={{ width: '33%', backgroundColor: '#5C94F3', marginLeft: -76, height: 33.7, borderRadius: 3, justifyContent: 'center', alignItems: 'center' }}
                         >
-                            <Text style={{ fontSize: 12, color: '#fff' }}>確認</Text>
+                            <Text style={{ ...Platform.select({ios: { fontSize: 10, }, android: { fontSize: 12, }}), color: '#fff' }}>確認</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -120,22 +120,22 @@ const Step1 = () => {
                 <Text style={{ fontSize: 16 }}>金融卡或VISA金融卡號碼</Text>
             </View>
             <View style={{ flexDirection: 'column', marginLeft: 40, marginBottom: -10, height: (bankaccount) ? 0 : 350, overflow: 'hidden' }}>
-                <Text style={{ color: '#929191', marginBottom: 10, fontSize: 15 }}>金融卡或VISA金融卡號碼</Text>
-                <Text style={{ color: '#929191', marginBottom: 10, fontSize: 13 }}>12位數字(0~9)銀行帳號</Text>
+                <Text style={{ color: '#929191', ...Platform.select({ios: { fontSize: 14, marginBottom: 7 }, android: { fontSize: 15, marginBottom: 10 }}) }}>金融卡或VISA金融卡號碼</Text>
+                <Text style={{ color: '#929191', ...Platform.select({ios: { fontSize: 12, marginBottom: 7 }, android: { fontSize: 13, marginBottom: 10 }}) }}>12位數字(0~9)銀行帳號</Text>
                 <TextInput
                     style={{ borderWidth: 1, borderColor: 'gray', padding: 5, borderRadius: 5, marginBottom: 20, width: '99%' }}
                     value={VISAnuminput}
                     onChangeText={text => setVISAnuminput(text)}
                 />
-                <Text style={{ color: '#929191', marginBottom: 10, fontSize: 15 }}>金融卡發行號碼</Text>
-                <Text style={{ color: '#929191', marginBottom: 10, fontSize: 13 }}>1位數字(0~9)</Text>
+                <Text style={{ color: '#929191', ...Platform.select({ios: { fontSize: 14, marginBottom: 7 }, android: { fontSize: 15, marginBottom: 10 }}) }}>金融卡發行號碼</Text>
+                <Text style={{ color: '#929191', ...Platform.select({ios: { fontSize: 12, marginBottom: 7 }, android: { fontSize: 13, marginBottom: 10 }}) }}>1位數字(0~9)</Text>
                 <TextInput
                     style={{ borderWidth: 1, borderColor: 'gray', padding: 5, borderRadius: 5, marginBottom: 20, width: '99%' }}
                     value={VISAissinput}
                     onChangeText={text => setVISAissinput(text)}
                 />
-                <Text style={{ color: '#929191', marginBottom: 10, fontSize: 15, }}>金融卡辭路密碼</Text>
-                <Text style={{ color: '#929191', marginBottom: 10, fontSize: 13 }}>4位數字(0~9)</Text>
+                <Text style={{ color: '#929191', ...Platform.select({ios: { fontSize: 14, marginBottom: 7 }, android: { fontSize: 15, marginBottom: 10 }}) }}>金融卡辭路密碼</Text>
+                <Text style={{ color: '#929191', ...Platform.select({ios: { fontSize: 12, marginBottom: 7 }, android: { fontSize: 13, marginBottom: 10 }}) }}>4位數字(0~9)</Text>
                 <TextInput
                     style={{ borderWidth: 1, borderColor: 'gray', padding: 5, borderRadius: 5, marginBottom: 15, width: '99%' }}
                     value={VISApininput}

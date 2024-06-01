@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, SafeAreaView, Dimensions, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, Dimensions, TouchableOpacity, TextInput, Platform } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { geticon } from '../img/getIcon';
@@ -37,7 +37,7 @@ const Step3 = () => {
                     巴菲特行動銀行服務約定書
                 </Text>
             </View>
-            <View style={{ marginTop: 10, width: '100%', marginLeft: 0, flexDirection: 'row', alignItems: 'flex-start', marginBottom: 10, backgroundColor: '#F5F5F5', padding: 7 }}>
+            <View style={{ ...Platform.select({ios: { marginTop: 0 }, android: { marginTop: 10 }}), width: '100%', marginLeft: 0, flexDirection: 'row', alignItems: 'flex-start', marginBottom: 10, backgroundColor: '#F5F5F5', padding: 7 }}>
                 <CheckBox
                     style={{ width: 30 }}
                     onClick={() => setIsChecked(!isChecked)}
@@ -46,7 +46,7 @@ const Step3 = () => {
                     checkedCheckBoxColor='#244172'
                     uncheckedCheckBoxColor='#244172'
                 />
-                <Text style={{ color: '#1C1B1F', width: '90%', fontSize: 13, lineHeight: 20 }}>
+                <Text style={{ color: '#1C1B1F', width: '90%', ...Platform.select({ios: { fontSize: 10, lineHeight: 14 }, android: { fontSize: 13, lineHeight: 20 }}) }}>
                     本人特此聲明已充份審閱{' '}
                     <Text style={{ textDecorationLine: 'underline' }}>巴菲特個人行動銀行服務約定書</Text>
                     {' '}（審閱期間至少7天）
@@ -55,7 +55,7 @@ const Step3 = () => {
 
             </View>
             <Text style={{ marginTop: 10, fontSize: 14, marginBottom: 10, }}>對帳單及通訊內容</Text>
-            <Text style={{ color: '#929191', fontSize: 13, }}>當您成功註冊行動銀行後，本行將不再郵寄紙本對帳單。您得透過本行網路銀行之「對帳單服務」或「閱讀訊息」功能，隨時下載查閱最近12個月之對帳單。
+            <Text style={{ color: '#929191', ...Platform.select({ios: { fontSize: 10 }, android: { fontSize: 13 }}) }}>當您成功註冊行動銀行後，本行將不再郵寄紙本對帳單。您得透過本行網路銀行之「對帳單服務」或「閱讀訊息」功能，隨時下載查閱最近12個月之對帳單。
                 如果您帶要變更對帳單寄送方式，可透過本行網路銀行之「閱讀和傳送訊息」功能發送訊息進行更改。</Text>
 
             <View style={{ fontSize: 20, fontWeight: 'bold', color: '#244172', marginBottom: 20, flexDirection: 'row', justifyContent: 'flex-start', marginTop: 20 }}>
@@ -64,7 +64,7 @@ const Step3 = () => {
                     輸入電子信箱
                 </Text>
             </View>
-            <Text style={{ fontSize: 14, marginBottom: 10, }}>我們將帳單明細寄至您的電子信箱</Text>
+            <Text style={{ ...Platform.select({ios: { fontSize: 13 }, android: { fontSize: 14 }}), marginBottom: 10, }}>我們將帳單明細寄至您的電子信箱</Text>
             <TextInput
                 style={{ borderWidth: 1, borderColor: 'gray', padding: 5, borderRadius: 5, marginBottom: 15, width: '99%', height: 40, }}
                 value={Susername}

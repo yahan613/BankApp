@@ -2,11 +2,16 @@ import { StyleSheet, Text, View, SafeAreaView, ScrollView, Image, TouchableOpaci
 import React from 'react'
 import { geticon } from '../component/img/getIcon';
 
-const Discount = () => {
+const Discount = ({navigation}) => {
   return (
     <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#D9D9D9' }}>
       <View style={styles.topBackground} />
       <View style={styles.header}>
+        <View style={{ position: 'absolute', left: 20 }}>
+          <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
+            {geticon('Arrow')}
+          </TouchableOpacity>
+        </View>
         <Text style={{ color: '#fff', fontSize: 20 }}>優惠</Text>
       </View>
       <ScrollView contentContainerStyle={{ marginTop: 35, width: '85%', justifyContent: 'center', }} showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>

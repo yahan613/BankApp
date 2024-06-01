@@ -70,15 +70,10 @@ const menuItems = [
     { name: "台幣服務", component: TWDService, icon: 'Twd' },
     { name: "外幣服務", component: ExchangeScreen, icon: 'Foreign_currency' },
     { name: "信用卡服務", component: CreditCard, icon: 'Credit_card' },
-    { name: "理財服務", component: AccountSettingsScreen, icon: 'FM' },
-    { name: "貸款服務", component: AccountSettingsScreen, icon: 'Loan' },
-    { name: "優惠服務", component: AccountSettingsScreen, icon: 'Discount' },
-    /*
-    沒有返回鍵
     { name: "理財服務", component: FinMan, icon: 'FM' },
     { name: "貸款服務", component: Loan, icon: 'Loan' },
     { name: "優惠服務", component: Discount, icon: 'Discount' },
-    */
+    
 ];
 
 function resetFlagToZero() {

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, SafeAreaView, Dimensions, TouchableOpacity, TextInput, Image } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, Dimensions, TouchableOpacity, TextInput, Image, Platform } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { geticon } from '../img/getIcon';
@@ -23,8 +23,8 @@ const Step4 = () => {
             />
             <Text style={{ color: '#244172', fontSize: 22, marginTop: 30 }}>註冊成功</Text>
             <Text style={{ marginTop: 30, fontSize: 16, }}>現在您已成功註冊使用巴菲特行動銀行。</Text>
-            <Text style={{ marginTop: 30, fontSize: 16, }}>為保障您的帳戶安全，每次登入行動銀行需輸入動態認證碼。您必須確保登入資料、安全問題及答案的安全，切勿透露給他人，以協助我們防止發生欺詐行為。</Text>
-            <Text style={{ marginTop: 100, fontSize: 15, }}>您的使用者名稱是：TW0203beck</Text>
+            <Text style={{ marginTop: 30, ...Platform.select({ios: { fontSize: 14 }, android: { fontSize: 16 }}) }}>為保障您的帳戶安全，每次登入行動銀行需輸入動態認證碼。您必須確保登入資料、安全問題及答案的安全，切勿透露給他人，以協助我們防止發生欺詐行為。</Text>
+            <Text style={{ ...Platform.select({ios: { marginTop: 70 }, android: { marginTop: 100 }}), fontSize: 15, }}>您的使用者名稱是：TW0203beck</Text>
         </View>
 
     );

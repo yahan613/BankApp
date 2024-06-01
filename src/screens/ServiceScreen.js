@@ -6,7 +6,7 @@ import { getBTicon } from '../component/img/getBTIcon';
 // 引入 FAQ JSON 文件
 import faqData from '../component/data/faq.json';
 
-const Service = () => {
+const Service = ({navigation}) => {
   const [SearchText, onChangeSearch] = useState('');
   const [selectedTopic, setSelectedTopic] = useState('account_management'); // 初始化選擇主題
   const [expandedIndex, setExpandedIndex] = useState(null); // 追踪擴展的問題索引
@@ -59,6 +59,11 @@ const Service = () => {
     <SafeAreaView style={{ flex: 1, backgroundColor: '#D9D9D9' }}>
       <View style={styles.topBackground} />
       <View style={styles.header}>
+        <View style={{ position: 'absolute', left: 20 }}>
+          <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
+            {geticon('Arrow')}
+          </TouchableOpacity>
+        </View>
         <Text style={{ color: '#fff', fontSize: 20 }}>服務</Text>
       </View>
       <View style={styles.BottomBackground} />
@@ -225,7 +230,7 @@ const styles = StyleSheet.create({
   search: {
     backgroundColor: '#D9D9D9',
     width: '90%',
-    height: 40,
+    ...Platform.select({ios: { height: 45 }, android: { height: 40 }}),
     marginLeft: 15,
     borderRadius: 5,
     flexDirection: 'row',

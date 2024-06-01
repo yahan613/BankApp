@@ -98,6 +98,7 @@ const Signup = ({ navigation }) => {
     }
     return (
         <SafeAreaView style={{ flex: 1, }}>
+            <View style={styles.topBackground} />
             <View style={styles.header}>
                 <Text style={{ color: '#fff', fontSize: 20 }}>開戶註冊</Text>
             </View>
@@ -216,6 +217,14 @@ const Signup = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+    },
+    topBackground: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: 50,
+      backgroundColor: '#244172',
     },
     header: {
         width: '100%',

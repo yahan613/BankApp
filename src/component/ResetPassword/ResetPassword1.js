@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, SafeAreaView, Dimensions, TouchableOpacity, TextInput, Image } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, Dimensions, TouchableOpacity, TextInput, Image, Platform } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { geticon } from '../img/getIcon';
@@ -13,11 +13,11 @@ const ResetPassword1 = () => {
     return (
         <View> 
             <Text style={{ color: '#244172', fontSize: 22, marginTop: 30 }}>更改密碼須知</Text>
-            <Text style={{ marginTop: 20, fontSize: 16, }}>1. 使用者名稱：6－16位英數字，英文至少2位且區分大小寫。</Text>
-            <Text style={{ marginTop: 10, fontSize: 16, }}>2. 簽入密碼、交易密碼：6－8位英、數字或英數字混合，如變更密碼為英文字請注意大小寫。</Text>
-            <Text style={{ marginTop: 10, fontSize: 15, }}>3. 請勿使用連號或重號作為網路銀行使用者名稱，例如123456、654321、111111、ABCDEF。</Text>
-            <Text style={{ marginTop: 10, fontSize: 16, }}>4. 簽入密碼及交易密碼須於核發起一個月內上網登入並變更密碼，如逾期密碼即失效，請依「密碼管理」說明，回臨櫃辦理重置密碼。</Text>
-            <Text style={{ marginTop: 10, fontSize: 15, }}>5. 簽入密碼及交易密碼使用超過一年應辦理變更，系統會於您登入時顯示訊息請您變更密碼。</Text>
+            <Text style={{ marginTop: 20, ...Platform.select({ios: { fontSize: 14, }, android: { fontSize: 15, }}) }}>1. 使用者名稱：6－16位英數字，英文至少2位且區分大小寫。</Text>
+            <Text style={{ marginTop: 10, ...Platform.select({ios: { fontSize: 14, }, android: { fontSize: 15, }}) }}>2. 簽入密碼、交易密碼：6－8位英、數字或英數字混合，如變更密碼為英文字請注意大小寫。</Text>
+            <Text style={{ marginTop: 10, ...Platform.select({ios: { fontSize: 14, }, android: { fontSize: 15, }}) }}>3. 請勿使用連號或重號作為網路銀行使用者名稱，例如123456、654321、111111、ABCDEF。</Text>
+            <Text style={{ marginTop: 10, ...Platform.select({ios: { fontSize: 14, }, android: { fontSize: 15, }}) }}>4. 簽入密碼及交易密碼須於核發起一個月內上網登入並變更密碼，如逾期密碼即失效，請依「密碼管理」說明，回臨櫃辦理重置密碼。</Text>
+            <Text style={{ marginTop: 10, ...Platform.select({ios: { fontSize: 14, }, android: { fontSize: 15, }}) }}>5. 簽入密碼及交易密碼使用超過一年應辦理變更，系統會於您登入時顯示訊息請您變更密碼。</Text>
         </View>
 
     );
