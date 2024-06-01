@@ -9,6 +9,7 @@ import Withdraw from "../screens/WithdrawScreen";
 import Payment from "../screens/PaymentScreen";
 import ExchangeScreen from "../screens/Exchange";
 import ExchangeConfirm from "../screens/ExchangeConfirm";
+import ExRateChart from "../screens/ExChart";
 
 const Stack = createNativeStackNavigator();
 
@@ -61,6 +62,13 @@ const HomeScreenNavigator = ({navigation}) => {
             <Stack.Screen 
                 name="TransferConfirm" 
                 component={TransferConfirm} 
+                options={{
+                    headerShown: false,
+                }}
+            />
+            <Stack.Screen
+                name="ExChart"
+                component={ExRateChart}
                 options={{
                     headerShown: false,
                 }}

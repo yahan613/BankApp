@@ -12,6 +12,7 @@ import { signInWithEmailAndPassword, onAuthStateChanged } from '@firebase/auth';
 import { auth, db } from '../../Firebaseinit';
 import { collection, doc, getDocs, query, where } from "@firebase/firestore";
 
+
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 const itemWidth = screenWidth * 0.8;
@@ -65,14 +66,14 @@ const LoginScreen = ({ navigation }) => {
             const user = userCredential.user;
             dispatch({ type: 'LOGIN', payload: data });
             setTimeout(() => {
-                navigation.navigate('HomeDrawer',  {ParaBalance} );
+                navigation.navigate('HomeDrawer', { ParaBalance });
             }, 2000);
         } catch (error) {
             // 处理登录失败
             console.error("登录失败:", error);
         }
     };
-    
+
     const [AccountText, onChangeAccount] = React.useState(''); //輸入帳號
     const [passwordText, onChangePassword] = React.useState(''); //輸入密碼
     const [IDText, onChangeID] = React.useState(''); //輸入密碼
@@ -174,6 +175,9 @@ const LoginScreen = ({ navigation }) => {
                         {geticon(showPassword ? "Eye" : "Noeye")}
                     </TouchableOpacity>
                 </View>
+                <TouchableOpacity style={styles.forgetP} onPress={() => navigation.navigate('ForgetP')}>
+                    <Text style={{ color: '#5C94F3' }}>忘記代號、密碼？</Text>
+                </TouchableOpacity>
                 <View style={{ width: '55%', marginLeft: 0, flexDirection: 'row', alignItems: 'center', marginBottom: 10, }}>
                     <CheckBox
                         style={{ flex: 1, marginRight: 30, }}
@@ -223,7 +227,7 @@ const LoginScreen = ({ navigation }) => {
                         onChangeVerification('');
                         setShowAlert(false);
                     }}>
-                    <Text style={{ position: 'absolute', bottom: -90, left: 0, right: 0, textAlign: 'center', color: '#fff', fontSize: 16, justifyContent: 'center' }}>
+                    <Text style={{ position: 'absolute', bottom: -60, left: 0, right: 0, textAlign: 'center', color: '#fff', fontSize: 16, justifyContent: 'center' }}>
                         登入
                     </Text>
                 </TouchableOpacity>
@@ -294,6 +298,10 @@ const styles = StyleSheet.create({
     },
     visible: {
         marginRight: 150,
+    },
+    forgetP:{
+        width: '100%',
+        height: 30,
     },
 });
 

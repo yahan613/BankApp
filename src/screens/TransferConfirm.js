@@ -44,7 +44,7 @@ const TransferConfirm = ({ navigation, route }) => {
       <View style={styles.loadingScreen}>
         <LottieView style={{flex:1, width: 200, height: 200}} source={require('../component/img/Lottie_Animation/trade_con2.json')} autoPlay loop />
       </View>
-    ) // 显示白色加载画面
+    )
   }
   return (
     <SafeAreaView style={styles.container}>
