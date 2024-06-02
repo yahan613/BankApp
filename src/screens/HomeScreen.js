@@ -193,6 +193,7 @@ const HomeScreen = ({ navigation }) => {
         </TouchableOpacity>
     );
 
+    //失敗theme
     const [theme, setTheme] = useState('light');
 
     const toggleTheme = () => {
@@ -225,10 +226,10 @@ const HomeScreen = ({ navigation }) => {
                     >
                         <View>
                             <Image
-                                source={geticon("Color_transfer")} style={{ width: 25, height: 25 }}
+                                source={geticon("Color_transfer")}  style={{...Platform.select({ios: { width: 29, height: 29 }, android: { width: 25, height: 25 }})}}
                             />
                         </View>
-                        <Text style={{ fontSize: 12, color: '#244172' }}>
+                        <Text style={{ ...Platform.select({ios: { fontSize: 10, }, android: { fontSize: 12, }}), color: '#244172' }}>
                             轉帳
                         </Text>
                     </TouchableOpacity>
@@ -247,10 +248,10 @@ const HomeScreen = ({ navigation }) => {
                         */}
                         <View>
                             <Image
-                                source={geticon("Color_withdraw")} style={{ width: 25, height: 25 }}
+                                source={geticon("Color_withdraw")}  style={{...Platform.select({ios: { width: 28, height: 28 }, android: { width: 25, height: 25 }})}}
                             />
                         </View>
-                        <Text style={{ fontSize: 12, color: '#244172' }}>
+                        <Text style={{ ...Platform.select({ios: { fontSize: 10, }, android: { fontSize: 12, }}), color: '#244172' }}>
                             提款
                         </Text>
                     </TouchableOpacity>
@@ -265,10 +266,10 @@ const HomeScreen = ({ navigation }) => {
                         */}
                         <View>
                             <Image
-                                source={geticon("Color_payment")} style={{ width: 25, height: 25 }}
+                                source={geticon("Color_payment")}  style={{...Platform.select({ios: { width: 28, height: 28 }, android: { width: 25, height: 25 }})}}
                             />
                         </View>
-                        <Text style={{ fontSize: 12, color: '#244172' }}>
+                        <Text style={{ ...Platform.select({ios: { fontSize: 10, }, android: { fontSize: 12, }}), color: '#244172' }}>
                             繳費
                         </Text>
                     </TouchableOpacity>
@@ -283,10 +284,10 @@ const HomeScreen = ({ navigation }) => {
                         */}
                         <View>
                             <Image
-                                source={geticon("Color_exchange")} style={{ width: 25, height: 25 }}
+                                source={geticon("Color_exchange")}  style={{...Platform.select({ios: { width: 28, height: 28 }, android: { width: 25, height: 25 }}) }}
                             />
                         </View>
-                        <Text style={{ fontSize: 12, color: '#244172' }}>
+                        <Text style={{ ...Platform.select({ios: { fontSize: 10, }, android: { fontSize: 12, }}), color: '#244172' }}>
                             外幣
                         </Text>
                     </TouchableOpacity>

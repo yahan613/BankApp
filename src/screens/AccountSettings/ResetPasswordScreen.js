@@ -40,6 +40,7 @@ const ResetPassword = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <View style={styles.topBackground} />
       <View style={{ width: '100%', height: 80, backgroundColor: '#244172', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
         <View style={{ position: 'absolute', left: 20 }}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -145,6 +146,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  topBackground: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: 50,
+    backgroundColor: '#244172',
+  },
   button: {
     width: '100%',
     height: 60,
@@ -157,6 +166,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+    backgroundColor: '#D9D9D9',
   },
   header: {
     width: '100%',

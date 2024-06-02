@@ -8,7 +8,7 @@ import { useActionSheet } from '@expo/react-native-action-sheet';
 import RBSheet from 'react-native-raw-bottom-sheet';
 
 
-const FinMan = () => {
+const FinMan = ({navigation}) => {
   const dispatch = useDispatch();
   
   const HeaderFlagAction = (flag) => {
@@ -202,6 +202,11 @@ const FinMan = () => {
     <SafeAreaView style={{ flex: 1, backgroundColor: '#D9D9D9'}}>
       <View style={styles.topBackground} />
       <View style={styles.header}>
+        <View style={{ position: 'absolute', left: 20 }}>
+          <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
+            {geticon('Arrow')}
+          </TouchableOpacity>
+        </View>
         <Text style={{ color: '#fff', fontSize: 20 }}>理財</Text>
       </View>
       <ScrollView contentContainerStyle={{ marginTop: 35, width: '85%', ...Platform.select({ios: {height: 810},android: {height: 780}}), alignSelf: 'center' }} showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>

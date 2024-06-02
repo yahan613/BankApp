@@ -1,24 +1,52 @@
 import { StyleSheet, Text, TextInput, View, TouchableOpacity, SafeAreaView, ScrollView, Platform } from 'react-native';
 import { geticon } from '../../component/img/getIcon';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
 
-const HistoryScreen = ({ navigation }) => {
+const HistoryScreen = ({ navigation, route }) => {
+
+  //失敗(different stacks)
+  const { tfromAccount, tfromAmount, ttoAccount, ttoAmount } = route.params || {};
+
   const [selectedSegment, setSelectedSegment] = useState(0);
   const [searchText, setSearchText] = useState('');
+  const [transactions, setTransactions] = useState({
+    twd: [],
+    foreign: [],
+  });
 
-  // Dummy data for transaction history
-  const transactions = {
-    twd: [
-        { id: 1, description: '台幣交易 1', amount: 1000 },
-        { id: 2, description: '台幣交易 2', amount: 2000 },
-        { id: 3, description: '台幣交易 3', amount: 1500 },
-    ],
-    foreign: [
-      { id: 4, description: '外幣交易 1', amount: 300 },
-      { id: 5, description: '外幣交易 2', amount: 500 },
-      { id: 6, description: '外幣交易 3', amount: 400 },
-    ],
+  useEffect(() => {
+    if (tfromAccount && tfromAmount && ttoAccount && ttoAmount) {
+      addTransaction(tfromAccount, tfromAmount, ttoAccount, ttoAmount);
+    }
+  }, [tfromAccount, tfromAmount, ttoAccount, ttoAmount]);
+
+  const addTransaction = (fromAccount, fromAmount, toAccount, toAmount) => {
+    const newTransactions = { ...transactions };
+
+    const fromTransaction = {
+      id: Date.now() + '-from',
+      account: fromAccount,
+      amount: `-${fromAmount}`,
+      description: '轉出',
+    };
+
+    const toTransaction = {
+      id: Date.now() + '-to',
+      account: toAccount,
+      amount: `+${toAmount}`,
+      description: '轉入',
+    };
+
+    if (fromAccount === '活期儲蓄存款  0081234567890') {
+      newTransactions.foreign.push(fromTransaction);
+      newTransactions.foreign.push(toTransaction);
+    } else {
+      newTransactions.twd.push(fromTransaction);
+      newTransactions.twd.push(toTransaction);
+    }
+
+    setTransactions(newTransactions);
   };
 
   const filteredTransactions = transactions[selectedSegment === 0 ? 'twd' : 'foreign'].filter(
@@ -58,33 +86,17 @@ const HistoryScreen = ({ navigation }) => {
       />
       <Text style={styles.head}>日期        摘要/金額</Text>
       <ScrollView contentContainerStyle={{ marginTop: 10, width: '85%', alignItems: 'flex-start' }} showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
-        {selectedSegment === 0 && (
-          filteredTransactions.length > 0 ? (
-            filteredTransactions.map((transaction) => (
-              <View key={transaction.id} style={styles.box}>
-                <Text style={styles.transactionText}>{transaction.description}</Text>
-                <Text style={styles.transactionText}>{transaction.amount}</Text>
-              </View>
-            ))
-          ) : (
-            <View>
-              <Text style={{marginTop: 50}}>尚未有任何交易紀錄</Text>
+        {filteredTransactions.length > 0 ? (
+          filteredTransactions.map((transaction) => (
+            <View key={transaction.id} style={styles.box}>
+              <Text style={styles.transactionText}>{transaction.description}</Text>
+              <Text style={styles.transactionText}>{transaction.amount}</Text>
             </View>
-          )
-        )}
-        {selectedSegment === 1 && (
-          filteredTransactions.length > 0 ? (
-            filteredTransactions.map((transaction) => (
-              <View key={transaction.id} style={styles.box}>
-                <Text style={styles.transactionText}>{transaction.description}</Text>
-                <Text style={styles.transactionText}>{transaction.amount}</Text>
-              </View>
-            ))
-          ) : (
-            <View>
-              <Text style={{marginTop: 50}}>尚未有任何交易紀錄</Text>
-            </View>
-          )
+          ))
+        ) : (
+          <View>
+            <Text style={{marginTop: 50}}>尚未有任何交易紀錄</Text>
+          </View>
         )}
       </ScrollView>  
     </SafeAreaView>
@@ -184,4 +196,5 @@ const styles = StyleSheet.create({
     color: '#fff'
   }
 });
+
 export default HistoryScreen;

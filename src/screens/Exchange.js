@@ -8,11 +8,11 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 import { Platform } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { getFirestore, collection, getDocs, setDoc, doc, updateDoc, query, where } from '@firebase/firestore';
+import { collection, getDocs, doc, updateDoc, query, where } from '@firebase/firestore';
 import { db } from '../../Firebaseinit';
 
 
-//即時換匯
+//picker選項
 const currencyItems  = [
   { label: "新台幣", value: "新台幣" },
   { label: "美元", value: "美元" },
@@ -31,8 +31,6 @@ const accountItems = [
 ];
 
 
-
-//main!!!!!
 const ExchangeScreen = ({ navigation }) => {
 
   const dispatch = useDispatch();
@@ -41,12 +39,14 @@ const ExchangeScreen = ({ navigation }) => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
   
+  //及時匯率
   const usdRate = useSelector(state => state.rate.usdRate);
   const jpyRate = useSelector(state => state.rate.jpyRate);
   const eurRate = useSelector(state => state.rate.eurRate);
   const rmbRate = useSelector(state => state.rate.rmbRate);
   const hkdRate = useSelector(state => state.rate.hkdRate);
 
+  //不同幣別匯率計算
   const currencyConversionRates = {
     "新台幣": {
       "美元": 1 / usdRate,
@@ -108,6 +108,7 @@ const ExchangeScreen = ({ navigation }) => {
 
   const [selectedSegment, setSelectedSegment] = useState(0);
 
+  //各種input
   const [fromCurrency, setFromCurrency] = useState("新台幣");
   const [toCurrency, setToCurrency] = useState("美元");
   const [fromAmount, setFromAmount] = useState('');
@@ -116,6 +117,7 @@ const ExchangeScreen = ({ navigation }) => {
   const [fromAccount, setFromAccount] = useState("活期儲蓄存款  0081234567890");
   const [toAccount, setToAccount] = useState("外匯存款  0081234567891");
 
+  //從後端獲取資料
   let UserData = useSelector(state => state.auth.UserData);
   const userName = UserData.Name
   const cre = UserData.Balance.credit
@@ -268,6 +270,12 @@ const ExchangeScreen = ({ navigation }) => {
   const handleConfirm = async () => {
 
     let transactionDetails;
+
+    let tfromAccount;
+    let tfromAmount;
+    let ttoAccount;
+    let ttoAmount;
+
     if (selectedSegment === 0) {
       if (!fromCurrency || !toCurrency || !fromAccount || !fromAmount || !toAmount) {
         Alert.alert('有空白欄位', '請在確認送出前填寫所有欄位。');
@@ -276,6 +284,13 @@ const ExchangeScreen = ({ navigation }) => {
 
       transactionDetails =  transactionDetails = `轉出金額 : ${fromCurrency} ${fromAmount} 元\n轉入金額 : ${toCurrency} ${toAmount} 元\n\n優惠 : ${discount}\n轉出帳號 : \n${fromAccount}\n轉入帳號 : \n${toAccount}`;
       navigation.navigate('ExchangeConfirm', { transactionDetails });
+
+      //forward transaction records
+      tfromAccount = fromAccount;
+      tfromAmount = fromAmount;
+      ttoAccount = toAccount;
+      ttoAmount = toAmount;
+      navigation.navigate('History', {tfromAccount, tfromAmount, ttoAccount, ttoAmount});
     } 
     else if (selectedSegment === 1) {
       if( selectedOption === 'option1' ){
@@ -660,6 +675,15 @@ const ExchangeScreen = ({ navigation }) => {
                           paddingLeft: 10,
                           paddingTop: 2,
                           paddingBottom: 2,
+                          ...Platform.select({
+                            ios: { 
+                              paddingTop: 5,
+                              paddingBottom: 5, 
+                            }, android: { 
+                              paddingTop: 2,
+                              paddingBottom: 2, 
+                            }
+                          }),
                           backgroundColor: '#fff',
                           borderColor: '#929191',
                     }}
@@ -703,7 +727,13 @@ const styles = StyleSheet.create({
   },
   scrollViewContent: {
     width: '85%',
-    height: 850,
+    ...Platform.select({
+      ios: {
+        height: 900,    
+      }, android: {
+        height: 850,
+      }
+    }),
     marginTop: 10,
   },
   box: {
