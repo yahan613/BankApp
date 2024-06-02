@@ -9,7 +9,7 @@ import Withdraw from "../screens/WithdrawScreen";
 import Payment from "../screens/PaymentScreen";
 import ExchangeScreen from "../screens/Exchange";
 import ExchangeConfirm from "../screens/ExchangeConfirm";
-import ExRateChart from "../screens/ExChart";
+import ExRateChart from "../screens/ExChartScreen";
 
 const Stack = createNativeStackNavigator();
 

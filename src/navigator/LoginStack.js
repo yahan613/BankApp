@@ -5,7 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from "../screens/Login";
 import HomeDrawer from "./HomeDrawer";
 import Signup from "../screens/SignupScreen";
-import ForgetP from "../screens/ForgetPScreen";
+import ResetPassword from "../screens/AccountSettings/ResetPasswordScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -36,7 +36,7 @@ const LoginStackNavigator = () => {
                 />
                 <Stack.Screen
                     name="ForgetP"
-                    component={ForgetP}
+                    component={ResetPassword}
                     options={{
                         headerShown: false,
                         gestureEnabled: false,

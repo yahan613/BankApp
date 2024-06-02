@@ -7,32 +7,31 @@ import { useDispatch, useSelector } from 'react-redux';
 import { store } from '../Store/Redux_Function';
 import { Platform } from 'react-native';
 import { lightThemeColors, darkThemeColors } from '../component/Colors';
-import { app } from '../../Firebaseinit'
-import { db } from '../../Firebaseinit'
+import { app, db } from '../../Firebaseinit'
 import { getFirestore, collection, getDocs, doc, updateDoc, query, where } from '@firebase/firestore';
 import LottieView from 'lottie-react-native';
 
 let EXCHANGE_DATA = [
-    { id: '1', value: 'USA', width: '20%' },
-    { id: '2', value: '美金', width: '7%' },
-    { id: '3', value: 'Buyin', width: '20%' },
-    { id: '4', value: 'sellout', width: '30%' },
-    { id: '5', value: 'Japan', width: '20%' },
-    { id: '6', value: '日幣', width: '7%' },
-    { id: '7', value: 'Buyin', width: '20%' },
-    { id: '8', value: 'sellout', width: '30%' },
-    { id: '9', value: 'China', width: '20%' },
-    { id: '10', value: '人民幣', width: '7%' },
-    { id: '11', value: 'Buyin', width: '20%' },
-    { id: '12', value: 'sellout', width: '30%' },
-    { id: '13', value: 'Europe', width: '20%' },
-    { id: '14', value: '歐元', width: '7%' },
-    { id: '15', value: 'Buyin', width: '20%' },
-    { id: '16', value: 'sellout', width: '30%' },
-    { id: '17', value: 'HongKong', width: '20%' },
-    { id: '18', value: '港幣', width: '7%' },
-    { id: '19', value: 'Buyin', width: '20%' },
-    { id: '20', value: 'sellout', width: '30%' },
+    { id: '1', value: 'USA', width: 'USD' },
+    { id: '2', value: '美金', width: 'USD' },
+    { id: '3', value: 'Buyin', width: 'USD' },
+    { id: '4', value: 'sellout', width: 'USD' },
+    { id: '5', value: 'Japan', width: 'JPY' },
+    { id: '6', value: '日幣', width: 'JPY' },
+    { id: '7', value: 'Buyin', width: 'JPY' },
+    { id: '8', value: 'sellout', width: 'JPY' },
+    { id: '9', value: 'China', width: 'RMB' },
+    { id: '10', value: '人民幣', width: 'RMB' },
+    { id: '11', value: 'Buyin', width: 'RMB' },
+    { id: '12', value: 'sellout', width: 'RMB' },
+    { id: '13', value: 'Europe', width: 'EUR' },
+    { id: '14', value: '歐元', width: 'EUR' },
+    { id: '15', value: 'Buyin', width: 'EUR' },
+    { id: '16', value: 'sellout', width: 'EUR' },
+    { id: '17', value: 'HongKong', width: 'HKD' },
+    { id: '18', value: '港幣', width: 'HKD' },
+    { id: '19', value: 'Buyin', width: 'HKD' },
+    { id: '20', value: 'sellout', width: 'HKD' },
 ];
 
 
@@ -177,7 +176,7 @@ const HomeScreen = ({ navigation }) => {
     const renderItem = ({ item, index }) => (
         <TouchableOpacity
             style={styles.cell}
-            onPress={() => navigation.navigate('ExChart')}
+            onPress={() =>navigation.navigate('ExChart', { Country: item.width})}
         >
             {index % 4 !== 0 ? (
                 <Text style={styles.cellText}>

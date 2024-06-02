@@ -30,29 +30,9 @@ const LoginScreen = ({ navigation }) => {
         return () => unsubscribe();
     }, [auth]);
 
-    async function queryUserSubcollection(IDText) {
-        try {
-            // 获取指定用户的文档引用
-            const ref = collection(db, "User");
-            const q = query(ref, where("ID", "==", IDText));
-            const getmail = 'default'
-            const querySnapshot = await getDocs(q);
-            querySnapshot.forEach((doc) => {
-                console.log("RESULT", doc.data());
-                const data = doc.data();
-                getmail = data.mail
-                return (getmail)
-            });
-        } catch (error) {
-            // 处理查询失败的情况
-            console.error("查询失败:", error);
-        }
-    }
-
     const handleLogin = async () => {
         let data = [];
         try {
-            //const getmail = await queryUserSubcollection(IDText);
             const ref = collection(db, "User");
             const q = query(ref, where("ID", "==", IDText));
             let getmail = 'default';
@@ -67,7 +47,7 @@ const LoginScreen = ({ navigation }) => {
             dispatch({ type: 'LOGIN', payload: data });
             setTimeout(() => {
                 navigation.navigate('HomeDrawer', { ParaBalance });
-            }, 2000);
+            }, 1000);
         } catch (error) {
             // 处理登录失败
             console.error("登录失败:", error);
@@ -176,7 +156,7 @@ const LoginScreen = ({ navigation }) => {
                     </TouchableOpacity>
                 </View>
                 <TouchableOpacity style={styles.forgetP} onPress={() => navigation.navigate('ForgetP')}>
-                    <Text style={{ color: '#5C94F3' }}>忘記代號、密碼？</Text>
+                    <Text style={{ color: '#5C94F3', fontSize: 12 }}>忘記代號、密碼？點我重置密碼</Text>
                 </TouchableOpacity>
                 <View style={{ width: '55%', marginLeft: 0, flexDirection: 'row', alignItems: 'center', marginBottom: 10, }}>
                     <CheckBox

@@ -19,23 +19,10 @@ import { doc, setDoc } from "@firebase/firestore";
 const screenWidth = Dimensions.get('window').width;
 const itemWidth = screenWidth * 0.8;
 
-//隨機產生餘額
-const randomTWD = Math.floor(Math.random() * (200000 - 10000 + 1)) + 10000;
-const randomFor = Math.floor(Math.random() * (30000 - 10000 + 1)) + 10000;
-
-
-let stepPage = 1;
-let [SEmail, SPhone, Susername, Spassword, SID, SAccount] = 'default';
-
 const ForgetP = ({ navigation }) => {
-  const [bankaccount, setbankaccount] = useState(true);
 
-  const [VISAnuminput, setVISAnuminput] = useState('');//金融卡或VISA金融卡號碼
-  const [VISAissinput, setVISAissinput] = useState('');//金融卡發行號碼
-  const [VISApininput, setVISApininput] = useState('');//金融卡辭路密碼
-
-  const [bankaccnuminput, setbankaccnuminput] = useState('');//銀行帳戶號碼
-  const [bankpininput, setbankpininput] = useState('');//電話理財PIN碼
+  const [email, setemail] = useState('');
+  const [bankpininput, setbankpininput] = useState('');
   const [showAlert, setShowAlert] = React.useState(false);
 
   //Awesome

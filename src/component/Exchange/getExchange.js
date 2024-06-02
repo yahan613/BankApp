@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text } from 'react-native';
 import { useDispatch } from 'react-redux'; // 假設你使用的是 Redux
+//import { QueryClient, QueryClientProvider, useQuery } from "@tanstack/react-query";
 
 
 
@@ -13,7 +14,7 @@ const GetSelectedRates = () => {
     const [rmbRate, setRmbRate] = useState(null);
     const [hkdRate, setHkdRate] = useState(null);
     const dispatch = useDispatch();
-    
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -35,7 +36,7 @@ const GetSelectedRates = () => {
                     //USA
                     setUsdRate(json.rates.USD);
                     const usdRate = (1 / json.rates.USD).toFixed(2);
-                    
+
                     //JAPAN
 
                     setJpyRate(json.rates.JPY);
