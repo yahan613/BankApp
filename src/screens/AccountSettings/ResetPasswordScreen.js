@@ -4,6 +4,11 @@ import { geticon } from '../../component/img/getIcon';
 import ResetPassword1 from '../../component/ResetPassword/ResetPassword1';
 import ResetPassword2 from '../../component/ResetPassword/ResetPassword2';
 import ResetPassword3 from '../../component/ResetPassword/ResetPassword3';
+import { getOldP, getNewP } from '../../component/ResetPassword/ResetPassword2';
+import { db, auth } from '../../../Firebaseinit';
+import { useDispatch, useSelector } from 'react-redux';
+import { signInWithEmailAndPassword, onAuthStateChanged, updatePassword } from '@firebase/auth';
+import { getNewsPic } from '../../component/img/getnews';
 
 
 const screenWidth = Dimensions.get('window').width;
@@ -12,6 +17,26 @@ const itemWidth = screenWidth * 0.8;
 let stepPage = 1;
 
 const ResetPassword = ({ navigation }) => {
+
+  let Usermail = []
+  const dispatch = useDispatch();
+  Usermail = useSelector(state => state.auth.UserData.mail);
+
+  const configureProps = async (OldP, NewP) => {
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, Usermail, OldP);
+      const user = userCredential.user;
+      updatePassword(user, NewP).then(() => {
+        console.log("現在新的", NewP)
+      }).catch((error) => {
+        console.error("失败:", error);
+      });
+
+    } catch (error) {
+      // 处理登录失败
+      console.error("失败:", error);
+    }
+  };
 
   const [stepPage, setStepPage] = useState(1);
   useEffect(() => {
@@ -49,8 +74,8 @@ const ResetPassword = ({ navigation }) => {
         </View>
         <Text style={{ color: '#fff', fontSize: 20 }}>重置密碼</Text>
       </View>
-      <View style={{ flex: 1, flexDirection: 'column', width: '100%', justifyContent:'center', alignItems: 'center' }}>
-        <View style={{ width: '80%', height: 30, flexDirection: 'row', alignItems: 'center',}}>
+      <View style={{ flex: 1, flexDirection: 'column', width: '100%', justifyContent: 'center', alignItems: 'center' }}>
+        <View style={{ width: '80%', height: 30, flexDirection: 'row', alignItems: 'center', }}>
           {stepPage < 3 ? (
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Text style={{ color: '#929191', marginRight: 5 }}>更改密碼</Text>
@@ -116,6 +141,10 @@ const ResetPassword = ({ navigation }) => {
                       start1()
                     }
                     if (newStepPage === 3) {
+                      const backoldP = getOldP();
+                      const backnewP = getNewP();
+                      configureProps(backoldP, backnewP)
+                      console.log("OOO", backnewP)
                       start2()
                     }
                     if (newStepPage === 4) {
@@ -187,8 +216,8 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     flexDirection: 'row',
   },
-  
- 
+
+
   userSection: {
     alignSelf: 'center',
     padding: 30,

@@ -4,6 +4,8 @@ import { useNavigation } from '@react-navigation/native';
 import { geticon } from '../img/getIcon';
 import CheckBox from 'react-native-check-box';
 import AwesomeAlert from 'react-native-awesome-alerts';
+import { getAuth, onAuthStateChanged } from "@firebase/auth";
+
 
 
 
@@ -22,6 +24,31 @@ const itemHeight = screenHeight * 0.1;
 };*/
 //const [showAlert2, setShowAlert2] = React.useState(false);
 
+
+//3
+let retOldP = 'default'
+let retNewP = 'default'
+const setOldPfun = (x) => {
+    retOldP = x;
+};
+
+const setNewPfun = (x) => {
+    retNewP = x;
+};
+
+//4
+export const getOldP = () => {
+    console.log("EXP", retOldP)
+    return (retOldP)
+};
+
+export const getNewP = () => {
+    console.log("EXP", retNewP)
+    return (retNewP)
+};
+
+
+
 const ResetPassword2 = () => {
     const [showOriPassword, setShowOriPassword] = React.useState(false);
     const toggleShowPassword = () => {
@@ -39,11 +66,40 @@ const ResetPassword2 = () => {
     const [OldP, setOldP] = useState('');//舊密碼
     const [NewP, setNewP] = useState('');//新密碼
     const [SureP, setSureP] = useState('');//確認新密碼
+
+    //2
+    useEffect(() => {
+        setOldPfun(OldP);
+        console.log("useEffect", OldP)
+    }, [OldP]); 
+
+    useEffect(() => {
+        setNewPfun(NewP);
+        console.log("useEffect", NewP)
+    }, [NewP]); 
+
+    
+
+    
+    
+
+    /*onAuthStateChanged(auth, (user) => {
+        if (user) {
+            // User is signed in, see docs for a list of available properties
+            // https://firebase.google.com/docs/reference/js/auth.user
+            const uid = user.uid;
+            // ...
+        } else {
+            // User is signed out
+            // ...
+        }
+    });*/
+
     return (
         <View style={styles.container}>
             <View style={{ width: 200, height: 10 }}>
                 <AwesomeAlert
-                    show={true}
+                    show={false}
                     title="確認密碼輸入錯誤"
                     message="請重新輸入"
                     showConfirmButton={true}

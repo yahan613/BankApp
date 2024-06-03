@@ -120,7 +120,6 @@ const HomeScreen = ({ navigation }) => {
     const updataBalance = React.useCallback(async () => {
         //UserData = useSelector(state => state.auth.UserData);
         try {
-            console.log("FIFO2")
             const ref = collection(db, "User");
             const q = query(ref, where("Name", "==", UserData.Name));
             const querySnapshot = await getDocs(q);
