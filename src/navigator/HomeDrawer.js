@@ -18,9 +18,12 @@ import CreditCard from '../screens/CreditCard';
 import FinMan from '../screens/FinManScreen';
 import Loan from '../screens/LoanScreen';
 import Discount from '../screens/DiscountScreen';
+import { db, auth } from '../../Firebaseinit';
+
 
 const Drawer = createDrawerNavigator();
 let Bflag = 0;
+let memN = ' ';
 
 function CustomDrawerContent(props) {
     const userName = useSelector(state => state.auth.userName);
@@ -29,7 +32,7 @@ function CustomDrawerContent(props) {
     return (
         <DrawerContentScrollView {...props}>
             <View style={styles.welcome}>
-                <Text style={{ fontSize: 23, marginLeft: 23, marginTop: -20, color: '#fff', }}>您好，Amy</Text>
+                <Text style={{ fontSize: 23, marginLeft: 23, marginTop: -20, color: '#fff', }}>您好，{memN}</Text>
                 {/*
                 <View style={styles.search}>
                     <TextInput
@@ -84,8 +87,9 @@ function resetFlagToZero() {
 
 
 const HomeDrawer = ({navigation, route}) => {
-    //const {Balance} = route.params;
-    //console.log("HomeDrawer")
+
+    const  name  = route.params;
+    memN = name.Name
     //Name
     useEffect(() => {
         if (Bflag === 1) {

@@ -9,6 +9,7 @@ import { db, auth } from '../../../Firebaseinit';
 import { useDispatch, useSelector } from 'react-redux';
 import { signInWithEmailAndPassword, onAuthStateChanged, updatePassword } from '@firebase/auth';
 import { getNewsPic } from '../../component/img/getnews';
+import AwesomeAlert from 'react-native-awesome-alerts';
 
 
 const screenWidth = Dimensions.get('window').width;
@@ -62,9 +63,25 @@ const ResetPassword = ({ navigation }) => {
     }).start();
   }
 
+  const [showAlert, setShowAlert] = React.useState(false);
+  const handleCloseAlert = () => {
+    setShowAlert(false);
+    navigation.goBack();
+    navigation.goBack();
+  };
+
 
   return (
     <SafeAreaView style={styles.container}>
+      <AwesomeAlert
+        show={showAlert}
+        title="密碼重置成功！"
+        message="請重新登入"
+        showConfirmButton={true}
+        confirmText="確定"
+        confirmButtonColor="#6FA26E"
+        onConfirmPressed={handleCloseAlert}
+      />
       <View style={styles.topBackground} />
       <View style={{ width: '100%', height: 80, backgroundColor: '#244172', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
         <View style={{ position: 'absolute', left: 20 }}>
@@ -148,8 +165,7 @@ const ResetPassword = ({ navigation }) => {
                       start2()
                     }
                     if (newStepPage === 4) {
-                      navigation.goBack();
-                      navigation.goBack();
+                      setShowAlert(true);
                       return 1; // Reset stepPage to 1
                     }
                     return newStepPage;

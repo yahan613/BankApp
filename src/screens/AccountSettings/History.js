@@ -2,6 +2,7 @@ import { StyleSheet, Text, TextInput, View, TouchableOpacity, SafeAreaView, Scro
 import { geticon } from '../../component/img/getIcon';
 import React, { useState, useEffect } from 'react';
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
+import { db } from '../../../Firebaseinit';
 
 const HistoryScreen = ({ navigation, route }) => {
 
@@ -95,7 +96,7 @@ const HistoryScreen = ({ navigation, route }) => {
           ))
         ) : (
           <View>
-            <Text style={{marginTop: 50}}>尚未有任何交易紀錄</Text>
+            
           </View>
         )}
       </ScrollView>  
@@ -142,6 +143,7 @@ const styles = StyleSheet.create({
   head:{
     width: 330,
     paddingTop: 10,
+    marginTop: 30,
     color: '#929191',
   },
   box: {

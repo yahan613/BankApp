@@ -25,7 +25,7 @@ const ExRateChart = ({ navigation, route }) => {
         <Text style={{ color: '#fff', fontSize: 20 }}> {Country === "USD" ? "美元" : Country === "JPY" ? "日幣" : Country === "RMB" ? "人民幣" : Country === "EUR" ? "歐元" : Country === "HKD" ? "港幣" : "未知貨幣"}近五日走勢</Text>
       </View>
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' , backgroundColor: '#fff', marginTop: 160, marginBottom: 200, borderRadius: 10 }}>
-        {Chart(Country, '5S')}
+        {Chart(Country, '5B')}
       </View>
     </SafeAreaView>
 

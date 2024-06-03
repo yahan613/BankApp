@@ -12,6 +12,7 @@ import { Counter, counterReducer, store } from './src/Store/Redux_Function';
 import { GetSelectedRates } from './src/component/Exchange/getExchange';
 import { app } from './Firebaseinit';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Chart } from './src/component/Exchange/Chart';
 
 //<ExchangeConfirm />AppRegistry.registerComponent('mid_16_BuffetAPP', () => App);
 //https://reactnative.dev/docs/appregistry

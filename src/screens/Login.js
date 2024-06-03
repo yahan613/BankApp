@@ -17,7 +17,7 @@ const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 const itemWidth = screenWidth * 0.8;
 const itemHeight = screenHeight * 0.1;
-let [LID, LUserNum, email, ParaBalance] = 'default';
+let [LID, LUserNum, email, ParaBalance, Name] = 'default';
 
 
 const LoginScreen = ({ navigation }) => {
@@ -41,15 +41,23 @@ const LoginScreen = ({ navigation }) => {
                 data = doc.data();
                 getmail = data.mail
                 ParaBalance = data.Balance
+                Name = data.Name
+                console.log("ASYNC", Name)
             });
             const userCredential = await signInWithEmailAndPassword(auth, getmail, passwordText);
             const user = userCredential.user;
             dispatch({ type: 'LOGIN', payload: data });
+            if (String(VerificaitonText) !== String(ActionSheetVernum[verifynum - 1].num)) {
+                setShowAlert(true);
+                return; // 終止函數的執行
+            }
             setTimeout(() => {
-                navigation.navigate('HomeDrawer', { ParaBalance });
+                console.log("ASSS", Name)
+                navigation.navigate('HomeDrawer', { Name });
             }, 1000);
         } catch (error) {
             // 处理登录失败
+            setShowAlert2(true);
             console.error("登录失败:", error);
         }
     };
@@ -80,10 +88,14 @@ const LoginScreen = ({ navigation }) => {
     };
     GetSelectedRates()
     const [showAlert, setShowAlert] = React.useState(false);
+    const [showAlert2, setShowAlert2] = React.useState(false);
 
     //Awesome
     const handleCloseAlert = () => {
         setShowAlert(false);
+    };
+    const handleCloseAlert2 = () => {
+        setShowAlert2(false);
     };
 
     return (
@@ -109,6 +121,15 @@ const LoginScreen = ({ navigation }) => {
                     confirmText="重試"
                     confirmButtonColor="#5C94F3"
                     onConfirmPressed={handleCloseAlert}
+                />
+                <AwesomeAlert
+                    show={showAlert2}
+                    title="帳號或密碼入錯誤"
+                    message="請重新輸入"
+                    showConfirmButton={true}
+                    confirmText="重試"
+                    confirmButtonColor="#5C94F3"
+                    onConfirmPressed={handleCloseAlert2}
                 />
             </View>
             <View style={styles.userSection}>
@@ -198,10 +219,6 @@ const LoginScreen = ({ navigation }) => {
                 </View>
                 <TouchableOpacity
                     onPress={() => {
-                        if (String(VerificaitonText) !== String(ActionSheetVernum[verifynum - 1].num)) {
-                            setShowAlert(true);
-                            return; // 終止函數的執行
-                        }
                         handleLogin();
                         onChangeAccount('');
                         onChangePassword('');
