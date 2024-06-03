@@ -194,20 +194,18 @@ const HomeScreen = ({ navigation }) => {
 
     //失敗theme
     const [theme, setTheme] = useState('light');
-
     const toggleTheme = () => {
         const newTheme = theme === 'light' ? 'dark' : 'light';
         setTheme(newTheme);
     };
-
     const colors = theme === 'light' ? lightThemeColors : darkThemeColors;
-
     const textStyles = {
         color: colors.text,
     };
     const htextStyles = {
         color: colors.htext,
     };
+
     if (loading) {
         return (
             <View style={styles.loadingScreen}>
@@ -215,6 +213,7 @@ const HomeScreen = ({ navigation }) => {
             </View>
         ) // 显示白色加载画面
     }
+    
     return (
         <View style={[styles.container, { backgroundColor: colors.bg }]}>
             <View style={[styles.header, { backgroundColor: colors.header }]}>
@@ -352,8 +351,8 @@ const HomeScreen = ({ navigation }) => {
                     <View style={[styles.line, { backgroundColor: colors.bg }]} />
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', padding: 10, paddingRight: 30, }}>
                         <Text style={[{ color: '#244172', fontSize: 16, marginRight: 70, }, textStyles]}>幣別</Text>
-                        <Text style={[{ color: '#244172', fontSize: 16, }, textStyles]}>本行買進</Text>
-                        <Text style={[{ color: '#244172', fontSize: 16, marginRight: -15 }, textStyles]}>本行賣出</Text>
+                        <Text style={[{ color: '#244172', ...Platform.select({ios: { fontSize: 13 }, android: { fontSize: 16 }}) }, textStyles]}>本行買進</Text>
+                        <Text style={[{ color: '#244172', ...Platform.select({ios: { fontSize: 13 }, android: { fontSize: 16 }}), marginRight: -15 }, textStyles]}>本行賣出</Text>
                     </View>
                     <FlatList
                         data={EXCHANGE_DATA}
@@ -453,7 +452,7 @@ const styles = StyleSheet.create({
         width: '85%',
         ...Platform.select({
             ios: {
-                height: 1650,
+                height: 1600,
             },
             android: {
                 height: 1500,

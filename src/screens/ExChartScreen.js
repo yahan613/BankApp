@@ -22,10 +22,10 @@ const ExRateChart = ({ navigation, route }) => {
             {geticon('Arrow')}
           </TouchableOpacity>
         </View>
-        <Text style={{ color: '#fff', fontSize: 20 }}>匯率資訊</Text>
+        <Text style={{ color: '#fff', fontSize: 20 }}> {Country === "USD" ? "美元" : Country === "JPY" ? "日幣" : Country === "RMB" ? "人民幣" : Country === "EUR" ? "歐元" : Country === "HKD" ? "港幣" : "未知貨幣"}近五日走勢</Text>
       </View>
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          {Chart(Country, '5S')}
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' , backgroundColor: '#fff', marginTop: 160, marginBottom: 200, borderRadius: 10 }}>
+        {Chart(Country, '5S')}
       </View>
     </SafeAreaView>
 
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#D9D9D9'
+    backgroundColor: '#D9D9D9',
   },
   topBackground: {
     position: 'absolute',
@@ -46,7 +46,6 @@ const styles = StyleSheet.create({
     height: 50,
     backgroundColor: '#244172',
   },
-
   box: {
     width: '100%',
     backgroundColor: '#fff',

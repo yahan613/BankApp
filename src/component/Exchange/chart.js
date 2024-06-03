@@ -18,6 +18,7 @@ export const Chart = (Country, Days) => {
             const querySnapshot2 = await getDocs(q);
             d = querySnapshot2.docs[0].data();
             //map = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            //console.log("Data from database:", d); 
             return d
         } catch (err) {
             console.log("ERR：", err)
@@ -58,7 +59,7 @@ export const Chart = (Country, Days) => {
             setData5(BuyinData);
             BuyinData = BuyinV.slice(-30).map(value => ({ value }));
             setData30(BuyinData);
-
+            
             let SData = SelloutV.slice(-5).map(value => ({ value }));
             setSData5(SData);
             SData = SelloutV.slice(-30).map(value => ({ value }));
@@ -81,6 +82,7 @@ export const Chart = (Country, Days) => {
 
         return () => clearTimeout(timer); // 清除計時器
     }, []);
+    
 
     if (loading) {
         return (
@@ -90,6 +92,20 @@ export const Chart = (Country, Days) => {
         )
     }
     else {
+        
+        const chartProps = {
+            color: '#5C94F3',
+            dataPointsColor: '#244172',
+            yAxisLabelWidth: 45,
+            yAxisSide: 'left',
+            showFractionalValues: true,
+            yAxisTextStyle: { fontSize: 10 }, 
+            yAxisLabelFormatter: (value) => value.toFixed(2),
+        };
+        const minYValue = Math.min(...Data5.map(item => item.value)) - 1;
+
+
+        console.log('SData5:', SData5);
         switch (Days) {
             case '5B':
                 return (
@@ -97,7 +113,13 @@ export const Chart = (Country, Days) => {
                 );
             case '5S':
                 return (
-                    <LineChart data={SData5} />
+                    <LineChart 
+                    height={280}
+                    spacing={60}
+                    yAxisOffset={minYValue-0.1}
+                    data={SData5}
+                    {...chartProps}
+                     />
                 );
             case '30B':
                 return (

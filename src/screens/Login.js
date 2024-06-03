@@ -156,8 +156,9 @@ const LoginScreen = ({ navigation }) => {
                     </TouchableOpacity>
                 </View>
                 <TouchableOpacity style={styles.forgetP} onPress={() => navigation.navigate('ForgetP')}>
-                    <Text style={{ color: '#5C94F3', fontSize: 12 }}>忘記代號、密碼？點我重置密碼</Text>
+                    <Text style={{ color: '#5C94F3', fontSize: 12 }}>忘記代號/密碼？點我重置</Text>
                 </TouchableOpacity>
+                {/*
                 <View style={{ width: '55%', marginLeft: 0, flexDirection: 'row', alignItems: 'center', marginBottom: 10, }}>
                     <CheckBox
                         style={{ flex: 1, marginRight: 30, }}
@@ -169,6 +170,7 @@ const LoginScreen = ({ navigation }) => {
                     />
                     <Text style={{ color: '#244172' }}>記住身分證字號</Text>
                 </View>
+                */}
                 <View style={{ width: '100%', flexDirection: 'row', alignItems: 'center', }}>
                     <TextInput
                         style={{
@@ -207,7 +209,7 @@ const LoginScreen = ({ navigation }) => {
                         onChangeVerification('');
                         setShowAlert(false);
                     }}>
-                    <Text style={{ position: 'absolute', bottom: -60, left: 0, right: 0, textAlign: 'center', color: '#fff', fontSize: 16, justifyContent: 'center' }}>
+                    <Text style={{ position: 'absolute', bottom: -95, left: 0, right: 0, textAlign: 'center', color: '#fff', fontSize: 16, justifyContent: 'center' }}>
                         登入
                     </Text>
                 </TouchableOpacity>
