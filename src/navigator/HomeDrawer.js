@@ -3,7 +3,7 @@ import { NavigationContainer, useIsFocused, useFocusEffect } from '@react-naviga
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { StyleSheet, Text, View, ScrollView, Dimensions, TextInput, Image, TouchableOpacity, Button, BackHandler } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Dimensions, TextInput, Image, TouchableOpacity, Button, BackHandler, Platform } from 'react-native';
 import { geticon } from '../component/img/getIcon';
 import HomeScreen from '../screens/HomeScreen';
 import MyTab from './ButtomTab';
@@ -30,6 +30,7 @@ function CustomDrawerContent(props) {
         <DrawerContentScrollView {...props}>
             <View style={styles.welcome}>
                 <Text style={{ fontSize: 23, marginLeft: 23, marginTop: -20, color: '#fff', }}>您好，Amy</Text>
+                {/*
                 <View style={styles.search}>
                     <TextInput
                         style={{ backgroundColor: 'transparent' }}
@@ -41,6 +42,7 @@ function CustomDrawerContent(props) {
                         {geticon("Search")}
                     </TouchableOpacity>
                 </View>
+                */}
             </View>
             <View style={styles.drawerContent}>
                 <DrawerItemList {...props} />
@@ -108,6 +110,8 @@ const HomeDrawer = ({navigation, route}) => {
         // 更新组件状态
         setFlag(headerShowFlag);
     }, [headerShowFlag]); // 仅在 headerShowFlag 发生变化时执行
+
+    
     
     return (
         <Drawer.Navigator
@@ -194,13 +198,12 @@ const styles = StyleSheet.create({
     welcome: {
         borderTopColor: '#244172',
         borderTopWidth: 100,
-        height: 150,
+        ...Platform.select({ios: { height: 200 }, android: { height: 160 }}),
         justifyContent: 'center',
         marginTop: -60,
         marginBottom: -5,
         backgroundColor: '#244172',
         flexDirection: 'column',
-        height: 200
     },
     search: {
         backgroundColor: '#D9D9D9',

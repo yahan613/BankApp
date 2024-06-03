@@ -271,11 +271,6 @@ const ExchangeScreen = ({ navigation }) => {
 
     let transactionDetails;
 
-    let tfromAccount;
-    let tfromAmount;
-    let ttoAccount;
-    let ttoAmount;
-
     if (selectedSegment === 0) {
       if (!fromCurrency || !toCurrency || !fromAccount || !fromAmount || !toAmount) {
         Alert.alert('有空白欄位', '請在確認送出前填寫所有欄位。');
@@ -284,13 +279,6 @@ const ExchangeScreen = ({ navigation }) => {
 
       transactionDetails =  transactionDetails = `轉出金額 : ${fromCurrency} ${fromAmount} 元\n轉入金額 : ${toCurrency} ${toAmount} 元\n\n優惠 : ${discount}\n轉出帳號 : \n${fromAccount}\n轉入帳號 : \n${toAccount}`;
       navigation.navigate('ExchangeConfirm', { transactionDetails });
-
-      //forward transaction records
-      tfromAccount = fromAccount;
-      tfromAmount = fromAmount;
-      ttoAccount = toAccount;
-      ttoAmount = toAmount;
-      navigation.navigate('History', {tfromAccount, tfromAmount, ttoAccount, ttoAmount});
     } 
     else if (selectedSegment === 1) {
       if( selectedOption === 'option1' ){
